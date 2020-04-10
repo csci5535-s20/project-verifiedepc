@@ -32,6 +32,8 @@
 %% The abstract is a short summary of the work to be presented in the
 %% article.
 \begin{abstract}
+
+\textcolor{blue}{
 \begin{enumerate}
   \item What is the technical problem you are addressing?\\
   We intend to explore one method of compositional testing of protocols used in the control-plane of cellular communication infrastructure. 
@@ -42,6 +44,23 @@ There has been an interest in the community to adopt formal methods to specify a
 \item What is your expecgted contribution?\\
 Ourr contribution is to transfer the tools and techniques that's being adopted for internet-protocols, to the domain of control-plane protocols within cellular communications, with a particular focus on the interaface between the Radio part and the Core part of the network. 
 \end{enumerate}
+}
+
+\textcolor{green}{
+\begin{enumerate}
+\item What is the problem? \\
+We intend to provide a formal specification of the S1AP protocol that forms the basis of communication between the Evolved Packet Core (EPC) of the cellular communications core network and E-nodeB (base-station) and use this specification to generate automated randomized testers for implementations of S1AP.
+\item Why is the problem important?\\ 
+ If the implemented code does not exactly follow the protocol, communication using the protocol cannot be correctly performed. However, it is not easy to write the code for the protocol because the protocol definition document is complicated.
+ \item Why is the problem hard? \\
+ This is because we need to understand the complex protocol, implement the code according to the developed IVy language for verification, and consider various error cases.
+\item What is your contribution?\\
+ Our automatic testers can quickly find errors in the S1AP implementation process to minimize errors that can occur in the actual communication process.
+\item What follows from your contribution? \\
+By building a correct LTE network simulation environment with S1AP protocol, we can perform research to improve network performance, such as speed improvement.
+\end{enumerate}
+}
+
 \end{abstract}
 
 %%
@@ -51,7 +70,33 @@ Ourr contribution is to transfer the tools and techniques that's being adopted f
 
 \section{Introduction}
 
+\textcolor{red}{
+Introduction
+- Define the problem and state the contributions. That is, expand the sentences from the abstract into paragraphs covering primarily questions 1-4.}
+
+  \begin{enumerate}
+  \item Define the problem you'll solve :\\
+  We intend to extend the applicatiton of Compositional Verification of Internet-protocols to the domain of celluar communication networks, with a specific focus on the interface between the e-NodeB and the Core-Network. Instead of translating the 3GPP protocol specification for the S1-Application Protocol(S1AP) and the Non-Stratum Access(NAS) protocol, we intend to demonstrate the methodology for specifying on-the-wire messages that are exchanged between the entities while interacting over a stateful-protocol. We shall focus on implementing one of the primary procedures facilitated by the EPC, the UE-Attach Procedure. In this procedure, the EPC facilities the connection of a UE(mobile phone/IoT device ) to the cellular network, to permit data-transmission over IP. 
+  \item What is the general approach you intend to use to solve the problem? \\
+  We intend to use the IvY tool for providing a formal-specification of the S1AP/NAS protocol. In addition, we intend to test the MME component(server) of the Core-Network while generating test-messages that shall be sent by the e-NodeB(Client, Radio-link). 
+  \item Why do you think the approach will sovle the problem? \\
+  This approach has been successfully used to verify a complex stateful internet-protocol, QUIC, which runs as an application-layer protocol, while using UDP to send/transmit messages over the network. This use case is very similar to the domain of cellular-communication networks, where the control-plane protocols are executed as application-layer protocols, executing over an underlying SCTP transport-layerr protocol, which is used to communicate messages on-the-wire. 
+  \item How do you plan to demonstrate the idea? \\
+  We plan to demonstrate it by encoding the specification of the protocol in the IvY tool, and to adopt its automated-test-message generation process to evaluate some open-source implementations of cellular-core-network ( e.g OpenEPC ). 
+  \item How will you  evaluate your idea? What will be the measure of success? \\
+  The measure of success would be the following: 
+  \begin{enumerate}
+  \item Implementation of SCTP transport protocol within IvY, to facilitate message transmisison between the IvY system and the EPC-implementation(server). The functionality shall be evaluated by the ability to transmit "S1-Setup Request Message" and also to receive "S1-Setup Response" message.
+  \item Specification of subset of S1AP/NAS protocol that enables the "UE-Attach Procedure". This shall be evaluated by a successful simulation of a UE-Attach by an arbitrary UE with the EPC. 
+  \end{enumerate}
+  \end{enumerate}
+
+
 \section{Overview}
+\textcolor{red}{
+Overview
+- Showing your contribution through an example (and a bit of why hard).
+}
 
 \section{(Contribution 1)}
 

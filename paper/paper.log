@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  10 APR 2020 14:28
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  10 APR 2020 14:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1021,32 +1021,32 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: End \AtBeginDocument code.
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 14.4pt on input line 50.
+(Font)              scaled to size 14.4pt on input line 69.
 LaTeX Font Info:    Try loading font information for T1+LinuxBiolinumT-TLF on i
-nput line 50.
+nput line 69.
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/libertine/T1LinuxBiolinumT-TLF.fd
 File: T1LinuxBiolinumT-TLF.fd 2017/03/20 (autoinst) Font definitions for T1/Lin
 uxBiolinumT-TLF.
 )
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
-(Font)              scaled to size 14.4pt on input line 50.
+(Font)              scaled to size 14.4pt on input line 69.
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `LinuxBiolinumT-TLF' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/b/n' will be
-(Font)              scaled to size 14.4pt on input line 50.
+(Font)              scaled to size 14.4pt on input line 69.
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 10.95pt on input line 50.
+(Font)              scaled to size 10.95pt on input line 69.
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
-(Font)              scaled to size 10.95pt on input line 50.
+(Font)              scaled to size 10.95pt on input line 69.
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
-(Font)              scaled to size 9.0pt on input line 50.
+(Font)              scaled to size 9.0pt on input line 69.
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 9.0pt on input line 50.
+(Font)              scaled to size 9.0pt on input line 69.
 LaTeX Font Info:    Try loading font information for TS1+LinuxLibertineT-TLF on
- input line 50.
+ input line 69.
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/libertine/TS1LinuxLibertineT-TLF.
 fd
@@ -1054,58 +1054,62 @@ File: TS1LinuxLibertineT-TLF.fd 2017/03/20 (autoinst) Font definitions for TS1/
 LinuxLibertineT-TLF.
 )
 LaTeX Font Info:    Font shape `TS1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 8.0pt on input line 50.
+(Font)              scaled to size 8.0pt on input line 69.
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `LinuxLibertineT-TLF' (encoding: TS1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
-(Font)              scaled to size 8.0pt on input line 50.
+(Font)              scaled to size 8.0pt on input line 69.
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/b/n' will be
-(Font)              scaled to size 9.0pt on input line 50.
+(Font)              scaled to size 9.0pt on input line 69.
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
-(Font)              scaled to size 9.0pt on input line 50.
+(Font)              scaled to size 9.0pt on input line 69.
 
 
 Package hyperref Warning: Option `pdflang' has already been used,
-(hyperref)                setting the option has no effect on input line 50.
+(hyperref)                setting the option has no effect on input line 69.
 
 
 Package hyperref Warning: Option `pdfdisplaydoctitle' has already been used,
-(hyperref)                setting the option has no effect on input line 50.
+(hyperref)                setting the option has no effect on input line 69.
 
-LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
-(Font)              scaled to size 10.0pt on input line 52.
-LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/b/n' will be
-(Font)              scaled to size 10.0pt on input line 52.
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 7.0pt on input line 64.
+(Font)              scaled to size 7.0pt on input line 70.
 [1.1{/usr/local/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
+(Font)              scaled to size 10.0pt on input line 71.
+LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/b/n' will be
+(Font)              scaled to size 10.0pt on input line 71.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [2.2]
 Processing 'acks' comment.
 \openout4 = `comment.cut'.
 
  Comment 'acks' writing to comment.cut.
 Straight input of comment.cut. (./comment.cut)
 No file paper.bbl.
-[2.2]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 81.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 81.
+[3.3]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 126.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 126.
  (./paper.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 81.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 81.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 126.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 126.
 Package rerunfilecheck Info: File `paper.out' has not changed.
 (rerunfilecheck)             Checksum: 6696C939736056CB5B1B577F3BA6F782;1089.
  ) 
 Here is how much of TeX's memory you used:
- 17573 strings out of 492649
- 263007 string characters out of 6129622
- 386069 words of memory out of 5000000
+ 17610 strings out of 492649
+ 263677 string characters out of 6129622
+ 387069 words of memory out of 5000000
  20885 multiletter control sequences out of 15000+600000
- 103204 words of font info for 126 fonts, out of 8000000 for 9000
+ 105388 words of font info for 142 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
- 60i,15n,94p,1299b,521s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/libertine/lbtn_naooyc.enc
-}{/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/libertine/lbtn_nh77jq.enc}
+ 60i,15n,94p,1299b,523s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/libertine/lbtn_nh77jq.enc
+}{/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/libertine/lbtn_naooyc.enc}
 {/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/libertine/lbtn_25tcsq.enc}{
 /usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/libertine/lbtn_76gpa5.enc}</
 usr/local/texlive/2018/texmf-dist/fonts/type1/public/libertine/LinBiolinumT.pfb
@@ -1113,10 +1117,10 @@ usr/local/texlive/2018/texmf-dist/fonts/type1/public/libertine/LinBiolinumT.pfb
 .pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/libertine/LinLibert
 ineT.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/libertine/LinLi
 bertineTB.pfb>
-Output written on paper.pdf (2 pages, 265787 bytes).
+Output written on paper.pdf (3 pages, 273973 bytes).
 PDF statistics:
- 92 PDF objects out of 1000 (max. 8388607)
- 75 compressed objects within 1 object stream
- 16 named destinations out of 1000 (max. 500000)
+ 110 PDF objects out of 1000 (max. 8388607)
+ 92 compressed objects within 1 object stream
+ 29 named destinations out of 1000 (max. 500000)
  32341 words of extra memory for PDF output out of 35830 (max. 10000000)
 
