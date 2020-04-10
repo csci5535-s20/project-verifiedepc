@@ -1,4 +1,5 @@
 %% This is an abbreviated template from http://www.sigplan.org/Resources/Author/.
+\newcommand{\prash}[1]{{\color{blue} [Prasanth: #1]}}
 
 \documentclass[acmsmall,review,authorversion]{acmart}
 \acmDOI{}
@@ -74,6 +75,22 @@ By building a correct LTE network simulation environment with S1AP protocol, we 
 Introduction
 - Define the problem and state the contributions. That is, expand the sentences from the abstract into paragraphs covering primarily questions 1-4.}
 
+\prash{
+Questions to address in introduction: 
+\begin{enumerate}
+\item What is the Cellular Core System? Which part of the system are you handling? 
+\item What is S1AP? What is NAS? 
+\item How is S1AP/NAS specified? 
+\item What is the current process for determining the correctness of the protocol? 
+\item What are the current issues? 
+\item What do we need? 
+\item what do we offer? Why is this more challenging? 
+\item what shall you be implementing and demonstrating? 
+\item what did you learn from this process? 
+\item what are the drawbacks/negatives of this procedure? 
+\end{enumerate}
+}
+
   \begin{enumerate}
   \item Define the problem you'll solve :\\
   We intend to extend the applicatiton of Compositional Verification of Internet-protocols to the domain of celluar communication networks, with a specific focus on the interface between the e-NodeB and the Core-Network. Instead of translating the 3GPP protocol specification for the S1-Application Protocol(S1AP) and the Non-Stratum Access(NAS) protocol, we intend to demonstrate the methodology for specifying on-the-wire messages that are exchanged between the entities while interacting over a stateful-protocol. We shall focus on implementing one of the primary procedures facilitated by the EPC, the UE-Attach Procedure. In this procedure, the EPC facilities the connection of a UE(mobile phone/IoT device ) to the cellular network, to permit data-transmission over IP. 
@@ -105,7 +122,36 @@ Overview
 \section{Empirical Evaluation}
 
 \section{Related Work}
-  The primary research exercise that we undertake is to determine an good methodology for providing a formal-specification for the control-plane protocols used in the cellular communication infrastrucuture. When we think about task for formalizing a specification for a protocol, there are two main use-cases: (1) to use the specification as an input for verifying that a particular model of its implementation satisfies some desriable properties, and (2) to enable the development of correct by construction implementations of the protocol. In our work, we explore the domain of specification as a means to conduct testing of an implementation, by facilitating a mechanism of automated generation of test-messages that shall be used to test the communication interface between two entities. Most of the related research have focused on the issue of formal-verification of correctness and security properties that are provided by the authentication protocols used in this domain. A formal methodology of testing of a communication protocol has been attempted within this domain. An interesting research project, that aligns with our endeavour, is the Project Everest, which attempts to create a formally verified stack to guarantee verified low-level implementations of the HTTPS stack. 
+
+\prash{
+We attempt to extend the formal specification based testing methodology introduced in \cite{} to the domain of control-plane application layer protocols. In \cite{}, while describing the experience of verifying the QUIC protocol, the authors have reviewed the different approahces to generating adversarial tests for network protocols. Some of the methods can be summarized as follows. 
+
+We may observe a taxonomy of classification of the approaches for testing network-protocols as constituting of two main branches, one based on formal specifications and the other not based on formal specification. 
+The latter branch consists of methods like "fuzz testing", in which , and "white-box testing", in which one extracts traces of the internal control flow paths of the target system,that is then used to discover input-values(via SMT solvers or symbolic execution methods) that stimulate code-branches that were previously ignored.
+
+One of the testing frameworks based on formal specification of the protocols, include model-based testing(MBT) and its precedents within the field of protocol-conformance testing. The protocols are specified as finite-state machines(FSMs), which are then explored to generate test-scenarios in an online or offline operational scenario. These methods require procedures to fill in concrete data parameters of messages, which leads to significant complexity in these formalisms. 
+
+The compositional testing methodology, introduced in \cite{}, does not model the protocol as a FSM. It instead, adopts a constrained-random approach to generating tests based on an assume-guarantee formulation, which is a non finite-state specification. Further, the approach focuses on developing a global representation of the protocol, rather than separate specifications based on the role of an entity within the protocol. In this way, a single specification is used for the generation of tests to verify targets playing different roles within the protocol. By adopting an assume-guarantee based specification for the protocol, as used within the domain of program-analysis, this methodology avoids the constraint of general finite-state machine models to describe only some restricted aspect of the protocol. Though, the assume-guarantee/compositional testing methodology has been used successfully for software and hardware verification, it's application to the network-protocol verification faces new challenges introduced by the presence of data which constitutes the specification state and the messages. 
+
+
+An alternative to using a testing-methodology for examining the correctness of a network protocol, is to construct formally verified reference implementations or to prove properties of an existing implementtaiton. These implementations are assumed to be built to compliance to a reference standard specification. They only way they can be used to guarantee compliance to a common standard, is when they are used as targets within an interoperability testing framework. 
+
+Another alternative to examining the correctness of protocols, is to infer protocol specifications from message traces that are recorded on the wire. In the Network Semantics Project, the formal specification is used as a test-oracle to examine the compliance of observed message traces. In a similar vein, there has been prior work in which software API specifications, restricted to a finite-state abstraction, have been inferred automatically from run-time traces. 
+
+The above alternatives to proving correctness of network protocols, stands apart from the larger body of work related to the abstract modeling and analysis of network protocols, in that they are more grounded to practice and examining real-world systems. The latter theoretical approaches are often confined to asserting theoretical properties of the system, which is often separated from any concerns of a workable system in practice. 
+
+}
+
+\prash{Questions/TODO: 
+\begin{enumerate}
+\item What are the works related to Testing of Cellular Application Protocols?
+\item What does it mean to check for compliance with a common standard? How is that guaranteed by the compositional testing methodology? 
+\end{enumerate}
+}
+
+
+\prash{ To be reviewed: \\
+  The primary research exercise that we undertake is to determine an good methodology for providing a formal-specification for the control-plane protocols used in the cellular communication infrastrucuture. When we think about task for formalizing a specification for a protocol, there are two main use-cases: (1) to use the specification as an input for verifying that a particular model of its implementation satisfies some desriable properties, and (2) to enable the development of correct by construction implementations of the protocol. In our work, we explore the domain of specification as a means to conduct testing of an implementation, by facilitating a mechanism of automated generation of test-messages that shall be used to test the communication interface between two entities. Most of the related research have focused on the issue of formal-verification of correctness and security properties that are provided by the authentication protocols used in this domain. A formal methodology of testing of a communication protocol has been attempted within this domain. An interesting research project, that aligns with our endeavour, is the Project Everest, which attempts to create a formally verified stack to guarantee verified low-level implementations of the HTTPS stack. }
   
 \section{Conclusion}
 
