@@ -91,6 +91,20 @@ Questions to address in introduction:
 \end{enumerate}
 }
 
+\prash{
+The 5G cellular network deployment, with the promise of enabling an internet-of-things and high-bandwidth, low-latency-applications, is an endeavour that has been the target of industrial players in the last few years. The promises of the 5G newtork architecture arises primarily from the follpwing enhancements over the 4G LTE architecture: (1) improvements in the physical and application layer technologies enabling large number of devices with higher bandwidth provisions, (2) enhanced security features introduced into the protocol stack. The 5G standard proposes a complex architecture of subsystems that interact with each other at different layers of the communication stack, while using multiple sub-procotols between entitites. 
+
+The cellular network infrastructure may be viewed as a  large-scale wireless with a wired backend that is designed to support mobile data and voice services. Communication and messaging between the entities may be surmised under two layers of its design-abstraction called control-plane and data-plane. The control plane protocols form a significant part of its design, as it provides complex signalling functions, which makes it quite different from the network protocols that enable the internet. They follow the layered protocol architecture and run at both the network infrastructure and the end device. The cellular network control-plane, consists of a number of critical procedures(e.q. Initial UE Registration, UE Mobility, UE deregistration, etc) which are leveraged by the primary cellular services like paging, voice-call, SMS, data and billing. Incorrect implementations of the protcols can have adverse consequences to these services. 
+
+The subset of the cellular network architecture we intend to focus on, comprises of the BaseStations(BS) and the core-network(CN). The BS provides radio-access to user-devices(UE), while the  CN connects them to the public-telephony network or the internet. The 4G/5G LTE network provides packet-switching data-services only. It is constituted of the following three entities: (1) Mobility Management Entity (MME), (2)Home Subscriber Server (HSS) , and (3) Gateways. The MME manages user mobility, and is the primary port-of-entry of all signalling from the radio-network to the core-network. The HSS stores the user-subscription information and the Gateways route packet-switched data-packets between the internet and the BS. 
+
+In this work, we examine the protocol-specific interactions between critical components over the control plane, with an intention of identifying problems/mis-compliance of entitites to the protocol specifications. To be precise,  we intend to address the following concrete research question: \\
+\textit{Is it possible to formally verify the correctness of a subset of the critical procedures handled by the control plane interactions between the EPC and the MME(cellular core network)?}\\
+
+There are two key challenges to this endeavour - (1) compared to the internet, cellular networks are still closed systems i.e. signalling exchanges between devices and base-stations, or between the base-stations and the core-network are not readily accessible during normal operations, (2) patterns of inter-protocol communication over the control-plane are more diverse and complex, in comparison to their counterparts over the internet. Protocol interactions are visible not just at the inter-layer interfaces, as seen over the internet, but also in cross-domain (e.g data and carrier grade voice services require signalling for circuit-switching and packet-switching in these networks), and cross-system scenarios ( due to heterogenous deployment strategies inter-system switching between 3G, 4G and 5G systems need to be facilitated).
+\\
+}
+
   \begin{enumerate}
   \item Define the problem you'll solve :\\
   We intend to extend the applicatiton of Compositional Verification of Internet-protocols to the domain of celluar communication networks, with a specific focus on the interface between the e-NodeB and the Core-Network. Instead of translating the 3GPP protocol specification for the S1-Application Protocol(S1AP) and the Non-Stratum Access(NAS) protocol, we intend to demonstrate the methodology for specifying on-the-wire messages that are exchanged between the entities while interacting over a stateful-protocol. We shall focus on implementing one of the primary procedures facilitated by the EPC, the UE-Attach Procedure. In this procedure, the EPC facilities the connection of a UE(mobile phone/IoT device ) to the cellular network, to permit data-transmission over IP. 
@@ -139,6 +153,13 @@ An alternative to using a testing-methodology for examining the correctness of a
 Another alternative to examining the correctness of protocols, is to infer protocol specifications from message traces that are recorded on the wire. In the Network Semantics Project, the formal specification is used as a test-oracle to examine the compliance of observed message traces. In a similar vein, there has been prior work in which software API specifications, restricted to a finite-state abstraction, have been inferred automatically from run-time traces. 
 
 The above alternatives to proving correctness of network protocols, stands apart from the larger body of work related to the abstract modeling and analysis of network protocols, in that they are more grounded to practice and examining real-world systems. The latter theoretical approaches are often confined to asserting theoretical properties of the system, which is often separated from any concerns of a workable system in practice. 
+
+}
+
+\prash{ Work related to verification of cellular network protocols\\
+
+CNetVerifier \cite{} is a tool to analyse the inter-layer, inter-domain and inter-system protocol interactions within the control-plane of cellular communciation networks. The tool adopts a model-checking methodolgy within its two-phase protocol-diagnosis strategy to detect issues arising from (1) design problems within the protocol standards specification, and (2) operational mistakes of the service-provider. The verification strategy, however, is user-centric, i.e. the properties that are verified is related to the user-entities and cannot be used to examine interactions between the BS and CN, which would be of interest to improve the operational needs of the carrier/service-provider.  In this work, the protocol is modelled as two interacting FSMs, with one representing the UE, and the other representing the network entity( BS, MME, etc), within the model-checking framework, SPIN. The measurement based verification is handled at the UE level. 
+
 
 }
 
