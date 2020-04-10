@@ -2,7 +2,7 @@
 
 \documentclass[acmsmall,review,authorversion]{acmart}
 \acmDOI{}
-\acmJournal{FACMP}
+%\acmJournal{FACMP}
 \acmVolume{CSCI 5535}
 \acmNumber{Spring 2020}
 
@@ -32,7 +32,16 @@
 %% The abstract is a short summary of the work to be presented in the
 %% article.
 \begin{abstract}
-  TBD
+\begin{enumerate}
+  \item What is the technical problem you are addressing?\\
+  We intend to explore one method of compositional testing of protocols used in the control-plane of cellular communication infrastructure. 
+  \item Why is addressing the problem important? \\
+The architecture and design of the cellular-communication-network is fast evolving to handle the needs of IoT and 5G communication. With the increase in scale, comes the need to update the different protocols used to control-coordinate decision making in the control-plane. While the protocols get updated, the implementations of the protocols need to be evaluated for compliance with older versions, for the sake of backward compatibility. Current methodoly of testing doesn't help to address this challenge. 
+\item Why is solving this problem hard? \\
+There has been an interest in the community to adopt formal methods to specify and to ensure correct implementations of protocols within the software and internet-network domain. There hasn't been any prior work that does this within the cellular domain. The current intention is not provide a formal-translation of the natural-lanaguage specification, but rather to provide an on-the-wire specification of the protocol, with little or no emphasis on the internal-mechanisms that are to be satisfied by the different entitites. 
+\item What is your expecgted contribution?\\
+Ourr contribution is to transfer the tools and techniques that's being adopted for internet-protocols, to the domain of control-plane protocols within cellular communications, with a particular focus on the interaface between the Radio part and the Core part of the network. 
+\end{enumerate}
 \end{abstract}
 
 %%
@@ -51,7 +60,8 @@
 \section{Empirical Evaluation}
 
 \section{Related Work}
-
+  The primary research exercise that we undertake is to determine an good methodology for providing a formal-specification for the control-plane protocols used in the cellular communication infrastrucuture. When we think about task for formalizing a specification for a protocol, there are two main use-cases: (1) to use the specification as an input for verifying that a particular model of its implementation satisfies some desriable properties, and (2) to enable the development of correct by construction implementations of the protocol. In our work, we explore the domain of specification as a means to conduct testing of an implementation, by facilitating a mechanism of automated generation of test-messages that shall be used to test the communication interface between two entities. Most of the related research have focused on the issue of formal-verification of correctness and security properties that are provided by the authentication protocols used in this domain. A formal methodology of testing of a communication protocol has been attempted within this domain. An interesting research project, that aligns with our endeavour, is the Project Everest, which attempts to create a formally verified stack to guarantee verified low-level implementations of the HTTPS stack. 
+  
 \section{Conclusion}
 
 %%
