@@ -129,6 +129,8 @@ Overview
 - Showing your contribution through an example (and a bit of why hard).
 }
 
+\section{LTE Preliminaries}
+
 \section{(Contribution 1)}
 
 \section{(Contribution 2)}
@@ -159,7 +161,17 @@ The above alternatives to proving correctness of network protocols, stands apart
 \prash{ Work related to verification of cellular network protocols\\
 
 CNetVerifier \cite{} is a tool to analyse the inter-layer, inter-domain and inter-system protocol interactions within the control-plane of cellular communciation networks. The tool adopts a model-checking methodolgy within its two-phase protocol-diagnosis strategy to detect issues arising from (1) design problems within the protocol standards specification, and (2) operational mistakes of the service-provider. The verification strategy, however, is user-centric, i.e. the properties that are verified is related to the user-entities and cannot be used to examine interactions between the BS and CN, which would be of interest to improve the operational needs of the carrier/service-provider.  In this work, the protocol is modelled as two interacting FSMs, with one representing the UE, and the other representing the network entity( BS, MME, etc), within the model-checking framework, SPIN. The measurement based verification is handled at the UE level. 
-
+\\
+\\
+LTEInspector \cite{} which employs a property-driven adversarial model-based testing philosophy. LTEInspectortakes the relevant 4G LTE abstract model and a desired property ($\phi$), and tries to find aviolation of $\phi$ in the model. The tool checks for the following properties  - authenticity, availability, integrity, and secrecy , all from the perspective of the end-user/customer. The model they develop comprises of as synchronous communicating finite state machines which abstract away the functionality while ignoring low-level implementation details. 
+They adopt an instance of the parameterized system verification problem (i.e., parameterized by the number of protocol participants).Their instantiation of the LTEInspector framework, however,adopts the following constraints: (1) They consider only a
+single layer of the protocol stack in isolation; (2) For
+the sake of scalability, they only model packet type and do not
+model critical data or packet payload, missing out on interesting
+data-/payload-dependent protocol behavior; (3) Their adversary
+instantiation cannot handle protocols spanning across different
+layers of the stack. \\ \\
+In the most recent work, 5GReasoner, the authors adopt a modelling procedure which models about five different control-plane procedures, with a FSM modelling each layer of the stack. The state-machines corresponding to different entities communicte via a public, adversary-controlled channel, where the adversary is also modelled as a FSM. The NAS layer protocol packets which constitute data-packets of the RRC layer protocols, is modelled using a behaviour-specific predicate-abstraction methodology, in which they do not directly model the data, but only predicates-over the data which are essential to verify the specific properties they are examining. These models are implemented in two infinite-state model-checkers and a cryptographic protocol verifier. They have verified about 187 properties which were extracted either from the standards, or were specified based on domain-knowledge
 
 }
 
