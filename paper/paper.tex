@@ -129,7 +129,35 @@ Overview
 - Showing your contribution through an example (and a bit of why hard).
 }
 
-\section{LTE Preliminaries}
+\subsection{LTE Preliminaries}
+
+In the following subsection we shall cover some aspects of the cellular network system, with an emphasis on the sub-systems that we shall be targetting our testing procedure on. 
+
+\subsubsection{LTE Network Architecture}
+As mentioned earlier, the LTE network architecture is broadly constituted of three components: (1) the cellular device, (2) the radio access network(BS, and radio channels), (3) the evolved packet core or the core-network(CN and the wired communication channels between the BS and the core). 
+
+\textbf{User Equipment(UE)}: The end-user communication device which is equipped with a Universal Subscriber Identity Module known as the SIM card, serves as a terminal device(UE). The SIM contains unique identification information for each subscriber, of which the following two parmeters are vital: (1) the international mobile subscirber identity (IMSI) number, and (2) the international mobile equipment identity(IMEI) number, apart from the associated cryptographic keys that are required to ensure security and privacy protection of various interaction-procedures with the network. 
+
+\textbf{Base Station(BS)}: The cellular network radio-acess network, partitions the geographical space into hexagonal cells, to cater to the needs of subscribers within the region. Each geograhical cell is serviced by a single base-station, located at its 'center' , that acts as an intermediary connecting the geographically dispersed subscribers with the core-network. The E-UTRAN refers to the network between an eNodeBs(Base-stations) and the UEs. 
+
+\textbf{Core-Network(CN)}: The core-network(CN) or the evolved-packet core(EPC) consists of the following primary entities: \\
+(1) Mobility Management Entity: The MME serves as the primary interface between the radio-access network and the core-network. It manages the primary procedures of UE attach, UE detach, paging, etc, apart from the vital role of handling the mobility requriements of the UE. 
+(2) Home Subscriber Server(HSS): The HSS component of a service-provider maintains UE identities and subscription details, apart from the cryptographic keys and information required for authentication of the entities. 
+(3) Gateways: Once the control-signalling has established the authenticity of the UE, verified their subscription and established connection with the core-network, the Gateways handle the communication of data between the UE and the internet. 
+
+\subsubsection{Initial UE Attach Procedure}
+Of the set of vital control-procedures handled by the MME, we shall be focusing on the functionality and implementation of the Initial UE Attach Procedure. 
+
+When a UE wants to connect to the EPC, which is automatically initiated by the device often when the device has been rebooted, it scans the radio-waves, to determine the eNodeB(base-station) with the strongest signal-power and attempts to establish a connection with it. The Initial UE Attach procedure, establishes a connection with the Base-Station, and triggers and subsequent connection to the core-network, by following the following four sequence of operations: 
+\begin{enumerate}
+\item Identification: The UE sends an Attach Request Message to the MME via the BS, by providing self-identifying information of its IMSI/IMEI and security capabilities. 
+\item Authentication: On reception of the Attach Request by the MME, it forwards it to the HSS, to obtain an authentication of the UE, and also, generates an authentication challenge for the UE via an Authentication Request Message, so that it may authenticate the legitimacy of the MME it has established connection with. The UE uses its master cryptographic key to authenticate the MME and then on success, responds with an Authentication Response Message to the MME. If the authentication step is successful, the entities progress into the next stage of negotiating the security algorithm, to establish a secure channel of connection between them. 
+\item Security Algorithm Negotiation: From the security capabilities avaiable in the UE, as communicated via the Attach Request message, the MME selects a security algorithm pairs(encryption and integrity), and communicates its choice to the UE along with the Message Authentication Code(MAC). Once the UE verifies the MAC, the UE and the MME establish a shared security context for protecting the secrecy and integrity of the messages transmitted over the channel in future. 
+\item Secure Temporary Identifier Exchange: The MME then sends an encrypted and integrity-protected Attach Accept Message, which includes a temporary identity called GUTI(Globally Unique Temporary Identity) which shall be used as an identifier-pseudonym for the UE. This is introduced to reduce the exposure of sensitive information like the IMSI/IMEI to potential evesdropping and security-vulnerabilities in the system. The UE concludes the Attach Procedure, by transmitting an Atttach Complete Message to the MME followed, by the establishment of a  security context between the BS and the UE. 
+\end{enumerate}
+
+\subsection{Specification Methodology }
+
 
 \section{(Contribution 1)}
 
