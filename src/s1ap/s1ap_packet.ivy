@@ -1,0 +1,68 @@
+#lang ivy1.7
+
+include s1ap_types
+include s1ap_frame
+include s1ap_transport_parameters
+include ip
+
+# The packet protocol
+#
+# The packet protocol has several functions including establishing
+# connections and loss detection. Packets carry frames which implement
+# many other function of S1AP.
+
+# S1AP Packets
+# ------------
+# This section defines the S1AP packet datatype. Packets are the basic 
+# unit of communication between endpoints. A packet may be encoded 
+# according to TS 36.331. There are information elements
+
+# ### Packet
+
+# The type 's1ap_packet' represents packet.
+
+# The fields are:
+#
+
+object s1ap_packet = {
+    type this = struct {
+        pCode : pcode_bits,
+        tMessage : message_enumerated,
+        mme_ue_s1ap_id : cid,
+        eNB_ue_s1ap_id : cid,
+        plmn_identity1 : plmn_octet,
+        plmn_identity2 : plmn_octet,
+        tac : tac_octet,
+        seq_num : pkt_num,
+        payload : frame.arr,    
+        nas_pdu : nas_pdu_string,
+        # S1 Setup Request
+        global_choice_eNB_id : plmn_octet,
+        default_paging_drx : drx_enumerated,
+        # S1 Setup response
+        mme_group_id : tac_octet,
+        mme_code : pcode_bits,
+        relative_capacity1 : pcode_bits,
+        dcn_id : cid,
+        relative_capacity2 : pcode_bits,
+        # Initial UE Message
+        cell_identity : cell_bits,
+        rrc_establishment_cause : rrc_enumerated,
+        # Initial Context Setup Request
+        max_bit_rate_downlink : cid,
+        max_bit_rate_uplink : cid,
+        e_rab_id : cid,
+        qci : pcode_bits,
+        pLevel : pLevel_bits,
+        pre_capability : preCap_enumerated,
+        pre_vulnerability: preVul_enumerated,
+        tl_address : cid,
+        gtp_teid : gtp_octet,
+        encryption_algo : cid,
+        in_protection_algo : cid,
+        security_key : cid
+    }
+
+    instance idx : unbounded_sequence
+    instance arr : array(idx,this)
+}
