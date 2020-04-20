@@ -1,0 +1,4 @@
+% Compilation instructions: 
+ivy_check <filename.ivy>
+ivy_to_cpp <filename.ivy>
+g++ -pthread -o <objname> <filename.cpp>

@@ -182,6 +182,88 @@ This section shall be updated after we've had some progress in using the tool to
 
 \section{Empirical Evaluation}
 
+\section{Properties previously tested in 4G/5G LTE Protocol Verification}
+The following are extracts from the papers that describe the methodology with an emphasis on the properties they have considered. 
+\subsection{LTEInspector}
+This work proposes a systematic model-based adversarial testing approach that leverages the use of a symbolic model-checker and and a cryptographic protocol verifier for analyzing 3 critical procedures of the 4G LTE network. 
+
+LTEInspectorconsiders the standard symbolicadversary model (alternatively known as the Dolev-Yao model ) for its analysis.
+
+ LTEInspector takes the relevant 4G LTEabstract model  and a desired property , and tries to find a violation of $\phi$ in the model. The set of properties that LTEInspectoraims to check include authenticity(e.g., disallowing impersonation), availability(e.g., preventing service denial), integrity(e.g., restricting unauthorized billing), and secrecy of user’s sensitive information (e.g., preventing activity profiling).
+ 
+ As a prerequisite of LTEInspector’s analysis, we first construct the 4G LTE ecosystem model by consulting thestandard specification document.  Our model captures the abstract functionality (ignoring low-level implementation details)of the 4G LTE ecosystem as synchronous communicating finite statemachines (FSM). Each FSM captures the stateful functionalityof a protocol participant’s (i.e, user’s cellular device and thecore network) at the Non-Access Stratum (NAS) protocol layer. The two FSMs communicate with each other through public (adversary-controlled) communication channels by sending each other NAS layer messages.
+ 
+Checking complianceof the protocol model against desired security and privacyproperties often requires simultaneously reasoning about:
+\begin{enumerate}
+ \item temporal ordering of different events/actions (i.e., trace properties such as response properties [21]), 
+\item cryptographically-protected messages and constructs (e.g., encryption, hashing),and 
+\item  other rich constraints (e.g., linear integer arithmeticconstraints).
+\end{enumerate}
+LTEInspector lazily (or, on an on-demand basis) combines the reasoning powers of a symbolic model-checker and a cryptographic protocol verifier. 
+
+\textit{Use of Model-checker}
+ In this approach,we first abstract away all cryptography-related constructs from the model M and the desired property $\phi$. For any violation of the reduced property,  the symbolic model checker would yield a counterexample $\pi$ demonstrating the violation. 
+
+\textit{Use of Cryptographic Protocol Verifier}
+The counter-example $\pi$ may include adversary actions which may not be realizable due to cryptographic assumption violations (e.g., constructing avalid ciphertext of a message without possessing the encryptionkey). To rule out such cases, for each adversary action in $\pi$, we query a cryptographic protocol verifier to check the action’s feasibility with accordance to the cryptographic assumptions.In case all adversary actions in $\pi$ turn out to be feasible, we can report $pi$ to be a feasible vulnerability. If, however, there exists one adversary action in $\pi$ which is not feasible, we refine theproperty $\phi$abs to rule out traces in which the adversary takes that action. The analysis is then run again with the refined property. For further confidence, we validate $\pi$ by concretely executing it in a testbed.
+
+\textit{Properties}
+We have tested the Model against 14 properties in total in which 7 properties were analyzed with NuSMV(symbolic model-checker) whereas 7 properties were analyzed with ProVerif( cryptographic protocol verifier).
+
+\begin{enumerate}
+\item $\phi_1$: It is always the case that whenver the UE FSM is in the wait for the auth-request state, it will eventually move to the state where the UE authenticates the MME. 
+\item $\phi_2:$( refinement over $\phi_1$) Once UE FSM moves into the wait-state for the auth-request, the environment will never set the value of the mobile-restart to be true. 
+\item $\phi_3:$(refinement over $\phi_2$) mac-failure is never set to true by the environment
+\item $\phi_4:$(refinement over $\phi_3$) UE FSM never receives the detach-request message. 
+\item $\phi_5 :$(refinement over $\phi_4$) UE FSM never receives the auth-reject message
+\item $\psi_1 :$( CPV Property) Every attach-request message received by the MME should be preceded by a unique attach-request message sent by the UE. 
+\end{enumerate}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=0.7 \columnwidth]{./images/LTEInspector} 
+    \end{center}
+    \caption{Initial UE Attach procedure (will be changed)}
+    \label{fig:inital-ue-attach}
+\end{figure}
+
+\paragraph{Criticism: The authors do not handle a comprehensive verification of the system, but rather introduce a procedure that may be followed for formal verification of the protocols. They then substantiate their formal methodology, by introducing and explaining different attack-vectors for the sake of discussing the ways in which the formal-verification methodology guided them in creating the vectors. 
+}
+
+\subsection{5GReasoner}
+In this tool, the authors adopt a procedure similar to LTE verify, but use different tools, and formulate different properties, which are similar to the one's handled/addressed in the earliier work. So, apart from the numeric count of the properties that are verified, its critical to examine which properties are fundamentally important for the system. 
+
+The enumerate the total number of properties that have been verified, but they do not provide a description of the language in which the properties have been specified. 
+The end the work, by describing the different network-attacks that they claim, have been identified through the process of the formal-verification procedure. 
+
+Sources for specification propeties:
+\begin{enumerate}
+\item conformance test-suites : NAS Layer: total 74 ( 9: liveness, 65: safety); RRC Layer: total 63( 6:liveness, 57: safety )
+\item technical-requirement document 
+\item technical-specification document:  total 50 properties ( 33: liveness; 17: safety) 
+\end{enumerate}
+
+Since the models are represented using FSM, it has to be the case that the properties have been modelled using Temporal Logic. 
+
+To test a UE’s correct behavior in dif-
+ferent control-plane procedures, the 3GPP standard defines confor-
+mance test cases from the UE’s point of view. (5G; User Equipment (UE) conformance specification; Part 1: Protocol (3GPP
+TS 38.523-1 version 15.3.0 Release 15)) 
+
+We break down the high-level test case into fine-grained sub test-cases by enumerating all possible conditions, and then translating them into formal properties.
+
+\textit{Capturing Data and Packet Payload}\\
+One of the main challgens in formal verification of the protocols is the capture and generation of packet-payloads. 
+
+Modelling predicates over the data
+\begin{enumerate}
+\item Validity Predicate: validity of authentication codes, not the exact value. 
+\item Presence predicate: one-hot encoding
+\item Grouping predicate: 
+\item Timer predicates: Booleans for start and timeout 
+\end{enumerate}
+
+
 \section{Related Work}
 
 \prash{
