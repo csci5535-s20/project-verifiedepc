@@ -4,7 +4,8 @@ type a  # network addresses
 type p  # packets
 
 include sctp
-instance foo : simple_sctp(a,p)
+#instance foo : simple_sctp(a,p)
+instance foo : sctp_network(a,p)
 
 import foo.recv
 export foo.send
