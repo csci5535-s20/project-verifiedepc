@@ -1,9 +1,19 @@
 #lang ivy
 
+
+
+# sctp_channel(): 
+# sctp_network(): Main SCTP Protocol Formal Specification
+# simple_sctp(): 
+# 	Layer that uses sctp_network(): Has only send() and receive() API provided to any application. All other state-updates and changes are
+# 	handled as rule-updates, or invariants. 
 include order
 
 module sctp_channel(addr,pkt) = {
-
+# Descrribes a Channel with two entities: Sender and Receiver. 
+# Sender can only send. 
+# Receiver can only receive. 
+#
     object sndr = {
 	action send(p : pkt)
     }
@@ -54,7 +64,8 @@ module sctp_channel(addr,pkt) = {
 include sctp_impl
 
 module sctp_network(addr,pkt) = {
-
+# SCTP PROTOCOL SPECIFICATION ( ABSTRACT THEORY ) 
+# DESCRIBES THE BASIC FUNCTIONALITY OF SCTP CONNECTION ESTABLISHEMENT PROCESS
     type socket
 
 # calls
@@ -74,13 +85,17 @@ module sctp_network(addr,pkt) = {
     action failed(self:addr,s:socket)
 
     action connected(self:addr,s:socket)
-    
-        var open(A:addr,S:socket) : bool
-        var req(A1:addr,S1:socket,A2:addr) : bool
-        var ack(A1:addr,S1:socket) : bool
-        var conn(A1:addr,S1:socket,A2:addr,S2:socket) : bool
-        var sent_to(A:addr,S:socket,P:pkt) : bool
-        
+
+# representing the state of protocol 
+#
+        var open(A:addr,S:socket) : bool   
+        var req(A1:addr,S1:socket,A2:addr) : bool  # what does this track? requests to connect have been sent out. 
+        var ack(A1:addr,S1:socket) : bool   # 
+        var conn(A1:addr,S1:socket,A2:addr,S2:socket) : bool # these connections have been established. 
+        var sent_to(A:addr,S:socket,P:pkt) : bool # packets have been sent to these entitites. 
+  
+# initialize specification of SCTP
+#
     object spec =  {
 
 
@@ -94,33 +109,66 @@ module sctp_network(addr,pkt) = {
 
 
         after connect {
+	# why is the connection not activaated? 
+	# What do the following conditions verify? 
+	    # 1. (self.Addr, socket) is False
+	    # 2. No prior requests to connect have been sent out to s. 
+	    # 3. No ACK has been received at (self.addr, socket.s)
             assume ~open(self,s) & ~req(self,s,A) & ~ack(self,s); # can't return socket in use
-            req(self,s,other) := true;
+            req(self,s,other) := true; # indicate a request has been sent out. 
         }
 
         around accept {
+	    # Before Callback.Accept()
+	    # Condition 1: 
+	    # for the protocol state, require that a request was sent to self.addr from other.addr:other.socket.S
+	    # 	+ there exists socket S such that a request was sent from other.Addr via S to self.Addr
             require exists S. req(other,S,self);
+	    # Condition 2: 
+	    # (self.Addr, self.Socket s) is Open. 
+	    # No request has been sent out via Socket S, by self, to some other entity Addr A. 
+	    # No ACK have been received at socket (self.Addr, self.socket s)
             require ~open(self,s) & ~req(self,s,A) & ~ack(self,s); # can't return socket in use
             ...
+	    # After Accepting Connection
+	    # The Channel is open for communication
             open(self,s) := true;
+	    # On receiving a Request from some alien socket s2 of entity "other" 
             if some (s2 : socket) req(other,s2,self) {
-                conn(self,s,other,s2) := true;
-                conn(other,s2,self,s) := true;
+		# Update connection-state of protocol
+                conn(self,s,other,s2) := true; # from reference frame of self
+                conn(other,s2,self,s) := true; # from reference frame of other
+		# Update ActiveRequests for Connection between self-other to False. 
                 req(other,s2,self) := false;
+		#Update ACK-state of protocol ; Indicate an acknowledgement has been received by (other,s2)
                 ack(other,s2) := true
             }
         }
 
+	# Callback: Connected >> What happens here? 
         around connected {
+	    # Before Connected; 
+	    # Ensure that ACK has been received by (self.addr, self.socket s)
             require ack(self,s);
             ...
+	    # After Connected: 
+	    # Update Open-State of Protocol: Indicating which Channels are open for communcation (self.addr,self.socket s)
             open(self,s) := true;
+	    # Updaate ACK-State of Protocol: Indicate that No Pending Acks to be processed. 
             ack(self,s) := false;
         }
 
+	# Call: Send(Addres, Socket, Packet)
         around send {
+	    # Before Send:
+	    # Ensure that Channel ( self.Addr, self.Socket s) is Open Channel for communication
             require open(self,s);
             ...
+	    # After Send: 
+	    # If Action SEND() returns ok:Bool, 
+	    # If there exists (other, s2) such that (self.Addr, s, other.Addr, other.Socket s2) is Connected
+	    # Then Message was sent. 
+	    # Update sent_to() relation. 
             if ok {
                 if some (other:addr,s2:socket) conn(self,s,other,s2) {
                     sent_to(other,s2,p) := true
@@ -128,28 +176,55 @@ module sctp_network(addr,pkt) = {
             } 
         }
 
+	# Callback: Receive Packet
         before recv {
+	    # 1. The Channel (self.Addr, self.socket s) is open channel for communcation
+	    # 2. There was a packet p, sent_to(self.Addr, self.Socket s) by some(other.Addr, other.Socket)
             require open(self,s);
             require sent_to(self,s,p);
         }            
 
+	# Call: Close Connection
         around close {
+	    # Before Close
+	    # 1. Require that the channel is open apriori. No sense in trying to close a chanell that's not opened previously. 
             require open(self,s);
             ...
+	    # After Close
+	    # 1. update Open-Status of Protocol
             open(self,s) := false;
+	    # 2. Update all packets sent from (self.Addr, self.socket s) to False. 
+	    # why? 
+	    # Is this to say that when a channel is closed, all its history, about packets sent from it is forgotten? 
+	    # why should this be the case? 
             sent_to(self,s,P) := false;
-            conn(A,S,self,s) := false;
-            conn(self,s,A,S) := false;
+	    # For All (other.addr A, other.socket S) update Protocol-Connected status to false.
+            conn(A,S,self,s) := false;  # Upstream Entitites
+            conn(self,s,A,S) := false;  # Downstream Entities
         }
 
+	# Callback: Failed(A,S)
         around failed {
+	    # Before Failed()
+	    # Require: 
+	    # There exists other.Addr A s.t
+	    # a) Request was sent from (self.addr , self.socket s) to A
+	    # b) An Ack was received by (self.addr, self.socket s)
+	    # c) Channel (self.addr, self.socket s) is Open previously. 
             require exists A. req(self,s,A) | ack(self,s) | open(self,s);
             ...
+	    # After Failed()
+	    # 1. Close channel (self.addr, self.socket s)
             open(self,s) := false;
+	    # 2. Delete all history of Connection-Requests that were sent out from Channel(self.addr, self.socket s) to all entities other.addr A 
             req(self,s,A) := false;
+	    # 3. Delete all history of Acks received in the channel. 
             ack(self,s) := false;
+	    # 4. Delete all history of Packets sent out via Channel
             sent_to(self,s,P) := false;
+	    # 4. Delete all Channel Connections to Upstream entities
             conn(A,S,self,s) := false;
+	    # 5. Why shouldn't the downstream-entities be
         }
         
         invariant ~(open(A,S) & (req(A,S,A1) | ack(A,S))) & ~(req(A,S,A1) & ack(A,S))
@@ -158,47 +233,59 @@ module sctp_network(addr,pkt) = {
         invariant conn(A1,S1,A,S) -> (open(A1,S1) | ack(A1,S1))
     }
 
-    
+    # NOTE: PROTOCOL IMPLEMENTAION of the different actions
     implementation {
         instance impl(X:addr) : sctp_impl(addr,pkt,X,5990)
     }
 
+    # IVY DIRECTIVES: 
+    # Description of Isolates
     isolate iso = this
+    # TODO: What is an Attribute? How does it help? 
     attribute test = impl
 }
 
 module simple_sctp(addr,pkt) = {
-
-    action recv(dst:addr,v:pkt)
-    action send(src:addr,dst:addr,v:pkt)
+# SIMPLE PROTOCOL SPECIFICATOIN: 
+# Invokes sctp_network() for on the wire-message passing. 
+# provides a layer-abstraction over sctp_network() with only two actions: send(A_src, A_dest, pkt) , recv(A_dest, pkt)
+    action recv(dst:addr,v:pkt)			# CALLBACK
+    action send(src:addr,dst:addr,v:pkt)  	# CALL
 
     specification {
-
+	# Protocol state: specified by the relation representing which packets were sent out to which addresses. 
         relation sent(V:pkt, N:addr)
 
         after init {
+	    # ForAll V, N : No packets were sent out to anyone to begin with. 
 	    sent(V, N) := false
 	}
     
 	before send {
+	    # Update State of Protocol, before physically sending out a message on the wire. 
 	    sent(v,dst) := true
 	}
 
 	before recv {
+            # Ensure that only previously sent messages are being received. This is to ensure that there's no non-modelled/accounted for messages that are being received. I.e Entity cannot fantasize about reveiving ghost-packets. 
 	    assert sent(v,dst)
 	}
 
     }
 
+    # IMPLEMENTATION of LAYER: 
     implementation {
 
         instance sctp : sctp_network(addr,pkt)
 
+	# TODO: Why is this Object Instantiated? 
         object proc(self:addr) = {
-
-            relation isup(A:addr)
+	   
+	    # States of the Proc Object
+            relation isup(A:addr)	# Which all entities are participating
+	    relation pend(A:addr)	# TODO: Which entities are pending connection? 
+	    # given an Addr A, return a physical-socket that is connected to the dest_entity.Address
             function sock(A:addr) : sctp.socket
-            relation pend(A:addr)
             
             after init {
                 isup(A) := false;
@@ -207,42 +294,67 @@ module simple_sctp(addr,pkt) = {
  #               call sctp.listen(foo);
             }
 
+		
+	    # CALL-FUNCTION: SEND
             implement send(dst:addr,v:pkt) {
                 if ~isup(dst) {
+		# if dst_entity isn't up
                     if ~pend(dst) {
+			# if there isn't a pending connection from dst_entity
+			# ESTABLISH A NEW CONNECTION
                         sock(dst) := sctp.connect(self,dst);
                         pend(dst) := true
                     }
                 } else {
+		    # Connection already exists. So send packets via existing OpenChannels. 
                     var ok := sctp.send(self,sock(dst),v);
                     if ~ok {
+			# On successful send() of packet
+			# a) close connection to entity.
                         call sctp.close(self,sock(dst));
+			# b) establish a new connection
                         sock(dst) := sctp.connect(self,dst);
+			# c) Remove entity from being active
                         isup(dst) := false;
+			# d) Update dest_entity as being in pending-connection-state. 
                         pend(dst) := true
                     }
                 }
             }
 
-            implement sctp.recv(s:sctp.socket,v:pkt) {
+	    # LAYER IMPLEMENTATION : Pertaining to new-states. 
+	    # appends/ adds-on functionality to the previously defined implementations, to make it compatible with
+	    # New STATE DEFINITIONS for the given layer. 
+	    
+
+	    # ONLY CALLBACK FUNCTIONS ARE BEING IMPLEMENTED 
+	    implement sctp.recv(s:sctp.socket,v:pkt) {
                 call recv(self,v)
             }
 
+	    	# callback.connected()
             implement sctp.connected(s:sctp.socket) {
+		# if There exists other.Addr such that protocol is pending-connection from other.Addr, via (self.addr, self.socket s = sock(other) )
                 if some(other:addr) pend(other) & sock(other) = s {
+		    # After Connection:  by sctp.connected()
+		    # Update the Layer State!
                     pend(other) := false;
                     isup(other) := true;
                 }
             }
 
+		# callback.accept()
             implement sctp.accept(s:sctp.socket,other:addr) {
                 # we ignore accept events
             }
 
+		# callback.failed()
             implement sctp.failed(s:sctp.socket) {
+		# if Channel(self.addr, self.socket s) is 
+		# a) Connected to another entity: isup(other)
+		# b) Pending connection from another entity : pend(other)
+		# Then, Due to failure, set all of them to False. 
                 if some(other:addr) (isup(other) | pend(other)) & sock(other) = s {
-                    # isup(other) := false;
-                    # pend(other) := true;
                     # sock(other) := sctp.connect(self,other);
                     isup(other) := false;
                     pend(other) := false;
@@ -250,12 +362,26 @@ module simple_sctp(addr,pkt) = {
             }
 
             specification {
+		#1. If entity A is up, then ensure that sctp protocol-open state is updated.
                 invariant isup(A) -> sctp.open(self,sock(A))
+		
+	# TODO: Why is this rule existing? 
+		#2. If entity A is pending connection response
+		# Inevitably, A shall be up, or we shall receive messages on wire to acknowledge connection, 
+		# or SCTP.Req() has been updated. 
                 invariant pend(A) -> (isup(A) | sctp.req(self,sock(A),A) | sctp.ack(self,sock(A)))
+
 #                invariant sctp.conn(self,S,A1,S1) -> S = sock(A1) & (isup(A1) | sctp.ack(self,S) & pend(A1))
-                invariant (isup(A) | pend(A)) & sctp.conn(self,sock(A),A1,S1) -> A = A1
+
+                #3. Any channel(self.addr, self.socket s) can connect only to one entity
+		invariant (isup(A) | pend(A)) & sctp.conn(self,sock(A),A1,S1) -> A = A1
+		
+		#4. Every SocketID of any Addr is UNIQUE. No Addr can have multiple sockets with the same number. 
                 invariant (isup(A) | pend(A)) & (isup(A1) | pend(A1)) & sock(A) = sock(A1) -> A = A1
-                invariant sctp.sent_to(A,S,V) -> sent(V,A)
+                
+		#5. Every time SCTP.sent_to has been updaated, then it implies that layer.sent() has been updated. 
+		# TODO: Why isn't the arrow in opposite direction? 
+		invariant sctp.sent_to(A,S,V) -> sent(V,A)
             }
         }
     }
