@@ -31,6 +31,7 @@ module sctp_impl(addr,pkt,me,port_base) = {
     #include <netinet/sctp.h>
     #include <list>
     #include <semaphore.h>
+    #define MAX_STREAM 64    // needed when defining the SCTP_INITMSG
 
     class sctp_listener;   // class of threads that listen for connections
     class sctp_callbacks;  // class holding callbacks to ivy
