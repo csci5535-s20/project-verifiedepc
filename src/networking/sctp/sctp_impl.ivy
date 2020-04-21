@@ -209,23 +209,23 @@ module sctp_impl(addr,pkt,me,port_base) = {
         if (setsockopt(sock, IPPROTO_SCTP, SCTP_NODELAY, &one, sizeof(one)) < 0) 
             { perror("setsockopt failed"); exit(1); }
 
-    /*
-     * Set the SCTP stream parameters to tell the other side when
-     * setting up the association.
-     */
-    int ret;
-    struct sctp_initmsg   initmsg;
-    memset(&initmsg, 0, sizeof(struct sctp_initmsg));
-    initmsg.sinit_num_ostreams = MAX_STREAM;
-    initmsg.sinit_max_instreams = MAX_STREAM;
-    initmsg.sinit_max_attempts = MAX_STREAM;
-    ret = setsockopt(sock, IPPROTO_SCTP, SCTP_INITMSG, &initmsg,
+    	/*
+     	* Set the SCTP stream parameters to tell the other side when
+     	* setting up the association.
+     	*/
+    	int ret;
+   	 struct sctp_initmsg   initmsg;
+    	memset(&initmsg, 0, sizeof(struct sctp_initmsg));
+   	 initmsg.sinit_num_ostreams = MAX_STREAM;
+    	initmsg.sinit_max_instreams = MAX_STREAM;
+    	initmsg.sinit_max_attempts = MAX_STREAM;
+   	 ret = setsockopt(sock, IPPROTO_SCTP, SCTP_INITMSG, &initmsg,
         sizeof(struct sctp_initmsg));
-    if (ret < 0) {
-        //std::cerr << "setsockopt SCTP_INITMSG"; exit(1);
-        perror("setsockopt SCTP_INITMSG");
-        exit(1);
-    }
+    	if (ret < 0) {
+        	//std::cerr << "setsockopt SCTP_INITMSG"; exit(1);
+        	perror("setsockopt SCTP_INITMSG");
+        	exit(1);
+    	}
 
 
         return sock;
