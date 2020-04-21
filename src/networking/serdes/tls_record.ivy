@@ -24,6 +24,11 @@ object tls = {
     # |---------|---------|-------------|
     # | 3       | 3       | 1.2         |
 
+#struct {
+#          uint8 major;
+#          uint8 minor;
+#      } ProtocolVersion;
+
     type protocol_version
     interpret protocol_version -> bv[16]
 
@@ -38,6 +43,33 @@ object tls = {
     #
     
     type handshake
+
+#enum {
+#          hello_request(0), client_hello(1), server_hello(2),
+#          certificate(11), server_key_exchange (12),
+#          certificate_request(13), server_hello_done(14),
+#          certificate_verify(15), client_key_exchange(16),
+#          finished(20), (255)
+#      } HandshakeType;
+#
+#struct {
+#          HandshakeType msg_type;    /* handshake type */
+#          uint24 length;             /* bytes in message */
+#          select (HandshakeType) {
+#              case hello_request:       HelloRequest;
+#              case client_hello:        ClientHello;
+#              case server_hello:        ServerHello;
+#              case certificate:         Certificate;
+#              case server_key_exchange: ServerKeyExchange;
+#              case certificate_request: CertificateRequest;
+#              case server_hello_done:   ServerHelloDone;
+#              case certificate_verify:  CertificateVerify;
+#              case client_key_exchange: ClientKeyExchange;
+#              case finished:            Finished;
+#          } body;
+#      } Handshake;
+
+
 
     # A handshake message has the following variants:
     #
@@ -65,6 +97,15 @@ object tls = {
     # - `content` The extension content as a byte stream. In serialized form,
     #   this is prefixed by a two-byte length field.
 
+# struct {
+#          ExtensionType extension_type;
+#          opaque extension_data<0..2^16-1>;
+#      } Extension;
+#
+# enum {
+#          signature_algorithms(13), (65535)
+#      } ExtensionType;
+
     type extension
 
     type extension_type
@@ -87,10 +128,15 @@ object tls = {
     # Random information is encoded in the following form. The
     # `random_bytes` field consists of exactly 28 bytes.
 
+#struct {
+#             uint32 gmt_unix_time;
+#             opaque random_bytes[28];
+#         } Random;
+#
     type random = struct {
         gmt_unix_time : gmt,
         random_bytes : stream_data
-    }
+            }
 
     # A cipher suite descriptor is a two-byte field used to indicate
     # a combination of cryptographic algorithms.
@@ -99,6 +145,8 @@ object tls = {
     interpret cipher_suite -> bv[16]
 
     # A compression method is a one-byte descriptor.
+
+# enum { null(0), (255) } CompressionMethod;
 
     type compression_method
     interpret compression_method -> bv[1]
@@ -122,7 +170,22 @@ object tls = {
     # 
     # - `extensions` is a sequence of extensions. In serialized form it is prefixed by a two-byte
     #   length field.
-    
+ 
+#struct {
+#          ProtocolVersion client_version;
+#          Random random;
+#          SessionID session_id;
+#          CipherSuite cipher_suites<2..2^16-2>;
+#          CompressionMethod compression_methods<1..2^8-1>;
+#          select (extensions_present) {
+#              case false:
+#                  struct {};
+#              case true:
+#                  Extension extensions<0..2^16-1>;
+#          };
+#      } ClientHello;
+
+   
     object client_hello = {
         variant this  of handshake = struct {
             client_version : protocol_version,
@@ -153,7 +216,23 @@ object tls = {
     # 
     # - `extensions` is a sequence of extensions. In serialized form it is prefixed by a two-byte
     #   length field.
-    
+
+# from RFC:   
+#struct {
+#          ProtocolVersion server_version;
+#          Random random;
+#          SessionID session_id;
+#          CipherSuite cipher_suite;
+#          CompressionMethod compression_method;
+#          select (extensions_present) {
+#              case false:
+#                  struct {};
+#              case true:
+#                  Extension extensions<0..2^16-1>;
+#          };
+#      } ServerHello;
+
+  
     object server_hello = {
         variant this of handshake = struct {
             server_version : protocol_version,
@@ -169,12 +248,14 @@ object tls = {
     # 
     # - `extensions` is a sequence of extensions. In serialized form it is prefixed by a two-byte
     #   length field.
-    
+ 
+# from RFC
+   
     object encrypted_extensions = {
         variant this  of handshake = struct {
             extensions : vector[extension]
         }
-    }
+   }
 
     # The unknown message is used here to cover all the messgae types that have
     # not yet been implemented.

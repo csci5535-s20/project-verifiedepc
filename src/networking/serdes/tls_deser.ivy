@@ -6,8 +6,25 @@
 # 3. Update the HashMap structures with the (name, int-values) in the implementation
 # 4. The TLS_SER and TLS_DESER objects contain ( data-structures) and ( methods to modify them. )
 # 5. How are these used? 
+# 
+#
+#
+# NOTE: These seem to be designed for the QUIC protocol based implementation of TLS. This isn't a standalone TLS SER/DESER. 
+# Tags defined here are not seen in the RFC document. 
+# Reference: 
+# 1. https://github.com/project-everest/everparse/blob/d1d932b7d2ccb3aa13c4a63f6f34e86add57c2b3/extractrfc/tls12.txt
+# 2. https://github.com/project-everest/everparse/blob/d1d932b7d2ccb3aa13c4a63f6f34e86add57c2b3/extractrfc/tls12_extracted.txt
+#
 #
 include tls_record
+
+# TLS_RECORD: 
+# Contains the different types related to TLS, interpreted as bit-vectors. 
+# Contains the following TYPES from which different OBJECTS are generated. 
+# a) Extension -> unknown_extension
+# b) Handshake -> { encrypted_extensions, client_hello, server_hello, unknoown_message }
+# c) Record -> { handshake_record, application_data_record, change_cipher_spec }
+
 
 object tls_deser = {}
 object tls_ser = {}
