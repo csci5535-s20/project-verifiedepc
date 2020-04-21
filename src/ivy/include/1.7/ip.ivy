@@ -8,7 +8,7 @@ object ip = {
 
     type addr
     type port
-    type protocol = {udp,tcp}
+    type protocol = {udp,tcp,sctp}
 
     object endpoint = {
         type this = struct {
