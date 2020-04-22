@@ -2,6 +2,7 @@
 
 # a fake serializer for quic
 
+# object that's the serializer object sent into serdes.ivy
 object quic_ser = {}
 
 <<< member
@@ -12,52 +13,60 @@ object quic_ser = {}
 
 <<< impl
 
+    # ivy_binary_ser: is a class instantiated inside serdes.ivy
     class `quic_ser` : public ivy_binary_ser {
-        enum {quic_s_init,
-              quic_s_version,
+
+	# These are datastructures defined for this serializer-class. It's the same in deserializer as well. 
+	# where are these state-entries identified from? 
+	# ref: https://tools.ietf.org/html/draft-ietf-quic-transport-27
+	# Missing: 
+	# TOKEN_LENGTH FRAME(19.7), PING FRAME(19.1), PADDING FRAME(19.2)
+	# MAX_DATA_FRAME(19.9), CONNECTION CLOSE(19.19), PATH RESPONSE(19.18), 
+        enum {quic_s_init,			# fig 11. Initial-Packet START
+              quic_s_version,	
 	      quic_s_dcil,
 	      quic_s_scil,
               quic_s_dcid,
-              quic_s_scid,
+              quic_s_scid,	
               quic_s_retry_token_length,
               quic_s_retry_token,
 	      quic_s_payload_length,
               quic_s_pkt_num,
-              quic_s_payload,
-              quic_stream_id,
+              quic_s_payload,			# fig 11. Initial-Packet END
+              quic_stream_id,  			# Fig 26 STREAM-FRAME START (sec 19.8)
               quic_stream_off,
               quic_stream_len,
               quic_stream_fin,
-              quic_stream_offset,
+              quic_stream_offset, 		
               quic_stream_length,
-              quic_stream_data,
-              quic_crypto_offset,
+              quic_stream_data,			# Fig 26 STREAM-FRAME END
+              quic_crypto_offset, 		# Fig 24. crypto-frame-format (19.6)
               quic_crypto_length,
               quic_crypto_data,
-              quic_ack_largest,
+              quic_ack_largest,   		# Fig 19. ACK-FRAME START ( sec 19.3 )
               quic_ack_delay,
               quic_ack_block_count,
               quic_ack_gap,
-              quic_ack_block,
-              quic_reset_stream_id,
+              quic_ack_block,			# Fig 19. ACK-FRAME END
+              quic_reset_stream_id, 		# Fig 22. RESET STREAM START ( sec 19.4 )
               quic_reset_err_code,
-              quic_reset_final_offset,
-              quic_stop_sending_id,
-              quic_stop_sending_err_code,
-              quic_connection_close_err_code,
+              quic_reset_final_offset, 		# Fig 22. RESET STREAM END
+              quic_stop_sending_id,		# Fig 23. STOP-SENDING FRAME START (sec 19.5)
+              quic_stop_sending_err_code,	
+              quic_connection_close_err_code,	# Fig 36 CONNECTION CLOSE START
               quic_connection_close_frame_type,
               quic_connection_close_reason_length,
-              quic_connection_close_reason,
-              quic_application_close_err_code,
-              quic_max_stream_data_id,
-              quic_path_challenge_data,
-              quic_new_connection_id_length,
+              quic_connection_close_reason,	# Fig 36 CONNECTION CLOSE END
+              quic_application_close_err_code,	# (Sec 20.1) TRANSPORT ERROR CODES ??? 
+              quic_max_stream_data_id,		# Fig 28. MAX_STREAM_DATA FRAME (sec 19.10)
+              quic_path_challenge_data,		# Fig 35 PATH_CHALLENGE FRAME 
+              quic_new_connection_id_length,	# Fig 33 NEW_CONNECTION_ID FRAME START (sec 19.15)
               quic_new_connection_id_seq_num,
               quic_new_connection_id_retire_prior_to,
               quic_new_connection_id_scid,
-              quic_new_connection_id_token,
-              quic_retire_connection_id_seq_num,
-              quic_s_done} state;
+              quic_new_connection_id_token,	# Fig 33 NEW_CONNECTION_ID FRAME END
+              quic_retire_connection_id_seq_num, # Fig 34 RETIRE_CONNECTION_ID FRAME START (sec 19.16)
+              quic_s_done} state;		# Section 19.20 HANDSHAKE_DONE FRAME (sec 19.20) 
         bool long_format;
         char hdr_type;
         int dcil;
@@ -72,16 +81,25 @@ object quic_ser = {}
     public:
         quic_ser() : state(quic_s_init) {
         }
+
+	# TODO: What's res? Why is this an input? 
         virtual void  set(long long res) {
             switch (state) {
+
+	
             case quic_s_init:
             {
-                long_format = res != 3;
+		# Ref. Fig 9 (sec 17.2)
+                long_format = res != 3; # why? 
                 hdr_type = (long_format ? ((res & 3) << 4) : 0) | 0x43 ;
+
+		# is setn a function of serdes? 
+		# void setn(long long inp, int len)  in ivy_to_cpp()
 		setn(hdr_type | (long_format ? 0x80 : 0), 1);
                 state = quic_s_version;
             }
             break;
+
             case quic_s_version:
             {
                 if (long_format)
@@ -113,8 +131,12 @@ object quic_ser = {}
                 state = quic_s_payload;
             }
             break;
+
+	   # Handling Frames from Here onwards!
+	   # frame_type will be set!
             case quic_stream_off:
             {
+		# what does this mean? what does res represent? 
                 frame_type |= res ? 0x04 : 0;
                 state = quic_stream_len;
             }
@@ -303,8 +325,12 @@ object quic_ser = {}
         }
 
         void set_var_int(long long res) {
+	    
+	    # AIM: generate dataset of upto 4 bytes? 
+	    # 8 bytes long value
 	    long long val = res & 0x3fffffffffffffff;
 	    int bytecode = res <= 0x3f ? 0 : res <= 0x3fff ? 1 : res <= 0x3fffffff ? 2 : 3;
+	    # bytecode = {0,1,2,3}
 	    int bytes = 1 << bytecode;
             val |= bytecode << ((bytes << 3) - 2);
 	    setn(val,bytes);

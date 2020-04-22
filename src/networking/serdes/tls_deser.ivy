@@ -14,7 +14,7 @@
 # Reference: 
 # 1. https://github.com/project-everest/everparse/blob/d1d932b7d2ccb3aa13c4a63f6f34e86add57c2b3/extractrfc/tls12.txt
 # 2. https://github.com/project-everest/everparse/blob/d1d932b7d2ccb3aa13c4a63f6f34e86add57c2b3/extractrfc/tls12_extracted.txt
-#
+# 3. https://tools.ietf.org/html/rfc5246#section-6
 #
 include tls_record
 

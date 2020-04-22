@@ -72,3 +72,59 @@ module serdes(data,bytes,serializer,deserializer) = {
 
 >>>
 
+
+# ===================================
+# ivy_to_cpp() reference for different functions to implement a deserializers and serializers. 
+# Reference: https://github.com/microsoft/ivy/blob/da91befff0da4b0a176f6fb7dd0b253b34e990d6/ivy/ivy_to_cpp.py 
+#
+#struct ivy_ser {
+#    virtual void  set(long long) = 0;
+#    virtual void  set(bool) = 0;
+#    virtual void  setn(long long inp, int len) = 0;
+#    virtual void  set(const std::string &) = 0;
+#    virtual void  open_list(int len) = 0;
+#    virtual void  close_list() = 0;
+#    virtual void  open_list_elem() = 0;
+#    virtual void  close_list_elem() = 0;
+#    virtual void  open_struct() = 0;
+#    virtual void  close_struct() = 0;
+#    virtual void  open_field(const std::string &) = 0;
+#    virtual void  close_field() = 0;
+#    virtual void  open_tag(int, const std::string &) {throw deser_err();}
+#    virtual void  close_tag() {}
+#    virtual ~ivy_ser(){}
+#};
+#struct ivy_binary_ser : public ivy_ser {
+#    std::vector<char> res;
+#    void setn(long long inp, int len) {
+#        for (int i = len-1; i >= 0 ; i--)
+#            res.push_back((inp>>(8*i))&0xff);
+#    }
+#    void set(long long inp) {
+#        setn(inp,sizeof(long long));
+#    }
+#    void set(bool inp) {
+#        set((long long)inp);
+#    }
+#    void set(const std::string &inp) {
+#        for (unsigned i = 0; i < inp.size(); i++)
+#            res.push_back(inp[i]);
+#        res.push_back(0);
+#    }
+#    void open_list(int len) {
+#        set((long long)len);
+#    }
+#    void close_list() {}
+#    void open_list_elem() {}
+#    void close_list_elem() {}
+#    void open_struct() {}
+#    void close_struct() {}
+#    virtual void  open_field(const std::string &) {}
+#    void close_field() {}
+#    virtual void  open_tag(int tag, const std::string &) {
+#        set((long long)tag);
+#    }
+#    virtual void  close_tag() {}
+#};
+#
+#
