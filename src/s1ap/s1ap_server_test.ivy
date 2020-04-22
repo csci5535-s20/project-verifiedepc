@@ -1,0 +1,59 @@
+#lang ivy1.7
+
+# The command-line parameters, with their defaults
+
+parameter the_cid : cid = 0xd
+parameter client_addr : ip.addr = 0x7f000001
+parameter server_addr : ip.addr = 0x7f000002
+parameter server_port : ip.port = 4443
+parameter server_cid : cid = 0xb
+parameter client_port : ip.port = 4987
+parameter max_stream_data : stream_pos = 0x2000
+
+# Network setup
+
+object endpoint_id = {
+    type this = {client, server}
+}
+
+action endpoint_id_addr(ep_id : endpoint_id) returns (ep:ip.endpoint) = {
+    ep.protocol := ip.udp;
+    ep.addr := server_addr if ep_id = endpoint_id.server else client_addr;
+    ep.port := client_port if ep_id = endpoint_id.client else server_port;
+}
+
+module s1ap_endpoint(ep_id) = {
+    var ep : ip.endpoint
+    var tls_id : tls_api.id
+    var proc_code : pcode_bits
+    after init {
+        ep := endpoint_id_addr(ep_id);
+            proc_code := 12;
+    }
+}
+
+# Create a client(eNB) and server(MME). The client has an instance of TLS
+
+instance client : s1ap_endpoint(endpoint_id.client)
+instance server : s1ap_endpoint(endpoint_id.server)
+
+# We create sockets and bind them to the addresses that the client can use.
+
+var sock : net.socket
+var sock_alt : net.socket
+
+instance tls_extensions : vector(tls.extension)
+
+# This creates the sockets and also a TLS instance to be used by 'the_cid'.
+
+after init {
+    sock := net.open(endpoint_id.client,client.ep);
+    client.tls_id := 0;
+    server.tls_id := 1;
+    var extns := tls_extensions.empty;
+    extns : extns.append(make_transport_parameters);
+    call tls_api.upper.create(0.false,extns);
+}
+
+# Here we have a bunch of conversions that map between cid's, IP endpoints,
+# TLS instances and host ids. 
