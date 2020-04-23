@@ -1,5 +1,8 @@
 #lang ivy1.7
 
+include collections
+include order
+
 # Data structures
 # ===============
 
@@ -161,12 +164,135 @@ object message = {
     instance arr : array(idx,this)
 }
 
+
 # Generic event
 # =============
 
 object message = {
     ...
-    action handle(f:this,scid:cid,dcid:cid) = {
+    action handle(f:this,scid:cid,dcid:cid,e:pcode_bits) = {
         require false;
     }
 }
+
+# Specification state
+# ===================
+
+function queued_messages(C:cid) : message.arr
+relation queued_close(C:cid)
+function num_queued_messages(C:cid) : message.idx
+
+after init {
+    queued_close(C) := false;
+}
+
+
+# s1_setup_request event
+object message = {
+    ...
+    object s1_setup_request = {
+        ...
+        action handle(m:message.s1_setup_request,scid:cid,dcid:cid,e:pcode_bits)
+
+        around handle {
+            require connected(dcid) & connected_to(dcid) = scid;
+            require e = 
+        }
+    }
+}
+#        object supported_ta = {
+#           type this = struct {
+#               tac : tac_octet,                    # Supported TAs - TAC
+#               plmn_identity2 : plmn_octet         # Supported TAs - Broadcast PLMNs
+#           }
+#           instance idx : unbounded_sequence
+#            instance arr : array(idx,this)
+#       }
+
+#       variant this of message = struct {
+#           p_code : pcode_bits,                    # Message Type - Procedure Code
+#           t_message : message_enumerated,         # Message Type - Type of Message
+#           plmn_identity1 : plmn_octet,            # Global eNB ID - PLMN Identity
+#           global_choice_enb_id : plmn_octet,      # Global eNB ID - CHOICE eNB ID
+#           default_paging_drx : drx_enumerated,    # Default Paging DRX
+#           supported_tas : supported_ta.arr        # Supported TAs
+#       }
+
+# s1_setup_response event
+object message = {
+    ...
+    object s1_setup_response = {
+        ...
+        action handle(m:message.s1_setup_response,scid:cid,dcid:cid,e:pcode_bits)
+
+        around handle {
+
+        }
+    }
+}
+
+# initial_ue_message event
+object message = {
+    ...
+    object initial_ue_message = {
+        ...
+        action handle(m:message.initial_ue_message,scid:cid,dcid:cid,e:pcode_bits)
+
+        around handle {
+
+        }
+    }
+}
+
+# downlink_nas_transport event
+object message = {
+    ...
+    object downlink_nas_transport = {
+        ...
+        action handle(m:message.downlink_nas_transport,scid:cid,dcid:cid,e:pcode_bits)
+
+        around handle {
+
+        }
+    }
+}
+
+# uplink_nas_transport event
+object message = {
+    ...
+    object uplink_nas_transport = {
+        ...
+        action handle(m:message.uplink_nas_transport,scid:cid,dcid:cid,e:pcode_bits)
+
+        around handle {
+
+        }
+    }
+}
+
+# initial_context_setup_request event
+object message = {
+    ...
+    object initial_context_setup_request = {
+        ...
+        action handle(m:message.initial_context_setup_request,scid:cid,dcid:cid,e:pcode_bits)
+
+        around handle {
+
+        }
+    }
+}
+
+# initial_context_setup_response event
+object message = {
+    ...
+    object initial_context_setup_response = {
+        ...
+        action handle(m:message.initial_context_setup_response,scid:cid,dcid:cid,e:pcode_bits)
+
+        around handle {
+
+        }
+    }
+}
+
