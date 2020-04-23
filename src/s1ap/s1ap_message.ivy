@@ -1,0 +1,172 @@
+#lang ivy1.7
+
+# Data structures
+# ===============
+
+object message = {
+    type this
+
+    object s1_setup_request = {
+
+        object supported_ta = {
+            type this = struct {
+                tac : tac_octet,                    # Supported TAs - TAC
+                plmn_identity2 : plmn_octet         # Supported TAs - Broadcast PLMNs
+            }
+            instance idx : unbounded_sequence
+            instance arr : array(idx,this)
+        }
+
+        variant this of message = struct {
+            p_code : pcode_bits,                    # Message Type - Procedure Code
+            t_message : message_enumerated,         # Message Type - Type of Message
+            plmn_identity1 : plmn_octet,            # Global eNB ID - PLMN Identity
+            global_choice_enb_id : plmn_octet,      # Global eNB ID - CHOICE eNB ID
+            default_paging_drx : drx_enumerated,    # Default Paging DRX
+            supported_tas : supported_ta.arr        # Supported TAs
+        }
+    }
+
+    object s1_setup_response = {
+
+        object served_gummei = {
+            type this = struct {
+                plmn_identity1 : plmn_octet,        # Served GUMMEIs - Served PLMNs
+                mme_group_id : tac_octet,           # Served GUMMEIs - Served GroupIDs
+                mme_code : pcode_bits               # Served GUMMEIs - Served MMECs
+            }
+            instance idx : unbounded_sequence
+            instance arr : array(idx,this)
+        }
+
+        object served_dcn = {
+            type this = struct {
+                dcn_id : cid,                   # Served DCNs - Served DCNs Items - DCN ID
+                relative_capacity2 : pcode_bits # Served DCNs - Served DCNs Items - Relative DCN Capacity
+            }
+            instance idx : unbounded_sequence
+            instance arr : array(idx,this)
+        }
+
+        variant this of message = struct {
+            p_code : pcode_bits,                    # Message Type - Procedure Code
+            t_message : message_enumerated,         # Message Type - Type of Message
+            relative_capacity1 : pcode_bits,        # Relative MME Capacity
+            served_gummeis : served_gummei.arr,     # Served GUMMEIs
+            served_dcns : served_dcn.arr            # Served DCNs
+        }
+    }
+
+    object initial_ue_message = {
+
+        variant this of message = struct {
+            p_code : pcode_bits,                    # Message Type - Procedure Code
+            t_message : message_enumerated,         # Message Type - Type of Message
+            enb_ue_s1ap_id : cid,                   # eNB UE S1AP ID
+            nas_pdu : nas_pdu_string,               # NAS-PDU
+            plmn_identity1 : plmn_octet,            # TAI - PLMN Identity
+            tac : tac_octet,                        # TAI - TAC
+            plmn_identity2 : plmn_octet,            # E-UTRAN CGI - PLMN Identity
+            cell_identity : cell_bits,              # E-UTRAN CGI - Cell Identity
+            rrc_establishment_cause : rrc_enumerated # RRC Establishment Cause
+        }
+    }
+
+    object downlink_nas_transport = {
+
+        variant this of message = struct {
+            p_code : pcode_bits,                    # Message Type - Procedure Code
+            t_message : message_enumerated,         # Message Type - Type of Message
+            mme_ue_s1ap_id : cid,                   # MME UE S1AP ID
+            enb_ue_s1ap_id : cid,                   # eNB UE S1AP ID
+            nas_pdu : nas_pdu_string                # NAS-PDU
+        }
+    }
+
+    object uplink_nas_transport = {
+
+        variant this of message = struct {
+            p_code : pcode_bits,                    # Message Type - Procedure Code
+            t_message : message_enumerated,         # Message Type - Type of Message
+            mme_ue_s1ap_id : cid,                   # MME UE S1AP ID
+            enb_ue_s1ap_id : cid,                   # eNB UE S1AP ID
+            nas_pdu : nas_pdu_string,               # NAS-PDU
+            plmn_identity1 : plmn_octet,            # TAI - PLMN Identity
+            tac : tac_octet,                        # TAI - TAC
+            plmn_identity2 : plmn_octet,            # E-UTRAN CGI - PLMN Identity
+            cell_identity : cell_bits               # E-UTRAN CGI - Cell Identity
+        }
+    }
+
+    object initial_context_setup_request = {
+
+        object erab_to_be_setup = {
+            type this = struct {
+                erab_id : cid,                      # E-RAB ID
+                qci : pcode_bits,                   # E-RAB Level QoS - QCI
+                p_level : plevel_bits,              # E-RAB Level QoS - Priority Level
+                pre_capability : precap_enumerated, # E-RAB Level QoS - Pre-emption Capability
+                pre_vulnerability : prevul_enumerated, # E-RAB Level QoS - Pre-emption Vulnerability
+                tl_address : cid,                   # Transport Layer Address
+                gtp_teid : gtp_octet                # GTP-TEID
+            }
+            instance idx : unbounded_sequence
+            instance arr : array(idx,this)
+        }
+
+        object ue_security_capability = {
+            type this = struct {
+                encryption_algo : cid,              # Encryption Algorithms
+                in_protection_algo : cid            # Integrity Protection Algorithms
+            }            
+            instance idx : unbounded_sequence
+            instance arr : array(idx,this)
+        }
+
+        variant this of message = struct {
+            p_code : pcode_bits,                    # Message Type - Procedure Code
+            t_message : message_enumerated,         # Message Type - Type of Message
+            mme_ue_s1ap_id : cid,                   # MME UE S1AP ID
+            enb_ue_s1ap_id : cid,                   # eNB UE S1AP ID
+            max_bit_rate_downlink : cid,            # UE Aggregate Maximum Bit Rate Downlink
+            max_bit_rate_uplink : cid,              # UE Aggregate Maximum Bit Rate Uplink
+            security_key : cid,                     # Security Key
+            erab_to_be_setup_list : erab_to_be_setup.arr, # E-RAB to Be Setup List
+            ue_security_capabilities : ue_security_capability.arr # UE Security Capabilities
+        }
+    }
+
+    object initial_context_setup_response = {
+
+        object erab_setup = {
+            type this = struct {
+                erab_id : cid,                      # E-RAB ID
+                tl_address : cid,                   # Transport Layer Address
+                gtp_teid : gtp_octet                # GTP-TEID
+            }
+            instance idx : unbounded_sequence
+            instance arr : array(idx,this)
+        }
+
+        variant this of message = struct {
+            p_code : pcode_bits,                    # Message Type - Procedure Code
+            t_message : message_enumerated,         # Message Type - Type of Message
+            mme_ue_s1ap_id : cid,                   # MME UE S1AP ID
+            enb_ue_s1ap_id : cid,                   # eNB UE S1AP ID
+            erab_setup_list : erab_setup.arr        # E-RAB Setup List
+        }
+    }
+
+    instance idx : unbounded_sequence
+    instance arr : array(idx,this)
+}
+
+# Generic event
+# =============
+
+object message = {
+    ...
+    action handle(f:this,scid:cid,dcid:cid) = {
+        require false;
+    }
+}
