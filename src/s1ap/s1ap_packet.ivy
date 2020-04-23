@@ -1,55 +1,50 @@
 #lang ivy1.7
 
 include s1ap_types
-include s1ap_frame
+include s1ap_message
 include s1ap_transport_parameters
 include ip
 
 # The packet protocol
 #
 # The packet protocol has several funcitons including establishing
-# connections and loss detection. Packets carry frames whihc implement
-# many other funcition of QUIC.
+# connections and loss detection. Packets carry messages whihc implement
+# many other funcition of S1AP.
 #
-# QUIC Packets
+# S1AP Packets
 # ------------
 
-# This section defines the QUIC packet datatype. Packets are the basic
-# unit of communication between endpoints. A packet may be encoded in
-# either the long or the short format. There are packet types:
-# `initial`, `handshake`, `zero_rtt` and `one_rtt`. The `one_rtt`
-# type is encoded in the short format, while others are encoded in the
-# long format.  Packets have associated source cid (long format only)
-# and destination cid, protocol version (long format only), and a
-# packet sequence number. An initial packet also has a *retry token*, which
-# is a (possibly empty) sequence of bytes.  The *payload* of the
-# packet consists of a sequence of *frames* (see frame.ivy).
-
-# TODO: retry and one_rtt packet types
+# This section defines the S1AP packet datatype. Packets are the basic
+# unit of communication between endpoints. 
+# Packets have associated source cid (long format only) and destination 
+# cid, and a packet sequence number. The *payload* of the
+# packet consists of a sequence of *messages* (see s1ap_message.ivy).
 
 # ### Packet
 
-# The type `quic_packet` represents packet. 
+# The type `s1ap_packet` represents packet. 
 
 # The fields are:
 #
-# - *ptype*: the packet type [2]
-# - *pversion*: the protocol version, if long format, else 0 [3]
+# - *ptype*: the packet type [2] ###
+# - *pversion*: the protocol version, if long format, else 0 [3] ###
+# - *pcode*: the procedure code
 # - *dst_cid*: the destination cid [4]
-# - *src_cid*: the source cid, if long format, else 0  [5]
-# - *token*: the retry token (see section 4.4.1)  [6]
+# - *src_cid*: the source cid [5]
+# - *token*: the retry token (see section 4.4.1)  [6] ###
 # - *seq_num*: the packet sequence number  [7]
 # - *payload*: the payload, a sequence of frames  [8]
 
-object quic_packet = {
+object s1ap_packet = {
     type this = struct {
-        ptype : quic_packet_type, # [2]
-        pversion : version, # [3]
+#ptype : quic_packet_type, # [2]
+        pcode : pcode_bits,
+#pversion : version, # [3]
         dst_cid : cid, # [4]
         src_cid : cid, # [5]
-        token : stream_data, # [6]
+#token : stream_data, # [6]
         seq_num : pkt_num, # [7]
-        payload : frame.arr # [8]
+        payload : message.arr # [8]
     }
 
     instance idx : unbounded_sequence
@@ -58,11 +53,6 @@ object quic_packet = {
     #Hamid
     instance retired_cids : array(idx, cid_seq)
     #Hamid
-
-    action long(pkt:this) returns(res:bool) = {
-        res := pkt.ptype ~= quic_packet_type.zero_rtt; # one_rtt -> zero_rtt (protocol)
-    }
-
 }
 
 # Packet protocol events
@@ -80,7 +70,7 @@ object quic_packet = {
 # - `dst`: the destination endpoint
 # - `pkt` : the packet contents
 
-action packet_event(src:ip.endpoint,dst:ip.endpoint,pkt:quic_packet) = {}
+action packet_event(src:ip.endpoint,dst:ip.endpoint,pkt:s1ap_packet) = {}
 
 # Packet protocol state
 # ---------------------
