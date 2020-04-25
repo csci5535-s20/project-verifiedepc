@@ -8,7 +8,7 @@ parameter server_addr : ip.addr = 0x7f000002
 parameter server_port : ip.port = 4443
 parameter server_cid : cid = 0xb
 parameter client_port : ip.port = 4987
-parameter max_stream_data : stream_pos = 0x2000
+#parameter max_stream_data : stream_pos = 0x2000
 
 # Network setup
 
@@ -28,7 +28,7 @@ module s1ap_endpoint(ep_id) = {
     var proc_code : pcode_bits
     after init {
         ep := endpoint_id_addr(ep_id);
-            proc_code := 12;
+            proc_code := 12;    # PC_initialUEMessage = 12
     }
 }
 
@@ -45,7 +45,6 @@ var sock_alt : net.socket
 instance tls_extensions : vector(tls.extension)
 
 # This creates the sockets and also a TLS instance to be used by 'the_cid'.
-
 after init {
     sock := net.open(endpoint_id.client,client.ep);
     client.tls_id := 0;
@@ -57,3 +56,30 @@ after init {
 
 # Here we have a bunch of conversions that map between cid's, IP endpoints,
 # TLS instances and host ids. 
+action endpoint_to_pid(src:ip.endpoint) returns (pid:endpoint_id) = {
+    if src = client.ep {
+        pid := endpoint_id.client;
+    }
+}
+
+# Get the IP endpoint associated to a host id and socket number.
+action socket_endpoint(host:endpoint_id,s:net.socket) returns (src:ip.endpoint) = {
+    src := client.ep if host = endpoint_id.client
+}
+
+# Get the socket number associated to an IP endpoint.
+action endpoint_to_socket(src:ip.endpoint) returns (socket:net.socket) = {
+    if src = client.ep {
+        socket := sock;
+    }
+}
+
+# Get the source IP endpoint associated to a TLS instance
+action tls_id_to_src(tls_id:tls_api.id) returns (src:ip.endpoint) = {
+    src := client.ep if tls_id = client.tls_id else server.ep;
+}
+
+# Get the destination IP endpoint associated to a TLS instance
+action tls_id_to_dst(tls_id:tls_api.id) returns (dst:ip.endpoint) = {
+    dst := server.ep if tls_id = client.tls_id else client.ep;
+}
