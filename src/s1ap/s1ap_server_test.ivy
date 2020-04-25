@@ -1,5 +1,10 @@
 #lang ivy1.7
 
+include order
+include s1ap_packet
+include s1ap_types
+include s1ap_message
+
 # The command-line parameters, with their defaults
 
 parameter the_cid : cid = 0xd
@@ -74,12 +79,119 @@ action endpoint_to_socket(src:ip.endpoint) returns (socket:net.socket) = {
     }
 }
 
-# Get the source IP endpoint associated to a TLS instance
-action tls_id_to_src(tls_id:tls_api.id) returns (src:ip.endpoint) = {
-    src := client.ep if tls_id = client.tls_id else server.ep;
+# Get cid associated to a TLS instance
+action tls_id_to_cid(tls_id:tls_api.id) returns (scid:cid) = {
+    scid := the_cid;
 }
 
-# Get the destination IP endpoint associated to a TLS instance
-action tls_id_to_dst(tls_id:tls_api.id) returns (dst:ip.endpoint) = {
-    dst := server.ep if tls_id = client.tls_id else client.ep;
+#
+# Restrict generation to packets from the designated client endpoints
+# to the server endpoint.
+#
+before packet_event(src:ip.endpoint,dst:ip.endpoint,pkt:s1ap_packet) {
+    if _generating {
+        require src = client.ep;
+        require dst = server.ep;
+    };
 }
+
+#
+# The protocol specification describes all the events for Initial UE
+# attach procedure. When constructing the test mirror, however, we need
+# to generate only events that are outputs of the environment. IVy doesn't
+# have any built-in mechanism to do this, so we have to add a constraint
+# to every generated action.
+#
+# We also add other pre-conditions to the actions to try to restrict
+# them to relevant parameter values.
+#
+# To restrict the generated events, we use the built-in predicate 
+# "_generating" that is true if this is a generated event.
+#
+before message.s1_setup_request.handle(m:message.s1_setup_request,scid:cid,dcid:cid,e:pcode_bits) = {
+    if _generating {
+        require scid = the_cid;
+        require m.p_code = e;
+        require m.t_message = 'Initiating_Message';
+        require m.default_paging_drx = 32;
+    }
+}
+
+before message.s1_setup_response(m:message.s1_setup_response,scid:cid,dcid:cid,e:pcode_bits) {
+    if _generating {
+        require scid = the_cid;
+        require m.p_code = e;
+        require m.t_message = 'Successful_Outcome';
+        require m.relative_capacity1 < 255;
+    }
+}
+
+before message.initial_ue_message(m:message.initial_ue_message,scid:cid,dcid:cid,e:pcode_bits) {
+    if _generating {
+        require scid = the_cid;
+        require m.p_code = e;
+        require m.t_message = 'Initiating_Message';
+    }
+}
+
+before message.downlink_nas_transport(m:message.downlink_nas_transport,scid:cid,dcid:cid,e:pcode_bits) {
+    if _generating {
+        require scid = the_cid;
+        require m.p_code = e;
+        require m.t_message = 'Initiating_Message';
+    }
+}
+
+before message.uplink_nas_transport(m:message.downlink_nas_transport,scid:cid,dcid:cid,e:pcode_bits) {
+    if _generating {
+        require scid = the_cid;
+        require m.p_code = e;
+        require m.t_message = 'Initiating_Message';
+    }
+}
+
+before message.initial_context_setup_request(m:message.downlink_nas_transport,scid:cid,dcid:cid,e:pcode_bits) {
+    if _generating {
+        require scid = the_cid;
+        require m.p_code = e;
+        require m.t_message = 'Initiating_Message';
+    }
+}
+
+before message.initial_context_setup_response(m:message.downlink_nas_transport,scid:cid,dcid:cid,e:pcode_bits) {
+    if _generating {
+        require scid = the_cid;
+        require m.p_code = e;
+        require m.t_message = 'Successful_Outcome';
+    }
+}
+
+#
+# 
+#
+
+action client_send_event(src:ip.endpoint, dst:ip.endpoint, dcid:cid)
+
+around client_send_event {
+    require src = client.ep;
+    require dst = server.ep;
+    require connected(the_cid) & dcid = connected_to(the_cid);
+    ...
+    call app_send_event(src,dst,dcid,s,data,1024,true);
+}
+
+export message.s1_setup_request.handle
+export message.s1_setup_response.handle
+export message.initial_ue_message.handle
+export message.downlink_nas_transport.handle
+export message.uplink_nas_transport.handle
+export message.initial_context_setup_request.handle
+export message.initial_context_setup_response.handle
+export packet_event
+export client_send_event
+
+export action _finalize = {
+    require conn_total_data(the_cid) > 0;
+}
+
+
