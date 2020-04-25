@@ -289,7 +289,7 @@ enum DirectForwardingPathAvailability{
 
 
 //TODO : size(maxnoofCellID)
-typedef list<EUTRANCGI maxnoofCellID> ECGIList
+typedef list<EUTRAN_CGI maxnoofCellID> ECGIList
 
 typedef string EmergencyAreaID 	//OCTET STRING SIZE 3
 
@@ -313,7 +313,7 @@ struct EmergencyAreaIDBroadcastItem{
 typedef listCompletedCellinEAIItem maxnoofCellinEAI> CompletedCellinEAI
 
 struct CompletedCellinEAIItem{
-	1: EUTRANCGI 			ecgi;
+	1: EUTRAN_CGI 			ecgi;
 	2: optional list<CompletedCellinEAIItemExtIEs> ie_extensions;
 }
 
@@ -360,7 +360,6 @@ typedef list<ERABInformationListIEs maxNrOfE-RABs> ERABInformationList
 
 //TODO: How to do this? 
 
-typedef ERAB
 
 /* TODO: How to modify this? 
 E-RABInformationListIEs S1AP-PROTOCOL-IES ::= {
@@ -378,23 +377,6 @@ struct ERABInformationListItem{
 
 
 
-
-// -- G
-
-
-struct GERANCellID{
-	1: LAI 			lai;
-	2: RAC 			rac;
-	3: CI 			ci;
-	4: optional list<GERANCellIDExtIEs> ie_extensions; 
-
-}
-
-struct GlobalENBID{
-	1: PLMNIdentity 	plmn_identity; 
-	2: ENBID 			enb_id; 
-	3: optional list<globalENBIDExtIEs> ie_extensions;
-}
 
 
 // TODO: size(maxNrOfE-RABs)
@@ -425,10 +407,10 @@ struct ERABLevelQoSParameters{
 }
 
 
-struct EUTRANCGI{
+struct EUTRAN_CGI{
 	1: PLMNIdentity plmn_identity; 
 	2: CellIdentity cell_identity; 
-	3: optional list<EUTRANCGIExtIEs> ie_extensions; 
+	3: optional list<EUTRAN_CGIExtIEs> ie_extensions; 
 
 }
 
@@ -472,7 +454,24 @@ struct ForbiddenLAsItem{
 # TODO: size(maxnoofForbLACs)
 typedef list<LAC maxnoofForbLACs> ForbiddenLACs
 
+
 // -- G
+
+
+struct GERANCellID{
+	1: LAI 			lai;
+	2: RAC 			rac;
+	3: CI 			ci;
+	4: optional list<GERANCellIDExtIEs> ie_extensions; 
+
+}
+
+struct GlobalENBID{
+	1: PLMNIdentity 	plmn_identity; 
+	2: ENBID 			enb_id; 
+	3: optional list<globalENBIDExtIEs> ie_extensions;
+}
+
 
 struct GBR-QosInformation {
 	1: BitRate e_rab_maximum_bitrate_dl; 
@@ -546,7 +545,7 @@ union LastVisitedCellItem{
 
 
 struct LastVisitedEUTRANCellInformation{
-	1: EUTRANCGI 	global_cell_id; 
+	1: EUTRAN_CGI 	global_cell_id; 
 	2: CellType 	cell_type; 
 	3: TimeUEStayedInCell time_ue_stayed_in_cell;
 	4: optional list<LastVisitedEUTRANCellInformationExtIEs> ie_extensions;
@@ -573,7 +572,7 @@ typedef binary MMEGroupID  // OCTET STRING (SIZE (2))
 
 typedef byte MMECode // OCTET STRING (SIZE (1))
 
-typedef i64 MMEUES1APID	 //INTEGER (0..4294967295)
+typedef i64 MME_UE_S1AP_ID	 //INTEGER (0..4294967295).  MMEUES1APID
 
 // TODO: size(4)
 typedef binary MTMSI	//OCTET STRING (SIZE (4))
@@ -583,7 +582,7 @@ typedef string MSClassmark3 	// OCTET STRING
 
 //-- N
 
-typedef binary NASPDU	//OCTET STRING
+typedef binary NAS_PDU	//OCTET STRING
 
 typedef binary NASSecurityParametersfromEUTRAN //OCTET STRING
 
@@ -766,7 +765,7 @@ enum SRVCCHOIndication{
 struct SourceeNBToTargeteNBTransparentContainer{
 	1: RRCContainer 					rrc_container;
 	2: optional ERABInformationList 	e_rab_information_list;
-	3: EUTRANCGI 						target_cell_id;
+	3: EUTRAN_CGI 						target_cell_id;
 	4: optional SubscriberProfileIDforRFP subscriberr_profile_id_for_rfp;
 	5: UEHistoryInformation 			ue_history_information;
 	6: optional list<SourceeNBToTargeteNBTransparentContainerExtIEs>  ie_extensions;
@@ -811,7 +810,7 @@ struct SupportedTAsItem{
 	3: optional list<SupportedTAsItemExtIEs> ie_extensions;
 }
 
-struct STMSI{
+struct S_TMSI{
 	1: MMECode 			mmec;
 	2: MTMSI 			m_tmsi;
 	3: optional list<STMSIExtIEs> ie_extensions;
@@ -849,7 +848,7 @@ struct TAIBroadcastItem{
 typedef list<CompletedCellinTAIItem> CompletedCellinTAI
 
 struct CompletedCellinTAIItem{
-	1: EUTRANCGI 				e_cgi;
+	1: EUTRAN_CGI 				e_cgi;
 	2: optional list<CompletedCellinTAIItemExtIEs> ie_extensions; 
 }
 
@@ -942,21 +941,21 @@ struct UEAggregateMaximumBitrate{
 }
 
 
-union UES1APIDs{
+union UES1APIDS{
 	1: UES1APIDPair 		ue_s1ap_id_pair;
-	2: MMEUES1APID 			mme_ue_s1ap_id;
+	2: MME_UE_S1AP_ID		mme_ue_s1ap_id;
 }
 
-struct UE-S1AP-ID-pair{
-	1: MMEUES1APID 		mme_ue_s1ap_id;
-	2: ENBUES1APID 		enb_ue_s1ap_id;
+struct UE_S1APIDPair{
+	1: MME_UE_S1AP_ID 		mme_ue_s1ap_id;
+	2: ENB_UE_S1AP_ID 		enb_ue_s1ap_id;
 	3: optional list<UES1APIDPairExtIEs> ie_extensions; 
 }
 
 
 struct UEassociatedLogicalS1ConnectionItem{
-	1: optional MMEUES1APID 		mme_ue_s1ap_id;
-	2: optional ENBUES1APID  		enb_ue_s1ap_id;
+	1: optional MME_UE_S1AP_ID 		mme_ue_s1ap_id;
+	2: optional ENB_UE_S1AP_ID  		enb_ue_s1ap_id;
 	3: optional list<UEAssociatedLogicalS1ConnectionItemExtIEs> ie_extensions; 
 }
 
@@ -969,7 +968,7 @@ typedef binary UEIdentityIndexValue	//BIT STRING (SIZE (10))
 typedef list<LastVisitedCellItem> UE-HistoryInformation 
 
 union UEPagingID{
-	1: STMSI 		s_tmsi;
+	1: S_TMSI 		s_tmsi;
 	2: IMSI 		imsi;
 	}
 
@@ -1011,7 +1010,7 @@ struct X2TNLConfigurationInfo{
 // ------------------------------
 // S1AP-PROTOCOL-IE
 
-typedef S1apProtocolIES BearersSubjectToStatusTransferItemIEs ={"id": ID_Bearers_SubjectToStatusTransfer_Item_PIEID, "criticality": Criticality.IGNORE, "type": BearersSubjectToStatusTransferItem, "presence": Presence.MANDATORY}
+typedef S1apProtocolIES BearersSubjectToStatusTransferItemIEs = {"id": ID_Bearers_SubjectToStatusTransfer_Item_PIEID, "criticality": Criticality.IGNORE, "type": BearersSubjectToStatusTransferItem, "presence": Presence.MANDATORY}
 
 
 typedef S1apProtocolIES ERABInformationListIEs = {"id": ID_E_RABInformationListItem_PIEID, "criticality": Criticality.IGNORE , "type": ERABInformationListItem, "presence": Presence.MANDATORY}
@@ -1047,7 +1046,7 @@ typedef S1apProtocolExtension ERABInformationListItemExtIEs
 typedef S1apProtocolExtension ERABItemExtIEs
 
 typedef S1apProtocolExtension ERABQoSParametersExtIEs
-typedef S1apProtocolExtension EUTRANCGIExtIEs
+typedef S1apProtocolExtension EUTRAN_CGIExtIEs
 
 typedef S1apProtocolExtension ForbiddenTAsItemExtIEs
 typedef S1apProtocolExtension ForbiddenLAsItemExtIEs
