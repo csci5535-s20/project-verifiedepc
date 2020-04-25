@@ -36,40 +36,21 @@ Thrift maps the various base and container types to C++ types as follows:
 
     string: std::string
 
+    slist
+
     list<t1>: std::vector<t1>
 
     set<t1>: std::set<t1>
 
     map<t1,t2>: std::map<T1, T2>
 
-typedef i32 MyInteger   // 1
-typedef Tweet ReTweet   // 2
-
-enum TweetType {
-    TWEET,       // 1
-    RETWEET = 2, // 2
-    DM = 0xa,    // 3
-    REPLY
-}                // 4
-
-struct Tweet {
-    1: required i32 userId;
-    2: required string userName;
-    3: required string text;
-    4: optional Location loc;
-    5: optional TweetType tweetType = TweetType.TWEET // 5
-    16: optional string language = "english"
-}
-
-include "tweet.thrift"           // 1
-...
-struct TweetSearchResult {
-    1: list<tweet.Tweet> tweets; // 2
-}
-
 
 You can define enums, which are just 32 bit integers. Values are optional
  * and start at 1 
+
+ Questions: 
+ 1. When to use bool, byte, binary, string, slist BaseTypes? 
+ 2. 
 
 */
 
@@ -547,7 +528,7 @@ enum CSFallbackIndicator{
 }
 
 //TODO: Is this the right way to do this? 
-typedef list<byte> CSGId // BIT STRING SIZE(27)
+typedef binary CSGId // BIT STRING SIZE(27)
 
 
 
@@ -588,7 +569,7 @@ struct CriticalityDiagnosticsIEItem{
 // -- D
 
 // TODO: Veify structure
-typedef list<byte> DataCodingScheme 	// BIT STRING Size(8)
+typedef binary DataCodingScheme 	// BIT STRING Size(8)
 //typedef string DataCodingScheme
 
 enum DLForwarding{
@@ -651,7 +632,7 @@ typedef i64 ENB_UE_S1AP_ID // INTEGER (0..16777215)
 // TODO: size(maxnoofeNBX2TLAs)
 typedef list<TransportLayerAddress maxnoofeNBX2TLAs> ENBX2TLAs 
 
-typedef list<byte> EncryptionAlgorithms // BIT STRING (SIZE (16,...))
+typedef binary EncryptionAlgorithms // BIT STRING (SIZE (16,...))
 
 // TODO: size(maxnoofEPLMNs)
 typedef list<PLMNIdentity maxnoofEPLMNs> EPLMNs
@@ -757,6 +738,300 @@ enum ForbiddenInterRATs{
 
 }
 
+typedef list<ForbiddenTAsItem maxnoofEPLMNsPlusOne> ForbiddenTAs
+
+
+struct ForbiddenTAsItem{
+	1: PLMNIdentity 		plmn_identity;
+	2: ForbiddenTACs 		forbidden_tacs;
+	3; optional list<ForbiddenTAsItemExtIEs> ie_extensions;
+}
+
+
+//TODO: size(maxnoofForbTACs)
+typedef list<TAC maxnoofForbTACs> ForbiddenTACs
+
+
+//TODO: size(maxnoofEPLMNsPlusOne)
+typedef list<ForbiddenLAsItem maxnoofEPLMNsPlusOne> ForbiddenLAs
+
+
+struct ForbiddenLAsItem{
+	1: PLMNIdentity 	plmn_identity;
+	2: ForbiddenLACs 	forbidden_identity;
+	3: optional list<ForbiddenLAsItemExtIEs> 	ie_extensions;
+}
+
+# TODO: size(maxnoofForbLACs)
+typedef list<LAC maxnoofForbLACs> ForbiddenLACs
+
+// -- G
+
+struct GBR-QosInformation {
+	1: BitRate e_rab_maximum_bitrate_dl; 
+	2: BitRate e_rab_guaranteed_bitrate_dl; 
+	3: BitRate e_rab_guaranteed_bitrate_dl; 
+	4: optional list<GBRQosInformationExtIEs> ie_extensions;
+}
+
+
+
+typedef binary GTP-TEID   // OCTET STRING (SIZE (4))
+
+struct GUMMEI {
+	1: PLMNIdentity 	plmn_identity; 
+	2: MMEGroupID   	mme_group_id;
+	3: MMECode 			mme_code; 
+	4: optional list<GUMMEIExtIEs> ie_extensions;
+
+}
+
+
+
+-- H
+
+struct HandoverRestrictionList{
+	1: PLMNIdentity 		serving_plmn;
+	2: optional EPLMNs 		equivalent_plmns;
+	3: optional ForbiddenTAs forbidden_tas;
+	4: optional ForbiddenLAs forbidden_las;
+	5: optional ForbiddenInterRATs forbidden_inter_rats;
+	6: optional list<HandoverRestrictionListExtIEs> ie_extensions; 
+}
+
+
+enum HandoverType{
+	INTRALTE,
+	LTETOUTRAN,
+	LTETOGERAN,
+	UTRANTOLTE,
+	GERANTOLTE,
+}
+
+typedef i32 HFN // INTEGER (0..1048575)
+
+
+// -- I
+
+typedef binary IMSI // OCTET STRING (SIZE (3..8))
+
+typedef binary IntegrityProtectionAlgorithms // BIT STRING (SIZE (16,...))
+
+typedef binary InterfacesToTrace //BIT STRING (SIZE (8))
+
+
+// -- L
+
+typedef binary LAC //OCTET STRING (SIZE (2))
+
+struct LAI{
+	1: PLMNIdentity 	plmn_identity;
+	2: LAC 				lac;
+	3: optional list<LAIExtIEs> ie_extensions;
+}
+
+
+union LastVisitedCellItem{
+	1: LastVisitedEUTRANCellInformation e_utran_cell;
+	2: LastVisitedUTRANCellInformation utran_cell;
+	3: LastVisitedGERANCellInformation geran_cell; 
+}
+
+
+struct LastVisitedEUTRANCellInformation{
+	1: EUTRANCGI 	global_cell_id; 
+	2: CellType 	cell_type; 
+	3: TimeUEStayedInCell time_ue_stayed_in_cell;
+	4: optional list<LastVisitedEUTRANCellInformationExtIEs> ie_extensions;
+}
+
+
+typedef binary LastVisitedUTRANCellInformation	 //TODO: OCTET STRING
+
+union LastVisitedGERANCellInformation {
+	1: NULL undefined;
+}
+
+typedef binary L3Information  // OCTET STRING
+
+// -- M
+
+// TODO: size(16)
+typedef binary MessageIdentifier   // BIT STRING (SIZE (16))
+
+typedef string MMEName // PrintableString (SIZE (1..150,...))
+
+//TODO: size(2)
+typedef binary MMEGroupID  // OCTET STRING (SIZE (2))
+
+typedef byte MMECode // OCTET STRING (SIZE (1))
+
+typedef i64 MMEUES1APID	 //INTEGER (0..4294967295)
+
+// TODO: size(4)
+typedef binary MTMSI	//OCTET STRING (SIZE (4))
+
+typedef string MSClassmark2 	// OCTET STRING
+typedef string MSClassmark3 	// OCTET STRING
+
+//-- N
+
+typedef binary NASPDU	//OCTET STRING
+
+typedef binary NASSecurityParametersfromEUTRAN //OCTET STRING
+
+typedef binary NASSecurityParameterstoEUTRAN //OCTET STRING
+
+typedef i16 NumberofBroadcastRequest //INTEGER (0..65535)
+
+typedef i16 NumberofBroadcast //INTEGER (0..65535)
+
+
+// -- O
+typedef binary OldBSSToNewBSSInformation //OCTET STRING
+
+enum OverloadAction{
+	REJECT_NON_EMERGENCY_MO_DT,
+	RERJECT_ALL_RRC_CR_SIGNALLING,
+	PERMIT_EMERGENCY_SESSIONS_ONLY,
+}
+
+union OverloadResponse{
+	1: OverloadAction 	overload_action;
+}
+
+// 
+-- P
+
+enum PagingDRX{
+	V32,
+	V64,
+	V128,
+	v256,
+	}
+
+typedef i16 PDCPSN //INTEGER (0..4095) 
+
+typedef TBCDString  PLMNIdentity
+
+enum PreEmptionCapability{
+	SHALL_NOT_TRIGGER_PRE_EMPTION,
+	MAY_TRIGGER_PRE_EMPTION,
+}
+
+enum PreEmptionVulnerability{
+	NOT_PRE_EMPTABLE,
+	PRE_EMPTABLE,
+}
+
+/*
+
+TODO: PRIORITY_LEVEL:  INTEGER { spare (0), highest (1), lowest (14), no-priority (15) } (0..15)
+
+typedef Map<string, binary> PriorityLevel = {"SPARE":0x0, "HIGHER":0x1, "LOWEST":0xE, "NO_PRIORITY":0xF}
+*/
+
+enum PriorityLevel{
+	SPARE=0,
+	HIGHER=1,
+	LOWEST=14,
+	NO_PRIORITY=15
+}				
+
+
+// -- Q
+
+typedef i8 QCI  // ::= INTEGER (0..255)
+
+// -- R
+
+typedef binary ReceiveStatusofULPDCPSDUs //BIT STRING (SIZE(4096))
+
+typedef i8 RelativeMMECapacity //INTEGER (0..255)
+
+typedef binary RAC // OCTET STRING (SIZE (1))
+
+
+struct RequestType{
+	1: EventType 			event_type;
+	2: ReportArea 			report_area;
+	3: optional list<RequestTypeExtIEs> ie_extensions; 
+}
+
+
+struct RIMTransfer{
+	1: RIMInformation 				rim_information;
+	2: optional RIMRoutingAddress 	rim_routing_address;
+	3: optional list<RIMTransferExtIEs> ie_extensions;
+}
+
+
+typedef binary RIMInformation //::= OCTET STRING
+
+union RIMRoutingAddress{
+	1: GERANCellID geran_cell_id;
+}
+
+enum ReportArea{
+	ECGI,
+}
+
+typedef i16 RepetitionPeriod //::= INTEGER (0..4095)
+
+
+
+typedef i16 RNC-ID  // INTEGER (0..4095)
+
+typedef binary RRC-Container   //	::= OCTET STRING
+
+enum RRCEstablishmentCause{
+	EMERGENCY,
+	HIGH_PRIORITY_ACCESS,
+	MT_ACCESS,
+	MO_SIGNALLING,
+	MO_DATA,
+}
+
+//-- S
+
+
+typedef binary SecurityKey  // BIT STRING (SIZE(256))
+
+
+
+struct SecurityContext{
+	1: i8 next_hop_chaining_count;			// TODO: INTEGER (0..7),
+	2: SecurityKey next_hop_parameter;
+	3: optional list<SecurityContextExtIEs> ie_extensions;
+}
+
+
+
+typedef binary SerialNumber  // BIT STRING (SIZE (16))
+
+union SONInformation{
+	1: SONInformationRequest 	son_information_request;
+	2: SONInformationReply 		son_information_reply;
+}
+
+
+enum SONInformationRequest{ 
+	X2TNL_CONFIGURATION_INFO
+}
+
+struct SONInformationReply{
+	1: optional X2TNLConfigurationInfo x2tnl_configuration_info;
+	2: optional list<SONInformationReplyExtIEs> ie_extensions;
+
+}
+
+struct SONConfigurationTransfer{
+	1: TargeteNBID 					target_enb_id; 
+	2: SourceeNB-ID					source_enb_id;
+	3: SONInformation 				son_information; 
+	4: optional list<SONConfigurationTransferExtIEs> ie_extensions;
+
+}
 
 
 // ------------------------------
@@ -786,6 +1061,27 @@ typedef S1apProtocolExtension ERABItemExtIEs
 
 typedef S1apProtocolExtension ERABQoSParametersExtIEs
 typedef S1apProtocolExtension EUTRANCGIExtIEs
+
+typedef S1apProtocolExtension ForbiddenTAsItemExtIEs
+typedef S1apProtocolExtension ForbiddenLAsItemExtIEs
+
+typedef S1apProtocolExtension GBRQosInformationExtIEs
+
+typedef S1apProtocolExtension GUMMEIExtIEs
+
+typedef S1apProtocolExtension HandoverRestrictionListExtIEs
+
+typedef S1apProtocolExtension LAIExtIEs
+
+typedef S1apProtocolExtension LastVisitedEUTRANCellInformationExtIEs 
+
+typedef S1apProtocolExtension RequestTypeExtIEs
+typedef S1apProtocolExtension RIMTransferExtIEs 
+
+typedef S1apProtocolExtension SecurityContextExtIEs
+
+typedef S1apProtocolExtension SONConfigurationTransferExtIEs
+typedef S1apProtocolExtension SONInformationReplyExtIEs 
 // ------------------------------
 
 
