@@ -1083,31 +1083,221 @@ struct ServedGUMMEIsItem{
 }
 
 
+//TODO: size(maxnoofGroupIDs)
+typedef list<MMEGroupID> ServedGroupIDs
 
-ServedGroupIDs ::= SEQUENCE (SIZE(1.. maxnoofGroupIDs)) OF MME-Group-ID
-ServedMMECs ::= SEQUENCE (SIZE(1.. maxnoofMMECs)) OF MME-Code
 
-ServedPLMNs ::= SEQUENCE (SIZE(1.. maxnoofPLMNsPerMME)) OF PLMNidentity
+//TODO : size(maxnoofMMECs) ServedMMECs
+typedef list<MMECode> ServedMMECs
 
-SubscriberProfileIDforRFP ::= INTEGER (1..256) 
+//TODO: size(maxnoofPLMNsPerMME)
+typedef list<PLMNidentity> ServedPLMNs
 
-SupportedTAs ::= SEQUENCE (SIZE(1.. maxnoofTACs)) OF SupportedTAs-Item
+typedef i8 SubscriberProfileIDforRFP //INTEGER (1..256) 
 
-SupportedTAs-Item ::=	SEQUENCE  {
-	tAC					TAC,
-	broadcastPLMNs		BPLMNs,
-	iE-Extensions		ProtocolExtensionContainer { {SupportedTAs-Item-ExtIEs} } OPTIONAL,
-	...
+//TODO: size(maxnoofTACs)
+typedef list<SupportedTAsItem> SupportedTAs
+
+struct SupportedTAsItem{
+	1: TAC 				tac;
+	2: BPLMNs 			broadcastPLMNs;
+	3: optional list<SupportedTAsItemExtIEs> ie_extensions;
 }
 
-SupportedTAs-Item-ExtIEs S1AP-PROTOCOL-EXTENSION ::= {
-	...
+struct STMSI{
+	1: MMECode 			mmec;
+	2: MTMSI 			m_tmsi;
+	3: optional list<STMSIExtIEs> ie_extensions;
+
 }
 
-S-TMSI ::= SEQUENCE {
-	mMEC	MME-Code,
-	m-TMSI	M-TMSI,
-	iE-Extensions		ProtocolExtensionContainer { {S-TMSI-ExtIEs} } OPTIONAL,
+
+-- T
+
+typedef binary TAC //::= OCTET STRING (SIZE (2))
+
+//TODO: size(maxnoofTAIforWarning)
+typedef list<TAI> TAIListforWarning
+
+
+struct TAI{
+	1: PLMNIdentity 		plmn_identity;
+	2: TAC 					tac;
+	3: optional list<TAIExtIEs> ie_extensions; 
+}
+
+//TODO: size(maxnoofTAIforWarning)
+typedef list<TAIBroadcastItem> TAIBroadcast 
+
+
+
+struct TAIBroadcastItem{
+	1: TAI 					tai;
+	2: CompletedCellinTAI 		completed_cell_in_tai;
+	3: optional list<TAIBroadcastItemExtIEs> ie_extensions; 
+}
+
+
+//TODO: size(maxnoofCellinTAI)
+typedef list<CompletedCellinTAIItem> CompletedCellinTAI
+
+struct CompletedCellinTAIItem{
+	1: EUTRANCGI 				e_cgi;
+	2: optional list<CompletedCellinTAIItemExtIEs> ie_extensions; 
+}
+
+
+
+
+typedef binary TBCDString //::= OCTET STRING (SIZE (3))
+
+union TargetID{
+	1: TargeteNBID 		target_enb_id; 
+	2: TargetRNCID 		target_rnc_id;
+	3: CGI 				cgi; 
+}
+
+struct TargeteNB-ID{
+	1: GlobalENBID 			global_enb_id;
+	2:  TAI 				selected_tai;
+	3: optional list<TargeteNBIDExtIEs> ie_extensions; 
+}
+
+struct TargetRNCID{
+	1: LAI 				lai;
+	2: RAC 				rac;
+	3: RNCID 			rnc_id; 
+	4: optional ExtendedRNCID 	extended_rnc_id;
+	5: optional list<TargetRNCIDExtIEs> ie_extensions; 
+	}
+
+
+
+
+stuct TargeteNBToSourceeNBTransparentContainer{
+	1: RRCContainer 			rrc_container;
+	2: optional list<TargeteNBToSourceeNBTransparentContainerExtIEs> ie_extensions; 
+}
+
+
+typedef list<byte> TargetToSourceTransparentContainer //OCTET STRING
+typedef list<byte> TargetRNCToSourceRNCTransparentContainer		// OCTET STRING
+typedef list<byte> TargetBSSToSourceBSSTransparentContainer // OCTET STRING
+
+enum TimeToWait{
+	V1S, 
+	V2S,
+	V5S, 
+	V10S,
+	V20S,
+	V60S,
+}
+
+typedef i8  TimeUEStayedInCell // INTEGER (0..4095)
+
+typedef binary TransportLayerAddress  // BIT STRING (SIZE(1..160, ...))
+
+struct TraceActivation {
+	1: EUTRANTraceID 			eutran_trace_id;
+	2: InterfacesToTrace 		interfaces_to_trace;
+	3: TraceDepth 				trace_depth;
+	4: TransportLayerAddress 	trace_collection_entity_ip_address;
+	5: optional list<TraceActivationExtIEs> ie_extensions; 
+}
+
+
+
+enum TraceDepth{ 
+	MINIMUM,
+	MEDIUM,
+	MAXIMUM,
+	MINIMUM_WITHOUT_VENDOR_SPECIFIC_EXTENSION,
+	MEDIUM_WITHOUT_VENDOR_SPECIFIC_EXTENSION,
+	MAXIMUM_WITHOUT_VENDOR_SPECIFIC_EXTENSION,
+}
+
+
+//TODO : size(8)
+typedef list<byte> EUTRANTraceID  //  OCTET STRING (SIZE (8))
+
+enum  TypeOfError{
+	NOT_UNDERSTOOD,
+	MISSING,
+}
+
+
+-- U
+
+struct UEAggregateMaximumBitrate{
+	1: BitRate 					ue_aggregate_maximum_bitrate_dl;
+	2: BitRate 	 				ue_aggregate_maximum_bitrate_ul;
+	3: optional list<UEAggregateMaximumBitratesExtIEs> ie_extensions;
+}
+
+
+union UES1APIDs{
+	1: UES1APIDPair 		ue_s1ap_id_pair;
+	2: MMEUES1APID 			mme_ue_s1ap_id;
+}
+
+struct UE-S1AP-ID-pair{
+	1: MMEUES1APID 		mme_ue_s1ap_id;
+	2: ENBUES1APID 		enb_ue_s1ap_id;
+	3: optional list<UES1APIDPairExtIEs> ie_extensions; 
+}
+
+
+struct UEassociatedLogicalS1ConnectionItem{
+	1: optional MMEUES1APID 		mme_ue_s1ap_id;
+	2: optional ENBUES1APID  		enb_ue_s1ap_id;
+	3: optional list<UEAssociatedLogicalS1ConnectionItemExtIEs> ie_extensions; 
+}
+
+//TODO: size(10)
+typedef binary UEIdentityIndexValue	//BIT STRING (SIZE (10))
+
+
+
+// TODO: size(maxnoofCells)
+typedef list<LastVisitedCellItem> UE-HistoryInformation 
+
+union UEPagingID{
+	1: STMSI 		s_tmsi;
+	2: IMSI 		imsi;
+	}
+
+typedef list<byte> UERadioCapability //OCTET STRING
+
+struct UESecurityCapabilities{
+	1: EncryptionAlgorithms 			encryption_algorithms,
+	2: IntegrityProtectionAlgorithms 	integrity_protection_algorithms,
+	3: optional list<UESecurityCapabilitiesExtIEs> ie_extensions;
+}
+
+-- W
+
+union WarningAreaList{
+	1: ECGIList 					cell_id_list;
+	2: TAIListforWarning 			tracking_area_list_for_warning;
+	3: EmergencyAreaIDList 			emergency_area_id_list;
+
+}
+
+
+typedef list<byte> WarningType //OCTET STRING (SIZE (2))
+
+typedef list<byte> WarningSecurityInfo //OCTET STRING (SIZE (50))
+
+
+typedef list<byte> WarningMessageContents  //OCTET STRING (SIZE(1..9600))
+
+
+// -- X
+
+
+X2TNLConfigurationInfo ::= SEQUENCE {
+	eNBX2TransportLayerAddresses	ENBX2TLAs,
+	iE-Extensions					ProtocolExtensionContainer { { X2TNLConfigurationInfo-ExtIEs} } OPTIONAL,
 	...
 }
 
@@ -1163,9 +1353,28 @@ typedef S1apProtocolExtension SONInformationReplyExtIEs
 
 typedef S1apProtocolExtension SourceeNBIDExtIEs
 
-ServedGUMMEIsItemExtIEs 
-SourceeNBToTargeteNBTransparentContainerExtIEs
-STMSIExtIEs 
+typedef S1apProtocolExtension ServedGUMMEIsItemExtIEs 
+typedef S1apProtocolExtension SourceeNBToTargeteNBTransparentContainerExtIEs
+typedef S1apProtocolExtension STMSIExtIEs 
+
+typedef S1apProtocolExtension SupportedTAsItemExtIEs
+
+typedef S1apProtocolExtension TAIExtIEs
+typedef S1apProtocolExtension TAIBroadcastItemExtIEs
+typedef S1apProtocolExtension CompletedCellinTAIItemExtIEs 
+
+
+typedef S1apProtocolExtension TargetRNCIDExtIEs
+typedef S1apProtocolExtension TargeteNBIDExtIEs
+typedef S1apProtocolExtension TargeteNBToSourceeNBTransparentContainerExtIEs
+typedef S1apProtocolExtension TraceActivationExtIEs
+typedef S1apProtocolExtension UEAggregateMaximumBitratesExtIEs 
+
+typedef S1apProtocolExtension UES1APIDPairExtIEs 
+typedef S1apProtocolExtension UESecurityCapabilitiesExtIEs 
+typedef S1apProtocolExtension UEAssociatedLogicalS1ConnectionItemExtIEs
+typedef S1apProtocolExtension X2TNLConfigurationInfoExtIEs
+
 // ------------------------------
 
 
