@@ -255,16 +255,9 @@ after init {
 #   cannot specify this limit because we don't know the byte size of
 #   packets or the timings of packets. 
 
-around packet_event(src:ip.endpoint,dst:ip.endpoint,pkt:quic_packet) {
-    
-    require pkt.token.end ~= 0 -> (pkt.ptype = quic_packet_type.initial);
-
-    # TEMPORARY: Do not allow zero_rtt packets
-
-    require pkt.ptype ~= quic_packet_type.zero_rtt;
+around packet_event(src:ip.endpoint,dst:ip.endpoint,pkt:s1ap_packet) {
     
     # Extract the source and destination cid's and packet number from the packet.
-
     var dcid := pkt.dst_cid;
     var scid := pkt.src_cid;
     if cid_mapped(dcid) {
@@ -285,8 +278,7 @@ around packet_event(src:ip.endpoint,dst:ip.endpoint,pkt:quic_packet) {
     # and the actual servers do not seem to check it.
 
     require connected(dcid) |
-        pkt.ptype = quic_packet_type.initial
-        & is_client(scid)
+        is_client(scid)
         & dcid = nonce_cid(scid);
 
     # On long headers, both cids are given. If the destination cid is
@@ -295,22 +287,7 @@ around packet_event(src:ip.endpoint,dst:ip.endpoint,pkt:quic_packet) {
     # On short headers (meaning one_rtt) the scid is not given, so we
     # use the recorded value.
 
-    if pkt.long {
-        require connected(dcid) -> connected_to(dcid) = scid;
-    }
-    else {
-        scid := connected_to(dcid);
-    };
-
-    # The packet type must match the encryption level of the queued
-    # frames at the source. 
-
-    require pkt.ptype = queued_level(scid);
-
-    # TEMPORARY: prevent big packet number jumps (work around minquic bug)
-    require pkt.seq_num <= last_pkt_num(scid,pkt.ptype) + 0x15;
-
-#    call show_pstats(scid,e,pkt.seq_num);
+    scid := connected_to(dcid);
 
     require ~sent_pkt(scid,pkt.ptype,pkt.seq_num);  # [4]
     sent_pkt(scid,pkt.ptype,pkt.seq_num) := true;  # [1]
@@ -377,17 +354,6 @@ around packet_event(src:ip.endpoint,dst:ip.endpoint,pkt:quic_packet) {
 
     last_pkt_num(scid,pkt.ptype) := pkt.seq_num;
  
-    # TODO: the following should not be here
-
-    if pkt.ptype = quic_packet_type.initial {
-        # An initial packet with an unseen destination cid is a connection request.
-        if ~conn_seen(dcid) {
-            call tls_client_initial_request(src,dst,dcid);
-            conn_requested(src,dst,scid) := true;
-        };
-    
-    };
-
     conn_seen(scid) := true;  # [1]
 
     # Update the ack credits. A non-ack packet sent to a destination

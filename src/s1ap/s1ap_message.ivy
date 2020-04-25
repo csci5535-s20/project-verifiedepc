@@ -170,7 +170,7 @@ object message = {
 
 object message = {
     ...
-    action handle(f:this,scid:cid,dcid:cid,e:pcode_bits) = {
+    action handle(m:this,scid:cid,dcid:cid,e:pcode_bits) = {
         require false;
     }
 }
