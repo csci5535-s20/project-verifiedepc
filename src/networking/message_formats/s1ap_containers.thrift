@@ -2,10 +2,10 @@
 // **************************************************************
 
 struct S1apProtocolIES{
-	1: required ProtocolIEID 			id;		//UNIQUE
-	2: Criticality 						criticality;
-	3: Value 							value;
-	4: Presence 						presence;
+	1: required ProtocolIEID 					id;		//UNIQUE
+	2: Criticality 								criticality;
+	3: Value 									value;
+	4: Presence 								presence;
 }
 
 

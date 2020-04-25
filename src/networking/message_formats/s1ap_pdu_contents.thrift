@@ -1,3 +1,18 @@
+// **************************************************************
+// PDU definitions for S1AP.
+// **************************************************************
+
+
+
+
+
+
+
+
+
+
+/*
+
 -- **************************************************************
 --
 -- PDU definitions for S1AP.
@@ -110,10 +125,10 @@ FROM S1AP-IEs
 	ProtocolIE-ContainerPair{},
 	ProtocolIE-ContainerPairList{},
 	ProtocolIE-SingleContainer{},
-	S1AP-PRIVATE-IES,
-	S1AP-PROTOCOL-EXTENSION,
-	S1AP-PROTOCOL-IES,
-	S1AP-PROTOCOL-IES-PAIR
+	S1AP-PRIVATE-IES, 					--> S1apPrivateIES
+	S1AP-PROTOCOL-EXTENSION,			--> S1apProtocolExtension
+	S1AP-PROTOCOL-IES, 					--> S1apProtocolIES
+	S1AP-PROTOCOL-IES-PAIR 				--> S1apProtocolIESPair
 FROM S1AP-Containers
 
 
@@ -258,9 +273,13 @@ FROM S1AP-Constants;
 --
 -- **************************************************************
 
-E-RAB-IE-ContainerList			{ S1AP-PROTOCOL-IES      : IEsSetParam }	::= ProtocolIE-ContainerList     { 1, maxNrOfE-RABs,   {IEsSetParam} }
-E-RAB-IE-ContainerPairList		{ S1AP-PROTOCOL-IES-PAIR : IEsSetParam }	::= ProtocolIE-ContainerPairList { 1, maxNrOfE-RABs,   {IEsSetParam} }
 ProtocolError-IE-ContainerList	{ S1AP-PROTOCOL-IES      : IEsSetParam }	::= ProtocolIE-ContainerList     { 1, maxNrOfE-RABs,   {IEsSetParam} }
+
+
+E-RAB-IE-ContainerList			{ S1AP-PROTOCOL-IES      : IEsSetParam }	::= ProtocolIE-ContainerList     { 1, maxNrOfE-RABs,   {IEsSetParam} }
+
+E-RAB-IE-ContainerPairList		{ S1AP-PROTOCOL-IES-PAIR : IEsSetParam }	::= ProtocolIE-ContainerPairList { 1, maxNrOfE-RABs,   {IEsSetParam} }
+
 
 -- **************************************************************
 --
@@ -2079,5 +2098,7 @@ PrivateMessageIEs S1AP-PRIVATE-IES ::= {
 }
 
 END
+
+*/
 
 

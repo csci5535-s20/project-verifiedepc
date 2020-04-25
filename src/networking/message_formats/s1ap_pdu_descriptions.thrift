@@ -1,5 +1,256 @@
 // S1AP-PDU-Descriptions
 
+
+
+
+// -------  Interface Elementary Procedure Class
+
+struct S1APElementaryProcedure{
+	1: InitiatingMessage 				initiating_message;
+	2: optional SuccessfulOutcome 		successful_outcome;
+	3: optional UnsuccessfulOutcome 	unsuccessful_outcome; 
+	4: required ProcedureCode 			procedure_code;  //TODO : UNIQUE
+	5: Criticality 						criticality = Criticality.IGNORE;
+
+}
+
+
+
+// -------  Interface PDU Definition
+
+union S1APPDU{
+	1: InitiatingMessage 		initiating_message;
+	2: SuccessfulOutcome 		successful_outcome;
+	3: UnsuccessfulOutcome 		unsuccessful_outcome; 
+}
+
+typedef S1APElementaryProcedure InitiatingMessage
+typedef S1APElementaryProcedure SuccessfulOutcome
+typedef S1APElementaryProcedure UnsuccessfulOutcome
+
+
+// -------  Interface Elementary Procedure List
+
+const list<S1APElementaryProcedure> S1APElementaryProcedures = [S1APElementaryProceduresClass1, S1APElementaryProceduresClass2];
+
+
+const list<S1APElementaryProcedure> S1APElementaryProceduresClass1 = [
+	HandoverPreparationEP,
+	HandoverResourceAllocationEP,
+	PathSwitchRequestEP,
+	ERABSetupEP,
+	ERABModifyEP,
+	ERABReleaseEP,
+	InitialContextSetupEP,
+	HandoverCancelEP,
+	ResetEP,
+	S1SetupEP,
+	UEContextModificationEP,
+	UEContextReleaseEP,
+	ENBConfigurationUpdateEP,
+	MMEConfigurationUpdateEP,
+	WriteReplaceWarningEP 
+]
+
+
+const list<S1APElementaryProcedure> S1APElementaryProceduresClass2 = [
+	HandoverNotificationEP,
+	ERABReleaseIndicationEP,
+	PagingEP,
+	DownlinkNASTransportEP,
+	InitialUEMessageEP,
+	UplinkNASTransportEP,
+	ErrorIndicationEP,
+	NASNonDeliveryIndicationEP,
+	UEContextReleaseRequestEP,
+	DownlinkS1cdma2000tunnelingEP,
+	UplinkS1cdma2000tunnelingEP,
+	UECapabilityInfoIndicationEP,
+	ENBStatusTransferEP,
+	MMEStatusTransferEP,
+	DeactivateTraceEP,
+	TraceStartEP,
+	TraceFailureIndicationEP,
+	CellTrafficTraceEP,
+	LocationReportingControlEP,
+	LocationReportingFailureIndicationEP,
+	LocationReportEP,
+	OverloadStartEP,
+	OverloadStopEP,
+	ENBDirectInformationTransferEP,
+	MMEDirectInformationTransferEP,
+	ENBConfigurationTransferEP,
+	MMEConfigurationTransferEP,
+	PrivateMessageEP
+]
+
+// -------  Interface Elementary Procedures
+
+/*  -- TEMPLATE
+
+typedef S1apElementaryProcedure <> = {"initiating_message": , "sucessful_outcome":, "unsuccessful_outcome": , "procedure_code": , "criticality": Criticality.REJECT}
+
+*/
+
+
+
+
+// EP0
+typedef S1apElementaryProcedure HandoverPreparation_EP = {"initiating_message": HandoverRequired, "sucessful_outcome": HandoverCommand, "unsuccessful_outcome": HandoverPreparationFailure, "procedure_code": ID_HandoverPreparation_PC, "criticality": Criticality.REJECT}
+
+// EP1
+typedef S1apElementaryProcedure HandoverResourceAllocation_EP = {"initiating_message": HandoverRequest, "sucessful_outcome":HandoverRequestAcknowledge, "unsuccessful_outcome": andoverFailure, "procedure_code": ID_HandoverResourceAllocation_PC, "criticality": Criticality.REJECT}
+
+// EP2
+typedef S1apElementaryProcedure HandoverNotification_EP = {"initiating_message": HandoverNotify, "procedure_code": ID_HandoverNotification_PC, "criticality": Criticality.IGNORE}
+
+
+// EP3
+typedef S1apElementaryProcedure PathSwitchRequest_EP = {"initiating_message": PathSwitchRequest, "sucessful_outcome": PathSwitchRequestAcknowledge, "unsuccessful_outcome": PathSwitchRequestFailure, "procedure_code": ID_PathSwitchRequest_PC , "criticality": Criticality.REJECT}
+
+
+// EP4
+typedef S1apElementaryProcedure HandoverCancel_EP = {"initiating_message": HandoverCancel , "sucessful_outcome": HandoverCancelAcknowledge,  "procedure_code":ID_HandoverCancel_PC  , "criticality": Criticality.REJECT}
+
+// EP5 
+typedef S1apElementaryProcedure ERABSetup_EP = {"initiating_message":ERABSetupRequest , "sucessful_outcome": ERABSetupResponse, "procedure_code": ID_E_RABSetup_PC, "criticality": Criticality.REJECT}
+
+// EP6
+typedef S1apElementaryProcedure ERABModify_EP = {"initiating_message": ERABModifyRequest, "sucessful_outcome": ERABModifyResponse,  "procedure_code": ID_E_RABModify_PC, "criticality": Criticality.REJECT}
+
+// EP7
+typedef S1apElementaryProcedure ERABRelease_EP = {"initiating_message": ERABReleaseCommand, "sucessful_outcome":ERABReleaseResponse,  "procedure_code":ID_E_RABRelease_PC , "criticality": Criticality.REJECT}
+
+// EP8 
+typedef S1apElementaryProcedure ERABReleaseIndication_EP = {"initiating_message": ERABReleaseIndication,  "procedure_code": ID_E_RABReleaseIndication_PC , "criticality": Criticality.IGNORE}
+
+// EP9
+typedef S1apElementaryProcedure InitialContextSetup_EP = {"initiating_message": InitialContextSetupRequest , "sucessful_outcome":InitialContextSetupResponse , "unsuccessful_outcome": InitialContextSetupFailure, "procedure_code": ID_InitialContextSetup_PC, "criticality": Criticality.REJECT}
+
+
+// EP10
+typedef S1apElementaryProcedure Paging_EP = {"initiating_message": Paging , "procedure_code": ID_Paging_PC, "criticality": Criticality.IGNORE}
+
+// EP11
+typedef S1apElementaryProcedure DownlinkNASTransport_EP = {"initiating_message": DownlinkNASTransport,  "procedure_code": ID_downlinkNASTransport_PC, "criticality": Criticality.IGNORE}
+
+
+// EP12
+typedef S1apElementaryProcedure InitialUEMessage_EP = {"initiating_message": InitialUEMessage,  "procedure_code": ID_initialUEMessage_PC , "criticality": Criticality.IGNORE}
+
+
+// EP13
+typedef S1apElementaryProcedure UplinkNASTransport_EP = {"initiating_message": UplinkNASTransport,  "procedure_code": ID_uplinkNASTransport_PC, "criticality": Criticality.IGNORE}
+
+
+// EP14
+typedef S1apElementaryProcedure Reset_EP = {"initiating_message": Reset, "sucessful_outcome":ResetAcknowledge,  "procedure_code": ID_Reset_PC, "criticality": Criticality.REJECT}
+
+
+
+// EP15
+typedef S1apElementaryProcedure ErrorIndication_EP = {"initiating_message":ErrorIndication ,  "procedure_code": ID_ErrorIndication_PC , "criticality": Criticality.IGNORE}
+
+
+// EP16
+typedef S1apElementaryProcedure NASNonDeliveryIndication_EP = {"initiating_message": NASNonDeliveryIndication ,  "procedure_code": ID_NASNonDeliveryIndication_PC, "criticality": Criticality.IGNORE}
+
+
+
+// EP17
+typedef S1apElementaryProcedure S1Setup_EP = {"initiating_message":S1SetupRequest , "sucessful_outcome":S1SetupResponse, "unsuccessful_outcome":S1SetupFailure , "procedure_code":ID_S1Setup_PC , "criticality": Criticality.REJECT}
+
+
+
+// EP18
+typedef S1apElementaryProcedure UEContextReleaseRequest_EP = {"initiating_message": UEContextReleaseRequest , "procedure_code": ID_UEContextReleaseRequest_PC, "criticality": Criticality.IGNORE}
+
+// EP 19
+typedef S1apElementaryProcedure DownlinkS1cdma2000tunneling_EP = {"initiating_message":DownlinkS1cdma2000tunneling , "procedure_code": ID_DownlinkS1cdma2000tunneling_PC, "criticality": Criticality.IGNORE}
+
+// EP20
+typedef S1apElementaryProcedure UplinkS1cdma2000tunneling_EP = {"initiating_message": UplinkS1cdma2000tunneling, "procedure_code":ID_UplinkS1cdma2000tunneling_PC , "criticality": Criticality.IGNORE}
+
+// EP21
+typedef S1apElementaryProcedure UEContextModification = {"initiating_message":UEContextModificationRequest , "sucessful_outcome": UEContextModificationResponse, "unsuccessful_outcome": UEContextModificationFailure , "procedure_code": ID_UEContextModification_PC, "criticality": Criticality.REJECT}
+
+
+// EP22
+typedef S1apElementaryProcedure UECapabilityInfoIndication_EP = {"initiating_message": UECapabilityInfoIndication,  "procedure_code": ID_UECapabilityInfoIndication_PC, "criticality": Criticality.IGNORE}
+
+// EP23
+typedef S1apElementaryProcedure UEContextRelease_EP = {"initiating_message":UEContextReleaseCommand, "sucessful_outcome": UEContextReleaseComplete ,  "procedure_code": ID_UEContextRelease_PC, "criticality": Criticality.REJECT}
+
+// EP24
+typedef S1apElementaryProcedure ENBStatusTransfer_EP = {"initiating_message":ENBStatusTransfer , "procedure_code": ID_eNBStatusTransfer_PC, "criticality": Criticality.IGNORE}
+
+// EP25
+typedef S1apElementaryProcedure MMEStatusTransfer_EP = {"initiating_message": MMEStatusTransfer, "procedure_code": ID_MMEStatusTransfer_PC, "criticality": Criticality.IGNORE}
+
+// EP26
+typedef S1apElementaryProcedure DeactivateTrace_EP = {"initiating_message": DeactivateTrace, "procedure_code": ID_DeactivateTrace_PC , "criticality": Criticality.IGNORE}
+
+// EP27
+typedef S1apElementaryProcedure TraceStart_EP = {"initiating_message":TraceStart , "procedure_code":ID_TraceStart_PC , "criticality": Criticality.IGNORE}
+
+
+// EP28
+typedef S1apElementaryProcedure TraceFailureIndication_EP = {"initiating_message": TraceFailureIndication,  "procedure_code": ID_TraceFailureIndication_PC, "criticality": Criticality.IGNORE}
+
+
+// EP29
+typedef S1apElementaryProcedure ENBConfigurationUpdate_EP = {"initiating_message": ENBConfigurationUpdate, "sucessful_outcome":ENBConfigurationUpdateAcknowledge, "unsuccessful_outcome":ENBConfigurationUpdateFailure , "procedure_code": ID_ENBConfigurationUpdate_PC , "criticality": Criticality.REJECT}
+
+
+// EP30
+typedef S1apElementaryProcedure MMEConfigurationUpdate_EP = {"initiating_message":MMEConfigurationUpdate , "sucessful_outcome":MMEConfigurationUpdateAcknowledge, "unsuccessful_outcome":MMEConfigurationUpdateFailure , "procedure_code":  ID_MMEConfigurationUpdate_PC, "criticality": Criticality.REJECT}
+
+// EP31
+typedef S1apElementaryProcedure LocationReportingControl_EP = {"initiating_message":LocationReportingControl ,"procedure_code":ID_LocationReportingControl_PC , "criticality": Criticality.IGNORE}
+
+// EP32
+typedef S1apElementaryProcedure LocationReportingFailureIndication_EP = {"initiating_message": LocationReportingFailureIndication,  "procedure_code": ID_LocationReportingFailureIndication_PC, "criticality": Criticality.IGNORE}
+
+
+// EP33
+typedef S1apElementaryProcedure LocationReport_EP = {"initiating_message": LocationReport, "procedure_code": ID_LocationReport_PC, "criticality": Criticality.IGNORE}
+
+
+// EP34
+typedef S1apElementaryProcedure OverloadStart_EP = {"initiating_message":OverloadStart , "procedure_code": ID_OverloadStart_PC, "criticality": Criticality.IGNORE}
+
+// EP35
+typedef S1apElementaryProcedure OverloadStop_EP = {"initiating_message":OverloadStop , "procedure_code": ID_OverloadStop_PC, "criticality": Criticality.REJECT}
+
+// EP36
+typedef S1apElementaryProcedure writeReplaceWarning = {"initiating_message": WriteReplaceWarningRequest , "sucessful_outcome": WriteReplaceWarningResponse,  "procedure_code": ID_WriteReplaceWarning_PC, "criticality": Criticality.REJECT}
+
+
+// EP37
+typedef S1apElementaryProcedure ENBDirectInformationTransfer_EP = {"initiating_message": ENBDirectInformationTransfer,  "procedure_code": ID_eNBDirectInformationTransfer_PC , "criticality": Criticality.IGNORE}
+
+
+// EP38
+typedef S1apElementaryProcedure MMEDirectInformationTransfer_EP = {"initiating_message":	MMEDirectInformationTransfer ,  "procedure_code": ID_MMEDirectInformationTransfer_PC, "criticality": Criticality.IGNORE}
+
+// EP39
+typedef S1apElementaryProcedure PrivateMessage_EP = {"initiating_message": PrivateMessage, "procedure_code": ID_PrivateMessage_PC , "criticality": Criticality.IGNORE}
+
+
+
+// EP40
+typedef S1apElementaryProcedure ENBConfigurationTransfer_EP = {"initiating_message":ENBConfigurationTransfer , "procedure_code": ID_eNBConfigurationTransfer_PC, "criticality": Criticality.IGNORE}
+
+// EP41
+typedef S1apElementaryProcedure MMEConfigurationTransfer_EP = {"initiating_message": MMEConfigurationTransfer, "procedure_code":ID_MMEConfigurationTransfer_PC , "criticality": Criticality.IGNORE}
+
+
+// EP42
+typedef S1apElementaryProcedure CellTrafficTrace_EP = {"initiating_message": CellTrafficTrace,  "procedure_code": ID_CellTrafficTrace_PC, "criticality": Criticality.IGNORE}
+
+
+
+
 /*
 -- **************************************************************
 --
@@ -7,6 +258,13 @@
 --
 -- **************************************************************
 
+S1AP-PDU-Descriptions  { 
+itu-t (0) identified-organization (4) etsi (0) mobileDomain (0) 
+eps-Access (21) modules (3) s1ap (1) version1 (1) s1ap-PDU-Descriptions (0)}
+
+DEFINITIONS AUTOMATIC TAGS ::= 
+
+BEGIN
 
 -- **************************************************************
 --
@@ -85,8 +343,6 @@ FROM S1AP-CommonDataTypes
 	WriteReplaceWarningResponse,
 	ENBConfigurationTransfer,
 	MMEConfigurationTransfer
-
-
 FROM S1AP-PDU-Contents
 	
 	id-CellTrafficTrace,
@@ -135,7 +391,6 @@ FROM S1AP-PDU-Contents
 FROM S1AP-Constants;
 
 
-/*
 -- **************************************************************
 --
 -- Interface Elementary Procedure Class
@@ -156,24 +411,19 @@ WITH SYNTAX {
 	PROCEDURE CODE				&procedureCode
 	[CRITICALITY				&criticality]
 }
-*/
 
-// TODO: Is this classification correct? 
-struct S1APElementaryProcedure{
-	1: InitiatingMessage 				initiating_message;
-	2: optional SuccessfulOutcome 		successful_outcome;
-	3: optional UnsuccessfulOutcome 	unsuccessful_outcome; 
-	4: ProcedureCode 					procedure_code;  //TODO : UNIQUE
-	5: Criticality 						criticality = Criticality.IGNORE;
-
-}
-
-/*
 -- **************************************************************
 --
 -- Interface PDU Definition
 --
 -- **************************************************************
+
+S1AP-PDU ::= CHOICE {
+	initiatingMessage	InitiatingMessage,
+	successfulOutcome	SuccessfulOutcome,
+	unsuccessfulOutcome	UnsuccessfulOutcome,
+	...
+}
 
 InitiatingMessage ::= SEQUENCE {
 	procedureCode	S1AP-ELEMENTARY-PROCEDURE.&procedureCode	({S1AP-ELEMENTARY-PROCEDURES}),
@@ -193,38 +443,19 @@ UnsuccessfulOutcome ::= SEQUENCE {
 	value		S1AP-ELEMENTARY-PROCEDURE.&UnsuccessfulOutcome	({S1AP-ELEMENTARY-PROCEDURES}{@procedureCode})
 }
 
-*/
-
-union S1APPDU{
-	1: InitiatingMessage 		initiating_message;
-	2: SuccessfulOutcome 		successful_outcome;
-	3: UnsuccessfulOutcome 		unsuccessful_outcome; 
-}
-
-typedef S1APElementaryProcedure InitiatingMessage
-typedef S1APElementaryProcedure SuccessfulOutcome
-typedef S1APElementaryProcedure UnsuccessfulOutcome
-
-/*
 -- **************************************************************
 --
 -- Interface Elementary Procedure List
 --
 -- **************************************************************
-*/
 
-
-
-/*
 S1AP-ELEMENTARY-PROCEDURES S1AP-ELEMENTARY-PROCEDURE ::= {
 	S1AP-ELEMENTARY-PROCEDURES-CLASS-1		|
 	S1AP-ELEMENTARY-PROCEDURES-CLASS-2,	
 	...
 }
-*/
-const list<S1APElementaryProcedure> S1APElementaryProcedures = [S1APElementaryProceduresClass1, S1APElementaryProceduresClass2];
 
-/*
+
 S1AP-ELEMENTARY-PROCEDURES-CLASS-1 S1AP-ELEMENTARY-PROCEDURE ::= {
 	handoverPreparation				|
 	handoverResourceAllocation		|
@@ -243,26 +474,7 @@ S1AP-ELEMENTARY-PROCEDURES-CLASS-1 S1AP-ELEMENTARY-PROCEDURE ::= {
 	writeReplaceWarning				,
 	...
 }
-*/
-const list<S1APElementaryProcedure> S1APElementaryProceduresClass1 = [
-	HandoverPreparationEP,
-	HandoverResourceAllocationEP,
-	PathSwitchRequestEP,
-	ERABSetupEP,
-	ERABModifyEP,
-	ERABReleaseEP,
-	InitialContextSetupEP,
-	HandoverCancelEP,
-	ResetEP,
-	S1SetupEP,
-	UEContextModificationEP,
-	UEContextReleaseEP,
-	ENBConfigurationUpdateEP,
-	MMEConfigurationUpdateEP,
-	WriteReplaceWarningEP ]
 
-
-/*
 S1AP-ELEMENTARY-PROCEDURES-CLASS-2 S1AP-ELEMENTARY-PROCEDURE ::= {	
 	handoverNotification			|
 	e-RABReleaseIndication			|
@@ -294,39 +506,6 @@ S1AP-ELEMENTARY-PROCEDURES-CLASS-2 S1AP-ELEMENTARY-PROCEDURE ::= {
 	privateMessage					,
 	...
 }
-
-*/
-const list<S1APElementaryProcedure> S1APElementaryProceduresClass2 = [
-	HandoverNotificationEP,
-	ERABReleaseIndicationEP,
-	PagingEP,
-	DownlinkNASTransportEP,
-	InitialUEMessageEP,
-	UplinkNASTransportEP,
-	ErrorIndicationEP,
-	NASNonDeliveryIndicationEP,
-	UEContextReleaseRequestEP,
-	DownlinkS1cdma2000tunnelingEP,
-	UplinkS1cdma2000tunnelingEP,
-	UECapabilityInfoIndicationEP,
-	ENBStatusTransferEP,
-	MMEStatusTransferEP,
-	DeactivateTraceEP,
-	TraceStartEP,
-	TraceFailureIndicationEP,
-	CellTrafficTraceEP,
-	LocationReportingControlEP,
-	LocationReportingFailureIndicationEP,
-	LocationReportEP,
-	OverloadStartEP,
-	OverloadStopEP,
-	ENBDirectInformationTransferEP,
-	MMEDirectInformationTransferEP,
-	ENBConfigurationTransferEP,
-	MMEConfigurationTransferEP,
-	PrivateMessageEP
-]
-
 
 -- **************************************************************
 --
@@ -616,3 +795,4 @@ privateMessage S1AP-ELEMENTARY-PROCEDURE ::= {
 }
 
 END
+*/
