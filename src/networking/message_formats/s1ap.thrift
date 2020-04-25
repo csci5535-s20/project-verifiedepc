@@ -77,7 +77,7 @@ You can define enums, which are just 32 bit integers. Values are optional
  }
 
 
- enum TriggeringMesage{
+ enum TriggeringMessage{
   INITIATING_MESSAGE = 1,
   SUCCESSFUL_OUTCOME = 2,
   UNSUCCESSFULOUTCOME = 3
@@ -94,15 +94,15 @@ You can define enums, which are just 32 bit integers. Values are optional
 	 PC_E_RABModify = 6,
 	 PC_E_RABRelease = 7,
 	 PC_E_RABReleaseIndication = 8,
-	 PC_InitialContextSetup = 9,
+	 PC_InitialContextSetup = 9,            // Request, Response
 	 PC_Paging = 10,
-	 PC_downlinkNASTransport = 11,
-	 PC_initialUEMessage = 12,
-	 PC_uplinkNASTranspor = 13,
+	 PC_downlinkNASTransport = 11,          //
+	 PC_initialUEMessage = 12,              //
+	 PC_uplinkNASTransport = 13,            //
 	 PC_Reset = 14,
 	 PC_ErrorIndication = 15,
 	 PC_NASNonDeliveryIndication = 16,
-	 PC_S1Setup = 17,
+	 PC_S1Setup = 17,                       // Request, Response
 	 PC_UEContextReleaseRequest = 18,
 	 PC_DownlinkS1cdma2000tunneling = 19,
 	 PC_UplinkS1cdma2000tunneling = 20,
@@ -134,12 +134,12 @@ You can define enums, which are just 32 bit integers. Values are optional
 
 
 enum ProtocolIEID{ 				//TODO: 2^(16bits)
-	IE_MME_UE_S1AP_ID					 = 0,
+	IE_MME_UE_S1AP_ID					 = 0,   //
 	IE_HandoverType						 = 1,
 	IE_Cause							 = 2,
-	IE_SourceID							 = 3,
-	IE_TargetID							 = 4,
-	IE_eNB_UE_S1AP_ID					 = 8,
+	IE_SourceID							 = 3,   ////
+	IE_TargetID							 = 4,   ////
+	IE_eNB_UE_S1AP_ID					 = 8,   //
 	IE_E_RABSubjecttoDataForwardingList	 = 12,
 	IE_E_RABtoReleaseListHOCmd			 = 13,
 	IE_E_RABDataForwardingItem			 = 14,
@@ -154,8 +154,8 @@ enum ProtocolIEID{ 				//TODO: 2^(16bits)
 	IE_E_RABToBeSwitchedDLItem			 = 23,
 	IE_E_RABToBeSetupListCtxtSUReq		 = 24,
 	IE_TraceActivation					 = 25,
-	IE_NAS_PDU							 = 26,
-	IE_E_RABToBeSetupItemHOReq			 = 27,
+	IE_NAS_PDU							 = 26,      //
+	IE_E_RABToBeSetupItemHOReq			 = 27,      //
 	IE_E_RABSetupListBearerSURes		 = 28,
 	IE_E_RABFailedToSetupListBearerSURes = 29,
 	IE_E_RABToBeModifiedListBearerModReq = 30,
@@ -179,18 +179,18 @@ enum ProtocolIEID{ 				//TODO: 2^(16bits)
 	IE_E_RABSetupItemCtxtSURes			 = 50,
 	IE_E_RABSetupListCtxtSURes			 = 51,
 	IE_E_RABToBeSetupItemCtxtSUReq		 = 52,
-	IE_E_RABToBeSetupListHOReq			 = 53,
+	IE_E_RABToBeSetupListHOReq			 = 53,      //
 	IE_GERANtoLTEHOInformationRes			 = 55,
 	IE_UTRANtoLTEHOInformationRes			 = 57,
 	IE_CriticalityDiagnostics 				 = 58,
-	IE_Global_ENB_ID						 = 59,
+	IE_Global_ENB_ID						 = 59,  //
 	IE_eNBname								 = 60,
 	IE_MMEname								 = 61,
-	IE_ServedPLMNs							 = 63,
-	IE_SupportedTAs							 = 64,
+	IE_ServedPLMNs							 = 63,  //
+	IE_SupportedTAs							 = 64,  //
 	IE_TimeToWait							 = 65,
-	IE_uEaggregateMaximumBitrate			 = 66,
-	IE_TAI									 = 67,
+	IE_UEaggregateMaximumBitrate			 = 66,  //
+	IE_TAI									 = 67,  //
 	IE_E_RABReleaseListBearerRelComp		 = 69,
 	IE_cdma2000PDU							 = 70,
 	IE_cdma2000RATType						 = 71,
@@ -204,7 +204,7 @@ enum ProtocolIEID{ 				//TODO: 2^(16bits)
 	IE_cdma2000HOStatus						 = 83,
 	IE_cdma2000HORequiredIndication			 = 84,
 	IE_E_UTRAN_Trace_ID						 = 86,
-	IE_RelativeMMECapacity					 = 87,
+	IE_RelativeMMECapacity					 = 87,  //
 	IE_SourceMME_UE_S1AP_ID					 = 88,
 	IE_Bearers_SubjectToStatusTransfer_Item	 = 89,
 	IE_eNB_StatusTransfer_TransparentContainer = 90,
@@ -217,14 +217,14 @@ enum ProtocolIEID{ 				//TODO: 2^(16bits)
 	IE_cdma2000OneXRAND						 = 97,
 	IE_RequestType							 = 98,
 	IE_UE_S1AP_IDs							 = 99,
-	IE_EUTRAN_CGI							 = 100,
+	IE_EUTRAN_CGI							 = 100, //
 	IE_OverloadResponse						 = 101,
 	IE_cdma2000OneXSRVCCInfo				 = 102,
 	IE_E_RABFailedToBeReleasedList			 = 103,
 	IE_Source_ToTarget_TransparentContainer	 = 104,
-	IE_ServedGUMMEIs						 = 105,
+	IE_ServedGUMMEIs						 = 105, //
 	IE_SubscriberProfileIDforRFP			 = 106,
-	IE_UESecurityCapabilities				 = 107,
+	IE_UESecurityCapabilities				 = 107, //
 	IE_CSFallbackIndicator					 = 108,
 	IE_CNDomain								 = 109,
 	IE_E_RABReleasedList					 = 110,
@@ -254,7 +254,7 @@ enum ProtocolIEID{ 				//TODO: 2^(16bits)
 	IE_RRC_Establishment_Cause				 = 134,
 	IE_NASSecurityParametersfromE_UTRAN		 = 135,
 	IE_NASSecurityParameterstoE_UTRAN		 = 136,
-	IE_DefaultPagingDRX						 = 137,
+	IE_DefaultPagingDRX						 = 137,     //
 	IE_Source_ToTarget_TransparentContainer_Secondary	 = 138,
 	IE_Target_ToSource_TransparentContainer_Secondary	 = 139
 
