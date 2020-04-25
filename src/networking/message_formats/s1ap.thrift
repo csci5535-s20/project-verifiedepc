@@ -1,6 +1,24 @@
 package s1ap
 
+// **************************************************************
+// TS 36.413 V8.10.0 (2010-06)
+// **************************************************************
+
+ 
+// Include all the files that need to be compiled together
+
+include "s1ap_constants.thrift"
+include "s1ap_containers.thrift"
+include "ie_definitions.thrift"
+include "s1ap_common_datatypes.thrift"
+include "s1ap_pdu_contents.thrift"
+include "s1ap_pdu_descriptions.thrift"
+
+// **************************************************************
+// References
+// **************************************************************
 /*
+
 other tools used: 
 https://crates.io/crates/asn1rs
 
@@ -53,17 +71,3 @@ You can define enums, which are just 32 bit integers. Values are optional
  2. 
 
 */
-
-
- // -----------------------
- // S1AP specification
- // -- TS 36.413 V8.10.0 (2010-06)
-
-// Include all the files that need to be compiled together
-
-include "s1ap_constants.thrift"
-include "s1ap_containers.thrift"
-include "ie_definitions.thrift"
-include "s1ap_common_datatypes.thrift"
-include "s1ap_pdu_contents.thrift"
-include "s1ap_pdu_descriptions.thrift"

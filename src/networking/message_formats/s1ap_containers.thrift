@@ -1,5 +1,80 @@
-//S1AP-Containers
+// S1AP-Containers
+// **************************************************************
+
+struct S1apProtocolIES{
+	1: required ProtocolIEID 			id;		//UNIQUE
+	2: Criticality 						criticality;
+	3: Value 							value;
+	4: Presence 						presence;
+}
+
+
+struct S1apProtocolIESPair{
+	1: required ProtocolIEID 					id;			//UNIQUE
+	2: Criticality 								first_criticality;
+	3: Value 									first_value;
+	4: Criticality 								second_criticality;
+	5: Value 									second_value;
+	6: Presence 								presence;
+
+}
+
+struct S1apProtocolExtension{
+	1: required ProtocolIEID 					id;			//UNIQUE
+	2: Criticality 								criticality;
+	3: Extension 								extension;
+	4: Presence 								presence;
+}
+
+struct S1apPrivateIES{
+	1: required ProtocolIEID 					id;
+	2: Criticality 								criticality;
+	3: Value 									value;
+	4: Presence 								presence;
+}
+
+
+// *************************************
+// Dependent Types being defined here. 
+// TODO: Modify/chagne/delete these as we might not be using this. 
+// *************************************
+
+
+
+typedef S1apProtocolIES ProtocolIEField
+
+typedef ProtocolIEField ProtocolIESingleContainer
+
+//TODO: size(maxProtocolIEs)
+typedef list<ProtocolIEField maxProtocolIEs> ProtocolIEContainer
+
+typedef S1apProtocolIESPair ProtocolIEFieldPair
+
+typedef list<ProtocolIEFieldPair maxProtocolIEs>ProtocolIEContainerPair;// TODO: size(maxProtocolIEs)
+
+
+//TODO: size(loowerBound,upperBound)
+typedef list<ProtocolIESingleContainer>ProtocolIEContainerList
+
+
+//TODO: size(LowerBound, UpperBound)
+typedef list<ProtocolIEContainerPair> ProtocolIEContainerPairList
+
+typedef S1apProtocolExtension ProtocolExtensionField
+
+typedef list<ProtocolExtensionField maxProtocolExtensionContainer> ProtocolExtensionContainer // TODO: size(maxProtocolExtensions)
+
+
+typedef S1apPrivateIES PrivateIEField
+
+typedef list<PrivateIEField maxPrivateIEs> PrivateIEContainer //TODO: size(maxPrivateIEs)
+
 /*
+
+-- **************************************************************
+-- TS 36.413 V8.10.0 (2010-06)
+-- **************************************************************
+
 -- **************************************************************
 --
 -- Container definitions
@@ -199,72 +274,3 @@ PrivateIE-Field {S1AP-PRIVATE-IES : IEsSetParam} ::= SEQUENCE {
 END
 */
 
-
-// **************************************************************
-struct S1apProtocolIEs{
-	1: required ProtocolIEID id,		//UNIQUE
-	2: Criticality criticality,
-	3: Value 	value,
-	4: Presence presence
-}
-
-
-struct S1apProtocolIEsPair{
-	1: required ProtocolIEID id;			//UNIQUE
-	2: Criticality first_criticality;
-	3: Value first_value;
-	4: Criticality second_criticality;
-	5: Value second_value;
-	6: Presence presence
-
-}
-
-struct S1apProtocolExtension{
-	1: required ProtocolIEID id;			//UNIQUE
-	2: Criticality criticality;
-	3: Extension extension;
-	4: Presence presence 
-}
-
-struct S1apPrivateIEs{
-	1: required ProtocolIEID id;
-	2: Criticality criticality;
-	3: Value value;
-	4: Presence presence
-}
-
-
-// *************************************
-// Dependent Types being defined here. 
-// TODO: Modify/chagne/delete these as we might not be using this. 
-// *************************************
-
-
-
-typedef S1apProtocolIEs ProtocolIEField
-
-typedef ProtocolIEField ProtocolIESingleContainer
-
-//TODO: size(maxProtocolIEs)
-typedef list<ProtocolIEField maxProtocolIEs> ProtocolIEContainer
-
-typedef S1apProtocolIEsPair ProtocolIEFieldPair
-
-typedef list<ProtocolIEFieldPair maxProtocolIEs>ProtocolIEContainerPair;// TODO: size(maxProtocolIEs)
-
-
-//TODO: size(loowerBound,upperBound)
-typedef list<ProtocolIESingleContainer>ProtocolIEContainerList
-
-
-//TODO: size(LowerBound, UpperBound)
-typedef list<ProtocolIEContainerPair> ProtocolIEContainerPairList
-
-typedef S1apProtocolExtension ProtocolExtensionField
-
-typedef list<ProtocolExtensionField maxProtocolExtensionContainer> ProtocolExtensionContainer // TODO: size(maxProtocolExtensions)
-
-
-typedef S1apPrivateIEs PrivateIEField
-
-typedef list<PrivateIEField maxPrivateIEs> PrivateIEContainer //TODO: size(maxPrivateIEs)

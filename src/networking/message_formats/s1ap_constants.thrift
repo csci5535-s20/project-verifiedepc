@@ -4,6 +4,231 @@
 --
 -- Constant definitions
 --
+*/
+
+/* TODO: Need to insert/initialize the Constant Values
+struct ConstLists {
+  // Map from feature name to feature list.
+  map<string, FeatureList> constants_list = 1;
+}*/
+
+// Extension Constants
+ const  i32 maxPrivateIEs 					= 65535;
+ const  i32 maxProtocolExtensions 			= 65535;
+ const  i32 maxProtocolIEs					= 65535;
+
+// List Lengths
+ const  i32 maxNrOfCSGs							= 256;
+ const  i32 maxNrOfE-RABs						= 256;
+ const  i32 maxnoofTAIs							= 256;
+ const  i32 maxnoofTACs							= 256;
+ const  i32 maxNrOfErrors						= 256;
+ const  i32 maxnoofBPLMNs						= 6;
+ const  i32 maxnoofPLMNsPerMME					= 32;
+ const  i32 maxnoofEPLMNs						= 15;
+ const  i32 maxnoofEPLMNsPlusOne				= 16;
+ const  i32 maxnoofForbLACs						= 4096;
+ const  i32 maxnoofForbTACs						= 4096;
+ const  i32 maxNrOfIndividualS1ConnectionsToReset = 256;
+ const  i32 maxnoofCells						= 16;
+ const  i32 maxnoofTAIforWarning				= 65535 ;
+ const  i32 maxnoofCellID						= 65535 ;
+ const  i32 maxnoofEmergencyAreaID				= 65535 ;
+ const  i32 maxnoofCellinTAI					= 65535 ;
+ const  i32 maxnoofCellinEAI					= 65535 ;
+ const  i32 maxnoofeNBX2TLAs					= 2;
+ const  i32 maxnoofRATs							= 8;
+ const  i32 maxnoofGroupIDs						= 65535;
+ const  i32 maxnoofMMECs						= 256
+
+// Elementary Procedures 
+
+typedef ProcedureCode ID_HandoverPreparation_PC = 0
+typedef ProcedureCode ID_HandoverResourceAllocation_PC = 1
+typedef ProcedureCode ID_HandoverNotification_PC = 2
+typedef ProcedureCode ID_PathSwitchRequest_PC = 3
+typedef ProcedureCode ID_HandoverCancel_PC = 4
+typedef ProcedureCode ID_E_RABSetup_PC = 5
+typedef ProcedureCode ID_E_RABModify_PC = 6
+typedef ProcedureCode ID_E_RABRelease_PC = 7
+typedef ProcedureCode ID_E_RABReleaseIndication_PC = 8
+typedef ProcedureCode ID_InitialContextSetup_PC = 9
+typedef ProcedureCode ID_Paging_PC = 10
+typedef ProcedureCode ID_downlinkNASTransport_PC = 11
+typedef ProcedureCode ID_initialUEMessage_PC = 12
+typedef ProcedureCode ID_uplinkNASTransport_PC = 13
+typedef ProcedureCode ID_Reset_PC = 14
+typedef ProcedureCode ID_ErrorIndication_PC = 15
+typedef ProcedureCode ID_NASNonDeliveryIndication_PC = 16
+typedef ProcedureCode ID_S1Setup_PC = 17
+typedef ProcedureCode ID_UEContextReleaseRequest_PC = 18
+typedef ProcedureCode ID_DownlinkS1cdma2000tunneling_PC = 19
+typedef ProcedureCode ID_UplinkS1cdma2000tunneling_PC = 20
+typedef ProcedureCode ID_UEContextModification_PC = 21
+typedef ProcedureCode ID_UECapabilityInfoIndication_PC = 22
+typedef ProcedureCode ID_UEContextRelease_PC = 23
+typedef ProcedureCode ID_eNBStatusTransfer_PC = 24
+typedef ProcedureCode ID_MMEStatusTransfer_PC = 25
+typedef ProcedureCode ID_DeactivateTrace_PC = 26
+typedef ProcedureCode ID_TraceStart_PC = 27
+typedef ProcedureCode ID_TraceFailureIndication_PC = 28
+typedef ProcedureCode ID_ENBConfigurationUpdate_PC = 29
+typedef ProcedureCode ID_MMEConfigurationUpdate_PC = 30
+typedef ProcedureCode ID_LocationReportingControl_PC = 31
+typedef ProcedureCode ID_LocationReportingFailureIndication_PC = 32
+typedef ProcedureCode ID_LocationReport_PC = 33
+typedef ProcedureCode ID_OverloadStart_PC = 34
+typedef ProcedureCode ID_OverloadStop_PC = 35
+typedef ProcedureCode ID_WriteReplaceWarning_PC = 36
+typedef ProcedureCode ID_eNBDirectInformationTransfer_PC = 37
+typedef ProcedureCode ID_MMEDirectInformationTransfer_PC = 38
+typedef ProcedureCode ID_PrivateMessage_PC = 39
+typedef ProcedureCode ID_eNBConfigurationTransfer_PC = 40
+typedef ProcedureCode ID_MMEConfigurationTransfer_PC = 41
+typedef ProcedureCode ID_CellTrafficTrace_PC = 42
+
+
+
+// IE-s
+
+typedef ProtocolIEID ID_MME_UE_S1AP_ID_PIEID = 0
+typedef ProtocolIEID ID_HandoverType_PIEID = 1
+typedef ProtocolIEID ID_Cause_PIEID = 2
+typedef ProtocolIEID ID_SourceID_PIEID = 3
+typedef ProtocolIEID ID_TargetID_PIEID = 4
+typedef ProtocolIEID ID_eNB_UE_S1AP_ID_PIEID = 8
+typedef ProtocolIEID ID_E_RABSubjecttoDataForwardingList_PIEID = 12
+typedef ProtocolIEID ID_E_RABtoReleaseListHOCmd_PIEID = 13
+typedef ProtocolIEID ID_E_RABDataForwardingItem_PIEID = 14
+typedef ProtocolIEID ID_E_RABReleaseItemBearerRelComp_PIEID = 15
+typedef ProtocolIEID ID_E_RABToBeSetupListBearerSUReq_PIEID = 16
+typedef ProtocolIEID ID_E_RABToBeSetupItemBearerSUReq_PIEID = 17
+typedef ProtocolIEID ID_E_RABAdmittedList_PIEID = 18
+typedef ProtocolIEID ID_E_RABFailedToSetupListHOReqAck_PIEID = 19
+typedef ProtocolIEID ID_E_RABAdmittedItem_PIEID = 20
+typedef ProtocolIEID ID_E_RABFailedtoSetupItemHOReqAck_PIEID = 21
+typedef ProtocolIEID ID_E_RABToBeSwitchedDLList_PIEID = 22
+typedef ProtocolIEID ID_E_RABToBeSwitchedDLItem_PIEID = 23
+typedef ProtocolIEID ID_E_RABToBeSetupListCtxtSUReq_PIEID = 24
+typedef ProtocolIEID ID_TraceActivation_PIEID = 25
+typedef ProtocolIEID ID_NAS_PDU_PIEID = 26
+typedef ProtocolIEID ID_E_RABToBeSetupItemHOReq_PIEID = 27
+typedef ProtocolIEID ID_E_RABSetupListBearerSURes_PIEID = 28
+typedef ProtocolIEID ID_E_RABFailedToSetupListBearerSURes_PIEID = 29
+typedef ProtocolIEID ID_E_RABToBeModifiedListBearerModReq_PIEID = 30
+typedef ProtocolIEID ID_E_RABModifyListBearerModRes_PIEID = 31
+typedef ProtocolIEID ID_E_RABFailedToModifyList_PIEID = 32
+typedef ProtocolIEID ID_E_RABToBeReleasedList_PIEID = 33
+typedef ProtocolIEID ID_E_RABFailedToReleaseList_PIEID = 34
+typedef ProtocolIEID ID_E_RABItem_PIEID = 35
+typedef ProtocolIEID ID_E_RABToBeModifiedItemBearerModReq_PIEID = 36
+typedef ProtocolIEID ID_E_RABModifyItemBearerModRes_PIEID = 37
+typedef ProtocolIEID ID_E_RABReleaseItem_PIEID = 38
+typedef ProtocolIEID ID_E_RABSetupItemBearerSURes_PIEID = 39
+typedef ProtocolIEID ID_SecurityContext_PIEID = 40
+typedef ProtocolIEID ID_HandoverRestrictionList_PIEID = 41
+typedef ProtocolIEID ID_UEPagingID _PIEID = 43
+typedef ProtocolIEID ID_pagingDRX _PIEID = 44
+typedef ProtocolIEID ID_TAIList_PIEID = 46
+typedef ProtocolIEID ID_TAIItem_PIEID = 47
+typedef ProtocolIEID ID_E_RABFailedToSetupListCtxtSURes_PIEID = 48
+typedef ProtocolIEID ID_E_RABReleaseItemHOCmd_PIEID = 49
+typedef ProtocolIEID ID_E_RABSetupItemCtxtSURes_PIEID = 50
+typedef ProtocolIEID ID_E_RABSetupListCtxtSURes_PIEID = 51
+typedef ProtocolIEID ID_E_RABToBeSetupItemCtxtSUReq_PIEID = 52
+typedef ProtocolIEID ID_E_RABToBeSetupListHOReq_PIEID = 53
+typedef ProtocolIEID ID_GERANtoLTEHOInformationRes_PIEID = 55
+typedef ProtocolIEID ID_UTRANtoLTEHOInformationRes_PIEID = 57
+typedef ProtocolIEID ID_CriticalityDiagnostics _PIEID = 58
+typedef ProtocolIEID ID_Global_ENB_ID_PIEID = 59
+typedef ProtocolIEID ID_eNBname_PIEID = 60
+typedef ProtocolIEID ID_MMEname_PIEID = 61
+typedef ProtocolIEID ID_ServedPLMNs_PIEID = 63
+typedef ProtocolIEID ID_SupportedTAs_PIEID = 64
+typedef ProtocolIEID ID_TimeToWait_PIEID = 65
+typedef ProtocolIEID ID_uEaggregateMaximumBitrate_PIEID = 66
+typedef ProtocolIEID ID_TAI	_PIEID = 67
+typedef ProtocolIEID ID_E_RABReleaseListBearerRelComp_PIEID = 69
+typedef ProtocolIEID ID_cdma2000PDU_PIEID = 70
+typedef ProtocolIEID ID_cdma2000RATType_PIEID = 71
+typedef ProtocolIEID ID_cdma2000SectorID_PIEID = 72
+typedef ProtocolIEID ID_SecurityKey_PIEID = 73
+typedef ProtocolIEID ID_UERadioCapability_PIEID = 74
+typedef ProtocolIEID ID_GUMMEI_ID_PIEID = 75
+typedef ProtocolIEID ID_E_RABInformationListItem_PIEID = 78
+typedef ProtocolIEID ID_Direct_Forwarding_Path_Availability_PIEID = 79
+typedef ProtocolIEID ID_UEIdentityIndexValue_PIEID = 80
+typedef ProtocolIEID ID_cdma2000HOStatus_PIEID = 83
+typedef ProtocolIEID ID_cdma2000HORequiredIndication_PIEID = 84
+typedef ProtocolIEID ID_E_UTRAN_Trace_ID_PIEID = 86
+typedef ProtocolIEID ID_RelativeMMECapacity_PIEID = 87
+typedef ProtocolIEID ID_SourceMME_UE_S1AP_ID_PIEID = 88
+typedef ProtocolIEID ID_Bearers_SubjectToStatusTransfer_Item_PIEID = 89
+typedef ProtocolIEID ID_eNB_StatusTransfer_TransparentContainer_PIEID = 90
+typedef ProtocolIEID ID_UE_associatedLogicalS1_ConnectionItem_PIEID = 91
+typedef ProtocolIEID ID_ResetType_PIEID = 92
+typedef ProtocolIEID ID_UE_associatedLogicalS1_ConnectionListResAck_PIEID = 93
+typedef ProtocolIEID ID_E_RABToBeSwitchedULItem_PIEID = 94
+typedef ProtocolIEID ID_E_RABToBeSwitchedULList_PIEID = 95
+typedef ProtocolIEID ID_S_TMSI_PIEID = 96
+typedef ProtocolIEID ID_cdma2000OneXRAND_PIEID = 97
+typedef ProtocolIEID ID_RequestType_PIEID = 98
+typedef ProtocolIEID ID_UE_S1AP_IDs_PIEID = 99
+typedef ProtocolIEID ID_EUTRAN_CGI_PIEID = 100
+typedef ProtocolIEID ID_OverloadResponse_PIEID = 101
+typedef ProtocolIEID ID_cdma2000OneXSRVCCInfo_PIEID = 102
+typedef ProtocolIEID ID_E_RABFailedToBeReleasedList_PIEID = 103
+typedef ProtocolIEID ID_Source_ToTarget_TransparentContainer_PIEID = 104
+typedef ProtocolIEID ID_ServedGUMMEIs_PIEID = 105
+typedef ProtocolIEID ID_SubscriberProfileIDforRFP_PIEID = 106
+typedef ProtocolIEID ID_UESecurityCapabilities_PIEID = 107
+typedef ProtocolIEID ID_CSFallbackIndicator_PIEID = 108
+typedef ProtocolIEID ID_CNDomain_PIEID = 109
+typedef ProtocolIEID ID_E_RABReleasedList_PIEID = 110
+typedef ProtocolIEID ID_MessageIdentifier_PIEID = 111
+typedef ProtocolIEID ID_SerialNumber_PIEID = 112
+typedef ProtocolIEID ID_WarningAreaList_PIEID = 113
+typedef ProtocolIEID ID_RepetitionPeriod_PIEID = 114
+typedef ProtocolIEID ID_NumberofBroadcastRequest_PIEID = 115
+typedef ProtocolIEID ID_WarningType_PIEID = 116
+typedef ProtocolIEID ID_WarningSecurityInfo_PIEID = 117
+typedef ProtocolIEID ID_DataCodingScheme_PIEID = 118
+typedef ProtocolIEID ID_WarningMessageContents_PIEID = 119
+typedef ProtocolIEID ID_BroadcastCompletedAreaList_PIEID = 120
+typedef ProtocolIEID ID_Inter_SystemInformationTransferTypeEDT_PIEID = 121
+typedef ProtocolIEID ID_Inter_SystemInformationTransferTypeMDT_PIEID = 122
+typedef ProtocolIEID ID_Target_ToSource_TransparentContainer_PIEID = 123
+typedef ProtocolIEID ID_SRVCCOperationPossible_PIEID = 124
+typedef ProtocolIEID ID_SRVCCHOIndication_PIEID = 125
+typedef ProtocolIEID ID_NAS_DownlinkCount_PIEID = 126
+typedef ProtocolIEID ID_CSG_Id_PIEID = 127
+typedef ProtocolIEID ID_CSG_IdList_PIEID = 128
+typedef ProtocolIEID ID_SONConfigurationTransferECT_PIEID = 129
+typedef ProtocolIEID ID_SONConfigurationTransferMCT_PIEID = 130
+typedef ProtocolIEID ID_TraceCollectionEntityIPAddress_PIEID = 131
+typedef ProtocolIEID ID_MSClassmark2_PIEID = 132
+typedef ProtocolIEID ID_MSClassmark3_PIEID = 133
+typedef ProtocolIEID ID_RRC_Establishment_Cause_PIEID = 134
+typedef ProtocolIEID ID_NASSecurityParametersfromE_UTRAN_PIEID = 135
+typedef ProtocolIEID ID_NASSecurityParameterstoE_UTRAN_PIEID = 136
+typedef ProtocolIEID ID_DefaultPagingDRX_PIEID = 137
+typedef ProtocolIEID ID_Source_ToTarget_TransparentContainer_Secondary_PIEID = 138
+typedef ProtocolIEID ID_Target_ToSource_TransparentContainer_Secondary_PIEID = 139
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+-- **************************************************************
+-- TS 36.413 V8.10.0 (2010-06)
 -- **************************************************************
 
 S1AP-Constants { 
@@ -249,216 +474,3 @@ id-Source-ToTarget-TransparentContainer-Secondary	ProtocolIE-ID ::= 138
 id-Target-ToSource-TransparentContainer-Secondary	ProtocolIE-ID ::= 139
 END
 */
-
-
-// ********************************************************
-// CONSTANTS: 
-/* TODO: Need to insert/initialize the Constant Values
-struct ConstLists {
-  // Map from feature name to feature list.
-  map<string, FeatureList> constants_list = 1;
-}*/
-
-// Extension Constants
- const  i32 maxPrivateIEs 					= 65535;
- const  i32 maxProtocolExtensions 			= 65535;
- const  i32 maxProtocolIEs					= 65535;
-
-// List Lengths
- const  i32 maxNrOfCSGs							= 256;
- const  i32 maxNrOfE-RABs						= 256;
- const  i32 maxnoofTAIs							= 256;
- const  i32 maxnoofTACs							= 256;
- const  i32 maxNrOfErrors						= 256;
- const  i32 maxnoofBPLMNs						= 6;
- const  i32 maxnoofPLMNsPerMME					= 32;
- const  i32 maxnoofEPLMNs						= 15;
- const  i32 maxnoofEPLMNsPlusOne				= 16;
- const  i32 maxnoofForbLACs						= 4096;
- const  i32 maxnoofForbTACs						= 4096;
- const  i32 maxNrOfIndividualS1ConnectionsToReset = 256;
- const  i32 maxnoofCells						= 16;
- const  i32 maxnoofTAIforWarning				= 65535 ;
- const  i32 maxnoofCellID						= 65535 ;
- const  i32 maxnoofEmergencyAreaID				= 65535 ;
- const  i32 maxnoofCellinTAI					= 65535 ;
- const  i32 maxnoofCellinEAI					= 65535 ;
- const  i32 maxnoofeNBX2TLAs					= 2;
- const  i32 maxnoofRATs							= 8;
- const  i32 maxnoofGroupIDs						= 65535;
- const  i32 maxnoofMMECs						= 256
-
-// Elementary Procedures 
-
-typedef ProcedureCode ID_HandoverPreparation_PC = 0
-typedef ProcedureCode ID_HandoverResourceAllocation_PC = 1
-typedef ProcedureCode ID_HandoverNotification_PC = 2
-typedef ProcedureCode ID_PathSwitchRequest_PC = 3
-typedef ProcedureCode ID_HandoverCancel_PC = 4
-typedef ProcedureCode ID_E_RABSetup_PC = 5
-typedef ProcedureCode ID_E_RABModify_PC = 6
-typedef ProcedureCode ID_E_RABRelease_PC = 7
-typedef ProcedureCode ID_E_RABReleaseIndication_PC = 8
-typedef ProcedureCode ID_InitialContextSetup_PC = 9
-typedef ProcedureCode ID_Paging_PC = 10
-typedef ProcedureCode ID_downlinkNASTransport_PC = 11
-typedef ProcedureCode ID_initialUEMessage_PC = 12
-typedef ProcedureCode ID_uplinkNASTransport_PC = 13
-typedef ProcedureCode ID_Reset_PC = 14
-typedef ProcedureCode ID_ErrorIndication_PC = 15
-typedef ProcedureCode ID_NASNonDeliveryIndication_PC = 16
-typedef ProcedureCode ID_S1Setup_PC = 17
-typedef ProcedureCode ID_UEContextReleaseRequest_PC = 18
-typedef ProcedureCode ID_DownlinkS1cdma2000tunneling_PC = 19
-typedef ProcedureCode ID_UplinkS1cdma2000tunneling_PC = 20
-typedef ProcedureCode ID_UEContextModification_PC = 21
-typedef ProcedureCode ID_UECapabilityInfoIndication_PC = 22
-typedef ProcedureCode ID_UEContextRelease_PC = 23
-typedef ProcedureCode ID_eNBStatusTransfer_PC = 24
-typedef ProcedureCode ID_MMEStatusTransfer_PC = 25
-typedef ProcedureCode ID_DeactivateTrace_PC = 26
-typedef ProcedureCode ID_TraceStart_PC = 27
-typedef ProcedureCode ID_TraceFailureIndication_PC = 28
-typedef ProcedureCode ID_ENBConfigurationUpdate_PC = 29
-typedef ProcedureCode ID_MMEConfigurationUpdate_PC = 30
-typedef ProcedureCode ID_LocationReportingControl_PC = 31
-typedef ProcedureCode ID_LocationReportingFailureIndication_PC = 32
-typedef ProcedureCode ID_LocationReport_PC = 33
-typedef ProcedureCode ID_OverloadStart_PC = 34
-typedef ProcedureCode ID_OverloadStop_PC = 35
-typedef ProcedureCode ID_WriteReplaceWarning_PC = 36
-typedef ProcedureCode ID_eNBDirectInformationTransfer_PC = 37
-typedef ProcedureCode ID_MMEDirectInformationTransfer_PC = 38
-typedef ProcedureCode ID_PrivateMessage_PC = 39
-typedef ProcedureCode ID_eNBConfigurationTransfer_PC = 40
-typedef ProcedureCode ID_MMEConfigurationTransfer_PC = 41
-typedef ProcedureCode ID_CellTrafficTrace_PC = 42
-
-
-
-// IE-s
-
-typedef ProtocolIEID ID_MME_UE_S1AP_ID_PIEID = 0
-typedef ProtocolIEID ID_HandoverType_PIEID = 1
-typedef ProtocolIEID ID_Cause_PIEID = 2
-typedef ProtocolIEID ID_SourceID_PIEID = 3
-typedef ProtocolIEID ID_TargetID_PIEID = 4
-typedef ProtocolIEID ID_eNB_UE_S1AP_ID_PIEID = 8
-typedef ProtocolIEID ID_E_RABSubjecttoDataForwardingList_PIEID = 12
-typedef ProtocolIEID ID_E_RABtoReleaseListHOCmd_PIEID = 13
-typedef ProtocolIEID ID_E_RABDataForwardingItem_PIEID = 14
-typedef ProtocolIEID ID_E_RABReleaseItemBearerRelComp_PIEID = 15
-typedef ProtocolIEID ID_E_RABToBeSetupListBearerSUReq_PIEID = 16
-typedef ProtocolIEID ID_E_RABToBeSetupItemBearerSUReq_PIEID = 17
-typedef ProtocolIEID ID_E_RABAdmittedList_PIEID = 18
-typedef ProtocolIEID ID_E_RABFailedToSetupListHOReqAck_PIEID = 19
-typedef ProtocolIEID ID_E_RABAdmittedItem_PIEID = 20
-typedef ProtocolIEID ID_E_RABFailedtoSetupItemHOReqAck_PIEID = 21
-typedef ProtocolIEID ID_E_RABToBeSwitchedDLList_PIEID = 22
-typedef ProtocolIEID ID_E_RABToBeSwitchedDLItem_PIEID = 23
-typedef ProtocolIEID ID_E_RABToBeSetupListCtxtSUReq_PIEID = 24
-typedef ProtocolIEID ID_TraceActivation_PIEID = 25
-typedef ProtocolIEID ID_NAS_PDU_PIEID = 26
-typedef ProtocolIEID ID_E_RABToBeSetupItemHOReq_PIEID = 27
-typedef ProtocolIEID ID_E_RABSetupListBearerSURes_PIEID = 28
-typedef ProtocolIEID ID_E_RABFailedToSetupListBearerSURes_PIEID = 29
-typedef ProtocolIEID ID_E_RABToBeModifiedListBearerModReq_PIEID = 30
-typedef ProtocolIEID ID_E_RABModifyListBearerModRes_PIEID = 31
-typedef ProtocolIEID ID_E_RABFailedToModifyList_PIEID = 32
-typedef ProtocolIEID ID_E_RABToBeReleasedList_PIEID = 33
-typedef ProtocolIEID ID_E_RABFailedToReleaseList_PIEID = 34
-typedef ProtocolIEID ID_E_RABItem_PIEID = 35
-typedef ProtocolIEID ID_E_RABToBeModifiedItemBearerModReq_PIEID = 36
-typedef ProtocolIEID ID_E_RABModifyItemBearerModRes_PIEID = 37
-typedef ProtocolIEID ID_E_RABReleaseItem_PIEID = 38
-typedef ProtocolIEID ID_E_RABSetupItemBearerSURes_PIEID = 39
-typedef ProtocolIEID ID_SecurityContext_PIEID = 40
-typedef ProtocolIEID ID_HandoverRestrictionList_PIEID = 41
-typedef ProtocolIEID ID_UEPagingID _PIEID = 43
-typedef ProtocolIEID ID_pagingDRX _PIEID = 44
-typedef ProtocolIEID ID_TAIList_PIEID = 46
-typedef ProtocolIEID ID_TAIItem_PIEID = 47
-typedef ProtocolIEID ID_E_RABFailedToSetupListCtxtSURes_PIEID = 48
-typedef ProtocolIEID ID_E_RABReleaseItemHOCmd_PIEID = 49
-typedef ProtocolIEID ID_E_RABSetupItemCtxtSURes_PIEID = 50
-typedef ProtocolIEID ID_E_RABSetupListCtxtSURes_PIEID = 51
-typedef ProtocolIEID ID_E_RABToBeSetupItemCtxtSUReq_PIEID = 52
-typedef ProtocolIEID ID_E_RABToBeSetupListHOReq_PIEID = 53
-typedef ProtocolIEID ID_GERANtoLTEHOInformationRes_PIEID = 55
-typedef ProtocolIEID ID_UTRANtoLTEHOInformationRes_PIEID = 57
-typedef ProtocolIEID ID_CriticalityDiagnostics _PIEID = 58
-typedef ProtocolIEID ID_Global_ENB_ID_PIEID = 59
-typedef ProtocolIEID ID_eNBname_PIEID = 60
-typedef ProtocolIEID ID_MMEname_PIEID = 61
-typedef ProtocolIEID ID_ServedPLMNs_PIEID = 63
-typedef ProtocolIEID ID_SupportedTAs_PIEID = 64
-typedef ProtocolIEID ID_TimeToWait_PIEID = 65
-typedef ProtocolIEID ID_uEaggregateMaximumBitrate_PIEID = 66
-typedef ProtocolIEID ID_TAI	_PIEID = 67
-typedef ProtocolIEID ID_E_RABReleaseListBearerRelComp_PIEID = 69
-typedef ProtocolIEID ID_cdma2000PDU_PIEID = 70
-typedef ProtocolIEID ID_cdma2000RATType_PIEID = 71
-typedef ProtocolIEID ID_cdma2000SectorID_PIEID = 72
-typedef ProtocolIEID ID_SecurityKey_PIEID = 73
-typedef ProtocolIEID ID_UERadioCapability_PIEID = 74
-typedef ProtocolIEID ID_GUMMEI_ID_PIEID = 75
-typedef ProtocolIEID ID_E_RABInformationListItem_PIEID = 78
-typedef ProtocolIEID ID_Direct_Forwarding_Path_Availability_PIEID = 79
-typedef ProtocolIEID ID_UEIdentityIndexValue_PIEID = 80
-typedef ProtocolIEID ID_cdma2000HOStatus_PIEID = 83
-typedef ProtocolIEID ID_cdma2000HORequiredIndication_PIEID = 84
-typedef ProtocolIEID ID_E_UTRAN_Trace_ID_PIEID = 86
-typedef ProtocolIEID ID_RelativeMMECapacity_PIEID = 87
-typedef ProtocolIEID ID_SourceMME_UE_S1AP_ID_PIEID = 88
-typedef ProtocolIEID ID_Bearers_SubjectToStatusTransfer_Item_PIEID = 89
-typedef ProtocolIEID ID_eNB_StatusTransfer_TransparentContainer_PIEID = 90
-typedef ProtocolIEID ID_UE_associatedLogicalS1_ConnectionItem_PIEID = 91
-typedef ProtocolIEID ID_ResetType_PIEID = 92
-typedef ProtocolIEID ID_UE_associatedLogicalS1_ConnectionListResAck_PIEID = 93
-typedef ProtocolIEID ID_E_RABToBeSwitchedULItem_PIEID = 94
-typedef ProtocolIEID ID_E_RABToBeSwitchedULList_PIEID = 95
-typedef ProtocolIEID ID_S_TMSI_PIEID = 96
-typedef ProtocolIEID ID_cdma2000OneXRAND_PIEID = 97
-typedef ProtocolIEID ID_RequestType_PIEID = 98
-typedef ProtocolIEID ID_UE_S1AP_IDs_PIEID = 99
-typedef ProtocolIEID ID_EUTRAN_CGI_PIEID = 100
-typedef ProtocolIEID ID_OverloadResponse_PIEID = 101
-typedef ProtocolIEID ID_cdma2000OneXSRVCCInfo_PIEID = 102
-typedef ProtocolIEID ID_E_RABFailedToBeReleasedList_PIEID = 103
-typedef ProtocolIEID ID_Source_ToTarget_TransparentContainer_PIEID = 104
-typedef ProtocolIEID ID_ServedGUMMEIs_PIEID = 105
-typedef ProtocolIEID ID_SubscriberProfileIDforRFP_PIEID = 106
-typedef ProtocolIEID ID_UESecurityCapabilities_PIEID = 107
-typedef ProtocolIEID ID_CSFallbackIndicator_PIEID = 108
-typedef ProtocolIEID ID_CNDomain_PIEID = 109
-typedef ProtocolIEID ID_E_RABReleasedList_PIEID = 110
-typedef ProtocolIEID ID_MessageIdentifier_PIEID = 111
-typedef ProtocolIEID ID_SerialNumber_PIEID = 112
-typedef ProtocolIEID ID_WarningAreaList_PIEID = 113
-typedef ProtocolIEID ID_RepetitionPeriod_PIEID = 114
-typedef ProtocolIEID ID_NumberofBroadcastRequest_PIEID = 115
-typedef ProtocolIEID ID_WarningType_PIEID = 116
-typedef ProtocolIEID ID_WarningSecurityInfo_PIEID = 117
-typedef ProtocolIEID ID_DataCodingScheme_PIEID = 118
-typedef ProtocolIEID ID_WarningMessageContents_PIEID = 119
-typedef ProtocolIEID ID_BroadcastCompletedAreaList_PIEID = 120
-typedef ProtocolIEID ID_Inter_SystemInformationTransferTypeEDT_PIEID = 121
-typedef ProtocolIEID ID_Inter_SystemInformationTransferTypeMDT_PIEID = 122
-typedef ProtocolIEID ID_Target_ToSource_TransparentContainer_PIEID = 123
-typedef ProtocolIEID ID_SRVCCOperationPossible_PIEID = 124
-typedef ProtocolIEID ID_SRVCCHOIndication_PIEID = 125
-typedef ProtocolIEID ID_NAS_DownlinkCount_PIEID = 126
-typedef ProtocolIEID ID_CSG_Id_PIEID = 127
-typedef ProtocolIEID ID_CSG_IdList_PIEID = 128
-typedef ProtocolIEID ID_SONConfigurationTransferECT_PIEID = 129
-typedef ProtocolIEID ID_SONConfigurationTransferMCT_PIEID = 130
-typedef ProtocolIEID ID_TraceCollectionEntityIPAddress_PIEID = 131
-typedef ProtocolIEID ID_MSClassmark2_PIEID = 132
-typedef ProtocolIEID ID_MSClassmark3_PIEID = 133
-typedef ProtocolIEID ID_RRC_Establishment_Cause_PIEID = 134
-typedef ProtocolIEID ID_NASSecurityParametersfromE_UTRAN_PIEID = 135
-typedef ProtocolIEID ID_NASSecurityParameterstoE_UTRAN_PIEID = 136
-typedef ProtocolIEID ID_DefaultPagingDRX_PIEID = 137
-typedef ProtocolIEID ID_Source_ToTarget_TransparentContainer_Secondary_PIEID = 138
-typedef ProtocolIEID ID_Target_ToSource_TransparentContainer_Secondary_PIEID = 139
-

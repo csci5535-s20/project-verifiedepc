@@ -15,10 +15,11 @@ DEFINITIONS AUTOMATIC TAGS ::=
 
 BEGIN
 
+
 IMPORTS
-	id-E-RABInformationListItem,
-	id-E-RABItem,
-	id-Bearers-SubjectToStatusTransfer-Item,
+	id-E-RABInformationListItem, 					--> ID_E_RABInformationListItem_PIEID
+	id-E-RABItem, 									--> ID_E_RABItem_PIEID
+	id-Bearers-SubjectToStatusTransfer-Item, 		--> ID_Bearers_SubjectToStatusTransfer_Item_PIEID
 	maxNrOfCSGs,
 	maxNrOfE-RABs,
 	maxNrOfErrors,
@@ -43,14 +44,14 @@ FROM S1AP-Constants
 
 	Criticality,
 	ProcedureCode,
-	ProtocolIE-ID,
+	ProtocolIE-ID,							--> ProtocolIEID
 	TriggeringMessage
 FROM S1AP-CommonDataTypes
 
-	ProtocolExtensionContainer{},
-	S1AP-PROTOCOL-EXTENSION,
-	ProtocolIE-SingleContainer{},
-	S1AP-PROTOCOL-IES
+	ProtocolExtensionContainer{}, 			--> ProtocolExtensionContainer
+	S1AP-PROTOCOL-EXTENSION,				--> S1apProtocolExtension
+	ProtocolIE-SingleContainer{}, 			--> ProtocolIESingleContainer
+	S1AP-PROTOCOL-IES 						--> S1apProtocolIES
 FROM S1AP-Containers;	
 */
 
@@ -60,6 +61,8 @@ FROM S1AP-Containers;
 // S1AP-IEs
 // *************************************
 
+
+include "s1ap_constants.thrift"
 
 
 // -- A
@@ -75,7 +78,19 @@ struct AllocationAndRetentionPriority{
 
 // -- B
 
-// not handling unnecessary ones. 
+// TODO: size(maxNrOfE-RABs)
+typedef list<BearersSubjectToStatusTransferItemIEs> BearersSubjectToStatusTransferList 
+
+
+
+struct BearersSubjectToStatusTransferItem{
+	1: ERABID 								e_rab_id;
+	2: COUNTValue 							ul_count_value;
+	3: COUNTValue 							dl_count_value; 
+	4: optional ReceiveStatusOfULPDCPSDUs 	receive_status_of_ul_pdcpsdus;
+	5: optional list<BearersSubjectToStatusTransferItemExtIEs> ie_extensions; 
+}
+
 
 typedef i64 BitRate
 
@@ -354,12 +369,12 @@ E-RABInformationListIEs S1AP-PROTOCOL-IES ::= {
 }
 */
 
+
 struct ERABInformationListItem{
 	1: E_RAB_ID 			e_rab_id;
 	2: optional DLForwarding dl_forwarding; 
 	3: optional list<ERABInformationListItemExtIEs> ie_extensions;
 }
-
 
 
 
@@ -392,6 +407,8 @@ E-RABItemIEs 	S1AP-PROTOCOL-IES ::= {
 	...
 }
 */
+
+
 
 struct ERABItem{
 	1: E_RAB_ID 			e_rab_id;
@@ -985,17 +1002,29 @@ typedef list<byte> WarningMessageContents  //OCTET STRING (SIZE(1..9600))
 // -- X
 
 
-X2TNLConfigurationInfo ::= SEQUENCE {
-	eNBX2TransportLayerAddresses	ENBX2TLAs,
-	iE-Extensions					ProtocolExtensionContainer { { X2TNLConfigurationInfo-ExtIEs} } OPTIONAL,
-	...
+struct X2TNLConfigurationInfo{
+	1: ENBX2TLAs 					enb_x2_transport_layer_address;
+	2: optional list<X2TNLConfigurationInfoExtIEs> ie_extensions;
 }
 
+
+// ------------------------------
+// S1AP-PROTOCOL-IE
+
+typedef S1apProtocolIES BearersSubjectToStatusTransferItemIEs ={"id": ID_Bearers_SubjectToStatusTransfer_Item_PIEID, "criticality": Criticality.IGNORE, "type": BearersSubjectToStatusTransferItem, "presence": Presence.MANDATORY}
+
+
+typedef S1apProtocolIES ERABInformationListIEs = {"id": ID_E_RABInformationListItem_PIEID, "criticality": Criticality.IGNORE , "type": ERABInformationListItem, "presence": Presence.MANDATORY}
+
+typedef S1apProtocolIES ERABItemIEs = {"id": ID_E_RABItem_PIEID, "criticality": Criticality.IGNORE, "type": ERABItem, "presence": Presence.MANDATORY}
 
 // ------------------------------
 // S1AP-PROTOCOL-EXTENSION
 
 typedef S1apProtocolExtension AllocationAndRetentionPriorityExtIEs
+
+typedef S1apProtocolExtension BearersSubjectToStatusTransferItemExtIEs
+
 typedef S1apProtocolExtension CellIDBroadcastItemExtIEs
 typedef S1apProtocolExtension Cdma2000OneXSRVCCInfoExtIEs
 typedef S1apProtocolExtension CellTypeExtIEs
@@ -1064,6 +1093,8 @@ typedef S1apProtocolExtension UES1APIDPairExtIEs
 typedef S1apProtocolExtension UESecurityCapabilitiesExtIEs 
 typedef S1apProtocolExtension UEAssociatedLogicalS1ConnectionItemExtIEs
 typedef S1apProtocolExtension X2TNLConfigurationInfoExtIEs
+
+
 
 // ------------------------------
 
