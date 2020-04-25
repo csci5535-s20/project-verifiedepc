@@ -26,25 +26,19 @@ include ip
 
 # The fields are:
 #
-# - *ptype*: the packet type [2] ###
-# - *pversion*: the protocol version, if long format, else 0 [3] ###
 # - *pcode*: the procedure code
-# - *dst_cid*: the destination cid [4]
-# - *src_cid*: the source cid [5]
-# - *token*: the retry token (see section 4.4.1)  [6] ###
-# - *seq_num*: the packet sequence number  [7]
-# - *payload*: the payload, a sequence of frames  [8]
+# - *dst_cid*: the destination cid
+# - *src_cid*: the source cid
+# - *seq_num*: the packet sequence number
+# - *payload*: the message
 
 object s1ap_packet = {
     type this = struct {
-#ptype : quic_packet_type, # [2]
         pcode : pcode_bits,
-#pversion : version, # [3]
-        dst_cid : cid, # [4]
-        src_cid : cid, # [5]
-#token : stream_data, # [6]
-        seq_num : pkt_num, # [7]
-        payload : message.arr # [8]
+        dst_cid : cid, 
+        src_cid : cid, 
+        seq_num : pkt_num,
+        payload : message 
     }
 
     instance idx : unbounded_sequence
