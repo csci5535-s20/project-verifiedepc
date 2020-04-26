@@ -1,6 +1,7 @@
 // S1AP-PDU-Descriptions
 
-
+// Messages are defined in PDU-Contents file. 
+// Elementary Procedures are Described here, by connecting the messages to each procedure. 
 
 
 // -------  Interface Elementary Procedure Class
@@ -35,53 +36,53 @@ const list<S1APElementaryProcedure> S1APElementaryProcedures = [S1APElementaryPr
 
 
 const list<S1APElementaryProcedure> S1APElementaryProceduresClass1 = [
-	HandoverPreparationEP,
-	HandoverResourceAllocationEP,
-	PathSwitchRequestEP,
-	ERABSetupEP,
-	ERABModifyEP,
-	ERABReleaseEP,
-	InitialContextSetupEP,
-	HandoverCancelEP,
-	ResetEP,
-	S1SetupEP,
-	UEContextModificationEP,
-	UEContextReleaseEP,
-	ENBConfigurationUpdateEP,
-	MMEConfigurationUpdateEP,
-	WriteReplaceWarningEP 
+	HandoverPreparation_EP,
+	HandoverResourceAllocation_EP,
+	PathSwitchRequest_EP,
+	ERABSetup_EP,
+	ERABModify_EP,
+	ERABRelease_EP,
+	InitialContextSetup_EP,
+	HandoverCancel_EP,
+	Reset_EP,
+	S1Setup_EP,
+	UEContextModification_EP,
+	UEContextRelease_EP,
+	ENBConfigurationUpdate_EP,
+	MMEConfigurationUpdate_EP,
+	WriteReplaceWarning_EP, 
 ]
 
 
 const list<S1APElementaryProcedure> S1APElementaryProceduresClass2 = [
-	HandoverNotificationEP,
-	ERABReleaseIndicationEP,
-	PagingEP,
-	DownlinkNASTransportEP,
-	InitialUEMessageEP,
-	UplinkNASTransportEP,
-	ErrorIndicationEP,
-	NASNonDeliveryIndicationEP,
-	UEContextReleaseRequestEP,
-	DownlinkS1cdma2000tunnelingEP,
-	UplinkS1cdma2000tunnelingEP,
-	UECapabilityInfoIndicationEP,
-	ENBStatusTransferEP,
-	MMEStatusTransferEP,
-	DeactivateTraceEP,
-	TraceStartEP,
-	TraceFailureIndicationEP,
-	CellTrafficTraceEP,
-	LocationReportingControlEP,
-	LocationReportingFailureIndicationEP,
-	LocationReportEP,
-	OverloadStartEP,
-	OverloadStopEP,
-	ENBDirectInformationTransferEP,
-	MMEDirectInformationTransferEP,
-	ENBConfigurationTransferEP,
-	MMEConfigurationTransferEP,
-	PrivateMessageEP
+	HandoverNotification_EP,
+	ERABReleaseIndication_EP,
+	Paging_EP,
+	DownlinkNASTransport_EP,
+	InitialUEMessage_EP,
+	UplinkNASTransport_EP,
+	ErrorIndication_EP,
+	NASNonDeliveryIndication_EP,
+	UEContextReleaseRequest_EP,
+	DownlinkS1cdma2000tunneling_EP,
+	UplinkS1cdma2000tunneling_EP,
+	UECapabilityInfoIndication_EP,
+	ENBStatusTransfer_EP,
+	MMEStatusTransfer_EP,
+	DeactivateTrace_EP,
+	TraceStart_EP,
+	TraceFailureIndication_EP,
+	CellTrafficTrace_EP,
+	LocationReportingControl_EP,
+	LocationReportingFailureIndication_EP,
+	LocationReport_EP,
+	OverloadStart_EP,
+	OverloadStop_EP,
+	ENBDirectInformationTransfer_EP,
+	MMEDirectInformationTransfer_EP,
+	ENBConfigurationTransfer_EP,
+	MMEConfigurationTransfer_EP,
+	PrivateMessage_EP,
 ]
 
 // -------  Interface Elementary Procedures
@@ -172,7 +173,7 @@ typedef S1apElementaryProcedure DownlinkS1cdma2000tunneling_EP = {"initiating_me
 typedef S1apElementaryProcedure UplinkS1cdma2000tunneling_EP = {"initiating_message": UplinkS1cdma2000tunneling, "procedure_code":ID_UplinkS1cdma2000tunneling_PC , "criticality": Criticality.IGNORE}
 
 // EP21
-typedef S1apElementaryProcedure UEContextModification = {"initiating_message":UEContextModificationRequest , "sucessful_outcome": UEContextModificationResponse, "unsuccessful_outcome": UEContextModificationFailure , "procedure_code": ID_UEContextModification_PC, "criticality": Criticality.REJECT}
+typedef S1apElementaryProcedure UEContextModification_EP = {"initiating_message":UEContextModificationRequest , "sucessful_outcome": UEContextModificationResponse, "unsuccessful_outcome": UEContextModificationFailure , "procedure_code": ID_UEContextModification_PC, "criticality": Criticality.REJECT}
 
 
 // EP22

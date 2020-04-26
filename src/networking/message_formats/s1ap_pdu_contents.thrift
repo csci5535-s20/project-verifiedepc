@@ -4,7 +4,8 @@
 
 
 
-< incomplete> 
+< incomplete: need to translate all the message desciptions from ASN.1 notation to thrift format.
+> 
 
 
 

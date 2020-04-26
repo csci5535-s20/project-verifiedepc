@@ -47,11 +47,17 @@ InitialContextSetupFailure
 
 */
 
-
+// **************************************************************
+//
 // NAS TRANSPORT ELEMENTARY PROCEDURES
+//
+// **************************************************************
 
+// 
+
+// **************************************************************
 // DOWNLINK NAS TRANSPORT
-
+// **************************************************************
 struct DownlinkNASTransport {
 	1: DownlinkNASTransportIES protocol_ies;
 }
@@ -64,9 +70,9 @@ const list<S1apProtocolIES> DownlinkNASTransportIES = [
 ]
 
 
-
+// **************************************************************
 // INITIAL UE MESSAGE
-
+// **************************************************************
 struct InitialUEMessage {
 	1: InitialUEMessageIEs protocol_ies;
 }
@@ -82,8 +88,9 @@ const list<S1apProtocolIES> InitialUEMessageIEs = [
 {"id":ID_GUMMEI_ID_PIEID, "criticality": Criticality.REJECT, "type":GUMMEI , "presence" :Presence.OPTIONAL},
 ]
 
-
+// **************************************************************
 // UPLINK NAS TRANSPORT
+// **************************************************************
 
 struct UplinkNASTransport {
 	1: UplinkNASTransportIEs protocol_ies;
@@ -100,17 +107,11 @@ const list<S1apProtocolIES> UplinkNASTransportIEs= [
 
 ]
 
--- **************************************************************
---
--- S1 SETUP ELEMENTARY PROCEDURE
---
--- **************************************************************
 
--- **************************************************************
---
--- S1 Setup Request
---
--- **************************************************************
+
+// **************************************************************
+// S1 Setup Request
+// **************************************************************
 
 
 
@@ -127,11 +128,10 @@ const list<S1apProtocolIES> S1SetupRequestIEs = [
 
 ]
 
--- **************************************************************
---
--- S1 Setup Response
---
--- **************************************************************
+
+// **************************************************************
+// S1 Setup Response
+// **************************************************************
 
 
 struct S1SetupResponse {
@@ -149,12 +149,9 @@ const list<S1apProtocolIES> S1SetupResponseIEs = [
 
 
 
--- **************************************************************
---
--- S1 Setup Failure
---
--- **************************************************************
-
+// **************************************************************
+// S1 Setup Failure
+// **************************************************************
 
 struct S1SetupFailure {
 	1: S1SetupFailureIEs protocol_ies;
@@ -168,18 +165,15 @@ const list<S1apProtocolIES> S1SetupResponseIEs = [
 ]
 
 
--- **************************************************************
---
--- INITIAL CONTEXT SETUP ELEMENTARY PROCEDURE
---
--- **************************************************************
+// **************************************************************
+//
+// INITIAL CONTEXT SETUP ELEMENTARY PROCEDURE
+//
+// **************************************************************
 
--- **************************************************************
---
--- Initial Context Setup Request
---
--- **************************************************************
-
+// **************************************************************
+// Initial Context Setup Request
+// **************************************************************
 
 
 struct InitialContextSetupRequest{
@@ -224,12 +218,9 @@ struct ERABToBeSetupItemCtxtSUReq{
 typedef S1apProtocolExtension ERABToBeSetupItemCtxtSUReqExtIEs
 
 
--- **************************************************************
---
--- Initial Context Setup Response
---
--- **************************************************************
-
+// **************************************************************
+// Initial Context Setup Response
+// **************************************************************
 
 
 
@@ -263,12 +254,9 @@ struct ERABSetupItemCtxtSURes{
 typedef S1apProtocolExtension ERABSetupItemCtxtSUResExtIEs
 
 
--- **************************************************************
---
--- Initial Context Setup Failure
---
--- **************************************************************
-
+// **************************************************************
+// Initial Context Setup Failure
+// **************************************************************
 InitialContextSetupFailure ::= SEQUENCE {
 	protocolIEs			ProtocolIE-Container       { {InitialContextSetupFailureIEs} },
 	...
