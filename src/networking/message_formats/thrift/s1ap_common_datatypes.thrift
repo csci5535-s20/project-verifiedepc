@@ -62,5 +62,5 @@ END
  }
 
 typedef i8 ProcedureCode 				// INTEGER (0..255)
-typedef i32 ProtocolExtensionID 		// INTEGER (0..65535)
-typedef i32 ProtocolIEID 				// INTEGER (0..65535)
+typedef i16 ProtocolExtensionID 		// INTEGER (0..65535)
+typedef i16 ProtocolIEID 				// INTEGER (0..65535)

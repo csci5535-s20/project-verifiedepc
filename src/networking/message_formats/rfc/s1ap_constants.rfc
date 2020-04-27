@@ -1,0 +1,298 @@
+// **************************************************************
+// S1AP-Common-DataTypes
+// **************************************************************
+
+
+enum {
+  REJECT(1),
+  IGNORE(2),
+  NOTIFY(3),
+  (7)
+ } Criticality;
+
+ enum {
+  OPTIONAL(1),
+  CONDITIONAL(2),
+  MANDATORY(3),
+  (7)
+ } Presence;
+
+ struct{	// TODO: Choice, oneof ( is Union correct)
+ 	uint16 local;
+ 	opaque global<0..2^16-1>;
+ }PrivateIEID;
+
+
+ enum {
+  INITIATING_MESSAGE(1),
+  SUCCESSFUL_OUTCOME(2),
+  UNSUCCESSFULOUTCOME(3),
+  (7)
+ }TriggeringMesage;
+
+
+uint8 ProcedureCode;				// INTEGER (0..255)
+uint16 ProtocolExtensionID; 		// INTEGER (0..65535)
+uint16 ProtocolIEID; 				// INTEGER (0..65535)
+
+
+// **************************************************************
+// S1AP-Constants
+// **************************************************************
+
+/* TODO: Need to insert/initialize the Constant Values
+struct ConstLists {
+  // Map from feature name to feature list.
+  map<string, FeatureList> constants_list = 1;
+}*/
+
+// Extension Constants
+uint16 maxPrivateIEs 					= 65535;
+uint16 maxProtocolExtensions 			= 65535;
+uint16 maxProtocolIEs					= 65535;
+
+// List Lengths
+uint16 maxNrOfCSGs							= 256;
+uint16 maxNrOfE-RABs						= 256;
+uint16 maxnoofTAIs							= 256;
+uint16 maxnoofTACs							= 256;
+uint16 maxNrOfErrors						= 256;
+uint16 maxnoofBPLMNs						= 6;
+uint16 maxnoofPLMNsPerMME					= 32;
+uint16 maxnoofEPLMNs						= 15;
+uint16 maxnoofEPLMNsPlusOne				= 16;
+uint16 maxnoofForbLACs						= 4096;
+uint16 maxnoofForbTACs						= 4096;
+uint16 maxNrOfIndividualS1ConnectionsToReset = 256;
+uint16 maxnoofCells						= 16;
+uint16 maxnoofTAIforWarning				= 65535 ;
+uint16 maxnoofCellID						= 65535 ;
+uint16 maxnoofEmergencyAreaID				= 65535 ;
+uint16 maxnoofCellinTAI					= 65535 ;
+uint16 maxnoofCellinEAI					= 65535 ;
+uint16 maxnoofeNBX2TLAs					= 2;
+uint16 maxnoofRATs							= 8;
+uint16 maxnoofGroupIDs						= 65535;
+uint16 maxnoofMMECs						= 256
+
+// Elementary Procedures 
+
+enum{
+	ID_HandoverPreparation_PC(0),
+	ID_HandoverResourceAllocation_PC( 1),
+	ID_HandoverNotification_PC( 2),
+	ID_PathSwitchRequest_PC( 3),
+	ID_HandoverCancel_PC( 4),
+	ID_E_RABSetup_PC( 5),
+	ID_E_RABModify_PC( 6),
+	ID_E_RABRelease_PC( 7),
+	ID_E_RABReleaseIndication_PC( 8),
+	ID_InitialContextSetup_PC( 9),
+	ID_Paging_PC( 10),
+	ID_downlinkNASTransport_PC( 11),
+	ID_initialUEMessage_PC( 12),
+	ID_uplinkNASTransport_PC( 13),
+	ID_Reset_PC( 14),
+	ID_ErrorIndication_PC( 15),
+	ID_NASNonDeliveryIndication_PC( 16),
+	ID_S1Setup_PC( 17),
+	ID_UEContextReleaseRequest_PC( 18),
+	ID_DownlinkS1cdma2000tunneling_PC( 19),
+	ID_UplinkS1cdma2000tunneling_PC( 20),
+	ID_UEContextModification_PC( 21),
+	ID_UECapabilityInfoIndication_PC( 22),
+	ID_UEContextRelease_PC( 23),
+	ID_eNBStatusTransfer_PC( 24),
+	ID_MMEStatusTransfer_PC( 25),
+	ID_DeactivateTrace_PC( 26),
+	ID_TraceStart_PC( 27),
+	ID_TraceFailureIndication_PC( 28),
+	ID_ENBConfigurationUpdate_PC( 29),
+	ID_MMEConfigurationUpdate_PC( 30),
+	ID_LocationReportingControl_PC( 31),
+	ID_LocationReportingFailureIndication_PC( 32),
+	ID_LocationReport_PC( 33),
+	ID_OverloadStart_PC( 34),
+	ID_OverloadStop_PC( 35),
+	ID_WriteReplaceWarning_PC( 36),
+	ID_eNBDirectInformationTransfer_PC( 37),
+	ID_MMEDirectInformationTransfer_PC( 38),
+	ID_PrivateMessage_PC( 39),
+	ID_eNBConfigurationTransfer_PC( 40),
+	ID_MMEConfigurationTransfer_PC( 41),
+	ID_CellTrafficTrace_PC( 42),
+	(255)
+}ProcedureCode;
+
+
+
+
+
+// IE-s
+
+enum {
+	ID_MME_UE_S1AP_ID_PIEID( 0),
+	ID_HandoverType_PIEID( 1),
+	ID_Cause_PIEID( 2),
+	ID_SourceID_PIEID( 3),
+	ID_TargetID_PIEID( 4),
+	ID_eNB_UE_S1AP_ID_PIEID( 8),
+	ID_E_RABSubjecttoDataForwardingList_PIEID( 12),
+	ID_E_RABtoReleaseListHOCmd_PIEID( 13),
+	ID_E_RABDataForwardingItem_PIEID( 14),
+	ID_E_RABReleaseItemBearerRelComp_PIEID( 15),
+	ID_E_RABToBeSetupListBearerSUReq_PIEID( 16),
+	ID_E_RABToBeSetupItemBearerSUReq_PIEID( 17),
+	ID_E_RABAdmittedList_PIEID( 18),
+	ID_E_RABFailedToSetupListHOReqAck_PIEID( 19),
+	ID_E_RABAdmittedItem_PIEID( 20),
+	ID_E_RABFailedtoSetupItemHOReqAck_PIEID( 21),
+	ID_E_RABToBeSwitchedDLList_PIEID( 22),
+	ID_E_RABToBeSwitchedDLItem_PIEID( 23),
+	ID_E_RABToBeSetupListCtxtSUReq_PIEID( 24),
+	ID_TraceActivation_PIEID( 25),
+	ID_NAS_PDU_PIEID( 26),
+	ID_E_RABToBeSetupItemHOReq_PIEID( 27),
+	ID_E_RABSetupListBearerSURes_PIEID( 28),
+	ID_E_RABFailedToSetupListBearerSURes_PIEID( 29),
+	ID_E_RABToBeModifiedListBearerModReq_PIEID( 30),
+	ID_E_RABModifyListBearerModRes_PIEID( 31),
+	ID_E_RABFailedToModifyList_PIEID( 32),
+	ID_E_RABToBeReleasedList_PIEID( 33),
+	ID_E_RABFailedToReleaseList_PIEID( 34),
+	ID_E_RABItem_PIEID( 35),
+	ID_E_RABToBeModifiedItemBearerModReq_PIEID( 36),
+	ID_E_RABModifyItemBearerModRes_PIEID( 37),
+	ID_E_RABReleaseItem_PIEID( 38),
+	ID_E_RABSetupItemBearerSURes_PIEID( 39),
+	ID_SecurityContext_PIEID( 40),
+	ID_HandoverRestrictionList_PIEID( 41),
+	ID_UEPagingID_PIEID( 43),
+	ID_pagingDRX_PIEID( 44),
+	ID_TAIList_PIEID( 46),
+	ID_TAIItem_PIEID( 47),
+	ID_E_RABFailedToSetupListCtxtSURes_PIEID( 48),
+	ID_E_RABReleaseItemHOCmd_PIEID( 49),
+	ID_E_RABSetupItemCtxtSURes_PIEID( 50),
+	ID_E_RABSetupListCtxtSURes_PIEID( 51),
+	ID_E_RABToBeSetupItemCtxtSUReq_PIEID( 52),
+	ID_E_RABToBeSetupListHOReq_PIEID( 53),
+	ID_GERANtoLTEHOInformationRes_PIEID( 55),
+	ID_UTRANtoLTEHOInformationRes_PIEID( 57),
+	ID_CriticalityDiagnostics_PIEID( 58),
+	ID_Global_ENB_ID_PIEID( 59),
+	ID_eNBname_PIEID( 60),
+	ID_MMEname_PIEID( 61),
+	ID_ServedPLMNs_PIEID( 63),
+	ID_SupportedTAs_PIEID( 64),
+	ID_TimeToWait_PIEID( 65),
+	ID_uEaggregateMaximumBitrate_PIEID( 66),
+	ID_TAI_PIEID( 67),
+	ID_E_RABReleaseListBearerRelComp_PIEID( 69),
+	ID_cdma2000PDU_PIEID( 70),
+	ID_cdma2000RATType_PIEID( 71),
+	ID_cdma2000SectorID_PIEID( 72),
+	ID_SecurityKey_PIEID( 73),
+	ID_UERadioCapability_PIEID( 74),
+	ID_GUMMEI_ID_PIEID( 75),
+	ID_E_RABInformationListItem_PIEID( 78),
+	ID_Direct_Forwarding_Path_Availability_PIEID( 79),
+	ID_UEIdentityIndexValue_PIEID( 80),
+	ID_cdma2000HOStatus_PIEID( 83),
+	ID_cdma2000HORequiredIndication_PIEID( 84),
+	ID_E_UTRAN_Trace_ID_PIEID( 86),
+	ID_RelativeMMECapacity_PIEID( 87),
+	ID_SourceMME_UE_S1AP_ID_PIEID( 88),
+	ID_Bearers_SubjectToStatusTransfer_Item_PIEID( 89),
+	ID_eNB_StatusTransfer_TransparentContainer_PIEID( 90),
+	ID_UE_associatedLogicalS1_ConnectionItem_PIEID( 91),
+	ID_ResetType_PIEID( 92),
+	ID_UE_associatedLogicalS1_ConnectionListResAck_PIEID( 93),
+	ID_E_RABToBeSwitchedULItem_PIEID( 94),
+	ID_E_RABToBeSwitchedULList_PIEID( 95),
+	ID_S_TMSI_PIEID( 96),
+	ID_cdma2000OneXRAND_PIEID( 97),
+	ID_RequestType_PIEID( 98),
+	ID_UE_S1AP_IDs_PIEID( 99),
+	ID_EUTRAN_CGI_PIEID( 100),
+	ID_OverloadResponse_PIEID( 101),
+	ID_cdma2000OneXSRVCCInfo_PIEID( 102),
+	ID_E_RABFailedToBeReleasedList_PIEID( 103),
+	ID_Source_ToTarget_TransparentContainer_PIEID( 104),
+	ID_ServedGUMMEIs_PIEID( 105),
+	ID_SubscriberProfileIDforRFP_PIEID( 106),
+	ID_UESecurityCapabilities_PIEID( 107),
+	ID_CSFallbackIndicator_PIEID( 108),
+	ID_CNDomain_PIEID( 109),
+	ID_E_RABReleasedList_PIEID( 110),
+	ID_MessageIdentifier_PIEID( 111),
+	ID_SerialNumber_PIEID( 112),
+	ID_WarningAreaList_PIEID( 113),
+	ID_RepetitionPeriod_PIEID( 114),
+	ID_NumberofBroadcastRequest_PIEID( 115),
+	ID_WarningType_PIEID( 116),
+	ID_WarningSecurityInfo_PIEID( 117),
+	ID_DataCodingScheme_PIEID( 118),
+	ID_WarningMessageContents_PIEID( 119),
+	ID_BroadcastCompletedAreaList_PIEID( 120),
+	ID_Inter_SystemInformationTransferTypeEDT_PIEID( 121),
+	ID_Inter_SystemInformationTransferTypeMDT_PIEID( 122),
+	ID_Target_ToSource_TransparentContainer_PIEID( 123),
+	ID_SRVCCOperationPossible_PIEID( 124),
+	ID_SRVCCHOIndication_PIEID( 125),
+	ID_NAS_DownlinkCount_PIEID( 126),
+	ID_CSG_Id_PIEID( 127),
+	ID_CSG_IdList_PIEID( 128),
+	ID_SONConfigurationTransferECT_PIEID( 129),
+	ID_SONConfigurationTransferMCT_PIEID( 130),
+	ID_TraceCollectionEntityIPAddress_PIEID( 131),
+	ID_MSClassmark2_PIEID( 132),
+	ID_MSClassmark3_PIEID( 133),
+	ID_RRC_Establishment_Cause_PIEID( 134),
+	ID_NASSecurityParametersfromE_UTRAN_PIEID( 135),
+	ID_NASSecurityParameterstoE_UTRAN_PIEID( 136),
+	ID_DefaultPagingDRX_PIEID( 137),
+	ID_Source_ToTarget_TransparentContainer_Secondary_PIEID( 138),
+	ID_Target_ToSource_TransparentContainer_Secondary_PIEID( 139),
+	(65535)
+}ProtocolIEID;
+
+
+// **************************************************************
+// Container definitions
+// **************************************************************
+
+
+struct {
+	ProtocolIEID 							id(1);		//UNIQUE
+	Criticality 							criticality(2);
+	opaque 									value(3);
+	Presence 								presence(4);
+}S1apProtocolIES;
+
+
+struct {
+	ProtocolIEID 							id(1);		//UNIQUE
+	Criticality 							first_criticality(2);
+	opaque 									first_value(3);
+	Criticality 							second_criticality(4);
+	opaque 									second_value(5);
+	Presence 								presence(6);
+}S1apProtocolIESPair;
+
+struct {
+	ProtocolIEID 							id(1);			//UNIQUE
+	Criticality 							criticality(2);
+	Extension 								extension(3);
+	Presence 								presence(4);
+}S1apProtocolExtension;
+
+struct {
+	ProtocolIEID 							id(1);
+	Criticality 							criticality(2);
+	opaque 									value(3);
+	Presence 								presence(4);
+}S1apPrivateIES;
+
+
+

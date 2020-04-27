@@ -1,0 +1,99 @@
+enum{
+	AllocationAndRetentionPriorityExtIEs( 1),
+	BearersSubjectToStatusTransferItemExtIEs(2 ),
+	CellIDBroadcastItemExtIEs( 3),
+	Cdma2000OneXSRVCCInfoExtIEs(4 ),
+	CellTypeExtIEs( 5),
+	CGIExtIEs( 6),
+	CSGIdListItemExtIEs( 7),
+	COUNTvalueExtIEs( 8),
+	CriticalityDiagnosticsExtIEs( 9),
+	CriticalityDiagnosticsIEItemExtIEs(10),
+	EmergencyAreaIDBroadcastItemExtIEs(11 ),
+	CompletedCellinEAIItemExtIEs( 12),
+	GERANCellIDExtIEs( 13),
+	GlobalENBIDExtIEs( 14),
+	ENBStatusTransferTransparentContainerExtIEs(15 ),
+	ERABInformationListIEs( 16),
+	ERABInformationListItemExtIEs(17 ),
+	ERABItemExtIEs(18 ),
+	ERABQoSParametersExtIEs( 19),
+	EUTRAN_CGIExtIEs(20 ),
+	ForbiddenTAsItemExtIEs(21 ),
+	ForbiddenLAsItemExtIEs( 22),
+	GBRQosInformationExtIEs( 23),
+	GUMMEIExtIEs( 24),
+	HandoverRestrictionListExtIEs( 25),
+	LAIExtIEs( 26),
+	LastVisitedEUTRANCellInformationExtIEs(27 ),
+	RequestTypeExtIEs(28 ),
+	RIMTransferExtIEs( 29),
+	SecurityContextExtIEs(30 ),
+	SONConfigurationTransferExtIEs(31 ),
+	SONInformationReplyExtIEs(32 ),
+	SourceeNBIDExtIEs( 33),
+	ServedGUMMEIsItemExtIEs (34 ),
+	SourceeNBToTargeteNBTransparentContainerExtIEs(35 ),
+	STMSIExtIEs(36 ),
+	SupportedTAsItemExtIEs(37 ),
+	TAIExtIEs( 38),
+	TAIBroadcastItemExtIEs( 39),
+	CompletedCellinTAIItemExtIEs(40 ),
+	TargetRNCIDExtIEs(41 ),
+	TargeteNBIDExtIEs( 42),
+	TargeteNBToSourceeNBTransparentContainerExtIEs( 43),
+	TraceActivationExtIEs(44 ),
+	UEAggregateMaximumBitratesExtIEs( 45),
+	UES1APIDPairExtIEs(46 ),
+	UESecurityCapabilitiesExtIEs( 47),
+	UEAssociatedLogicalS1ConnectionItemExtIEs( 48),
+	X2TNLConfigurationInfoExtIEs(49),
+}S1apProtocolExtensionIENames;
+
+enum {
+	BearersSubjectToStatusTransferItemIEsLabel(1),
+	ERABInformationListIEsLabel(2),
+	ERABItemIEsLabel(3),
+}S1apProtocolIELabels;
+
+
+struct{
+	select(S1apProtocolIELabels){
+		case BearersSubjectToStatusTransferItemIEsLabel:
+			BearersSubjectToStatusTransferItemIEs;
+		case ERABInformationListIEsLabel:
+			ERABInformationListIEs;
+		case ERABItemIEsLabel:
+			ERABItemIEs;
+	};
+}S1apProtocolIES;
+
+typedef S1apProtocolIES BearersSubjectToStatusTransferItemIEs = {"id": , "criticality": Criticality.IGNORE, "type": BearersSubjectToStatusTransferItem, "presence": Presence.MANDATORY}
+
+
+typedef S1apProtocolIES ERABInformationListIEs = {"id": ID_E_RABInformationListItem_PIEID, "criticality": Criticality.IGNORE , "type": ERABInformationListItem, "presence": Presence.MANDATORY}
+
+typedef S1apProtocolIES ERABItemIEs = {"id": ID_E_RABItem_PIEID, "criticality": Criticality.IGNORE, "type": ERABItem, "presence": Presence.MANDATORY}
+
+
+struct {
+	ProtocolIEID 	ID_Bearers_SubjectToStatusTransfer_Item_PIEID;		//UNIQUE
+	Criticality  	Criticality.IGNORE;
+	opaque  		BearersSubjectToStatusTransferItem;
+	Presence 		Presence.MANDATORY;
+}BearersSubjectToStatusTransferItemIEs
+
+struct {
+	ProtocolIEID 							id(1);		//UNIQUE
+	Criticality 							criticality(2);
+	opaque 									value(3);
+	Presence 								presence(4);
+}ERABInformationListIEs;
+
+
+struct {
+	ProtocolIEID 							id(1);		//UNIQUE
+	Criticality 							criticality(2);
+	opaque									value(3);
+	Presence 								presence(4);
+}ERABItemIEs;

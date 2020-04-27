@@ -13,33 +13,33 @@ struct ConstLists {
 }*/
 
 // Extension Constants
- const  i32 maxPrivateIEs 					= 65535;
- const  i32 maxProtocolExtensions 			= 65535;
- const  i32 maxProtocolIEs					= 65535;
+ const  i16 maxPrivateIEs 					= 65535;
+ const  i16 maxProtocolExtensions 			= 65535;
+ const  i16 maxProtocolIEs					= 65535;
 
 // List Lengths
- const  i32 maxNrOfCSGs							= 256;
- const  i32 maxNrOfE-RABs						= 256;
- const  i32 maxnoofTAIs							= 256;
- const  i32 maxnoofTACs							= 256;
- const  i32 maxNrOfErrors						= 256;
- const  i32 maxnoofBPLMNs						= 6;
- const  i32 maxnoofPLMNsPerMME					= 32;
- const  i32 maxnoofEPLMNs						= 15;
- const  i32 maxnoofEPLMNsPlusOne				= 16;
- const  i32 maxnoofForbLACs						= 4096;
- const  i32 maxnoofForbTACs						= 4096;
- const  i32 maxNrOfIndividualS1ConnectionsToReset = 256;
- const  i32 maxnoofCells						= 16;
- const  i32 maxnoofTAIforWarning				= 65535 ;
- const  i32 maxnoofCellID						= 65535 ;
- const  i32 maxnoofEmergencyAreaID				= 65535 ;
- const  i32 maxnoofCellinTAI					= 65535 ;
- const  i32 maxnoofCellinEAI					= 65535 ;
- const  i32 maxnoofeNBX2TLAs					= 2;
- const  i32 maxnoofRATs							= 8;
- const  i32 maxnoofGroupIDs						= 65535;
- const  i32 maxnoofMMECs						= 256
+ const  i16 maxNrOfCSGs							= 256;
+ const  i16 maxNrOfE-RABs						= 256;
+ const  i16 maxnoofTAIs							= 256;
+ const  i16 maxnoofTACs							= 256;
+ const  i16 maxNrOfErrors						= 256;
+ const  i16 maxnoofBPLMNs						= 6;
+ const  i16 maxnoofPLMNsPerMME					= 32;
+ const  i16 maxnoofEPLMNs						= 15;
+ const  i16 maxnoofEPLMNsPlusOne				= 16;
+ const  i16 maxnoofForbLACs						= 4096;
+ const  i16 maxnoofForbTACs						= 4096;
+ const  i16 maxNrOfIndividualS1ConnectionsToReset = 256;
+ const  i16 maxnoofCells						= 16;
+ const  i16 maxnoofTAIforWarning				= 65535 ;
+ const  i16 maxnoofCellID						= 65535 ;
+ const  i16 maxnoofEmergencyAreaID				= 65535 ;
+ const  i16 maxnoofCellinTAI					= 65535 ;
+ const  i16 maxnoofCellinEAI					= 65535 ;
+ const  i16 maxnoofeNBX2TLAs					= 2;
+ const  i16 maxnoofRATs							= 8;
+ const  i16 maxnoofGroupIDs						= 65535;
+ const  i16 maxnoofMMECs						= 256
 
 // Elementary Procedures 
 
