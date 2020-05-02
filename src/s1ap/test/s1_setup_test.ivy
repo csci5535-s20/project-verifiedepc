@@ -1,0 +1,36 @@
+#lang ivy1.7
+
+type pcode_bits
+interpret pcode_bits -> bv[8]
+
+object message_enum = {
+    type this = {initial_message, successful_outcome, unsuccessful_outcome}
+}
+#type message_enumerated = {initial_message, successful_outcome, unsuccessful_outcome}
+
+
+object s1_setup = {
+    individual pcode : pcode_bits
+    individual msg : message_enum
+    after init {
+        pcode := 0;
+        msg := message_enum.unsuccessful_outcome
+    }
+
+    action send(x:pcode_bits, y:message_enum) = {
+        pcode := x;
+        msg := y
+    }
+
+    action recv returns(y:message_enum) = {
+        y := message_enum.successful_outcome if msg = message_enum.initial_message & pcode = 17 else message_enum.unsuccessful_outcome
+    }
+}
+
+import action ask returns (x:pcode_bits)
+export action ask_and_check_pcode returns(ok:bool) = {
+    ok := ask = 17
+}
+
+export s1_setup.send
+export s1_setup.recv
