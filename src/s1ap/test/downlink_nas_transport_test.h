@@ -628,10 +628,10 @@ class downlink_nas_transport_test {
     long long __CARD__pcode_bits;
     long long __CARD__cid;
     downlink_nas_transport_test();
-    virtual void ext__downlink_nas_transport__send(unsigned x, message_enum y, int m, int e, nas_pdu_string n);
+    virtual message_enum ext__downlink_nas_transport__send();
     virtual void __init();
     virtual bool ext__ask_and_check_pcode();
-    virtual message_enum ext__downlink_nas_transport__recv();
+    virtual void ext__downlink_nas_transport__recv(unsigned x, message_enum y, int m, int e, nas_pdu_string n);
     virtual unsigned ext__ask();
     virtual unsigned imp__ask();
     void __tick(int timeout);

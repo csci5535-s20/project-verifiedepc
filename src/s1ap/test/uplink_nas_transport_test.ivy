@@ -25,7 +25,7 @@ object downlink_nas_transport = {
         nas_pdu := nas_pdu_string.0
     }
 
-    action recv(x:pcode_bits, y:message_enum, m:cid, e:cid, n:nas_pdu_string) = {
+    action send(x:pcode_bits, y:message_enum, m:cid, e:cid, n:nas_pdu_string) = {
         pcode := x;
         msg := y;
         mme_ue_s1ap_id := m;
@@ -33,7 +33,7 @@ object downlink_nas_transport = {
         nas_pdu := n
     }
 
-    action send returns(y:message_enum) = {
+    action recv returns(y:message_enum) = {
         y := message_enum.successful_outcome if msg = message_enum.initial_message & 
                pcode = 11 & mme_ue_s1ap_id > 0 & enb_ue_s1ap_id > 0 & 
                nas_pdu ~= nas_pdu_string.0 else message_enum.unsuccessful_outcome

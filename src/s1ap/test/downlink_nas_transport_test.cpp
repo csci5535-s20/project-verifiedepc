@@ -599,14 +599,11 @@ void  __deser<downlink_nas_transport_test::nas_pdu_string>(ivy_deser &inp, downl
 int downlink_nas_transport_test::___ivy_choose(int rng,const char *name,int id) {
         return 0;
     }
-void downlink_nas_transport_test::ext__downlink_nas_transport__send(unsigned x, message_enum y, int m, int e, nas_pdu_string n){
-    {
-        downlink_nas_transport__pcode = x;
-        downlink_nas_transport__msg = y;
-        downlink_nas_transport__mme_ue_s1ap_id = m;
-        downlink_nas_transport__enb_ue_s1ap_id = e;
-        downlink_nas_transport__nas_pdu = n;
-    }
+downlink_nas_transport_test::message_enum downlink_nas_transport_test::ext__downlink_nas_transport__send(){
+    downlink_nas_transport_test::message_enum y;
+    y = (message_enum)___ivy_choose(0,"fml:y",0);
+    y = (((downlink_nas_transport__msg == message_enum__initial_message) && (downlink_nas_transport__pcode == (11 & 255)) && (0 < downlink_nas_transport__mme_ue_s1ap_id) && (0 < downlink_nas_transport__enb_ue_s1ap_id) && !(downlink_nas_transport__nas_pdu == nas_pdu_string__0)) ? message_enum__successful_outcome : message_enum__unsuccessful_outcome);
+    return y;
 }
 void downlink_nas_transport_test::__init(){
     {
@@ -632,11 +629,14 @@ bool downlink_nas_transport_test::ext__ask_and_check_pcode(){
     }
     return ok;
 }
-downlink_nas_transport_test::message_enum downlink_nas_transport_test::ext__downlink_nas_transport__recv(){
-    downlink_nas_transport_test::message_enum y;
-    y = (message_enum)___ivy_choose(0,"fml:y",0);
-    y = (((downlink_nas_transport__msg == message_enum__initial_message) && (downlink_nas_transport__pcode == (11 & 255)) && (0 < downlink_nas_transport__mme_ue_s1ap_id) && (0 < downlink_nas_transport__enb_ue_s1ap_id) && !(downlink_nas_transport__nas_pdu == nas_pdu_string__0)) ? message_enum__successful_outcome : message_enum__unsuccessful_outcome);
-    return y;
+void downlink_nas_transport_test::ext__downlink_nas_transport__recv(unsigned x, message_enum y, int m, int e, nas_pdu_string n){
+    {
+        downlink_nas_transport__pcode = x;
+        downlink_nas_transport__msg = y;
+        downlink_nas_transport__mme_ue_s1ap_id = m;
+        downlink_nas_transport__enb_ue_s1ap_id = e;
+        downlink_nas_transport__nas_pdu = n;
+    }
 }
 unsigned downlink_nas_transport_test::ext__ask(){
     unsigned x;
@@ -1019,14 +1019,14 @@ public:
                 else
     
                 if (action == "downlink_nas_transport.recv") {
-                    check_arity(args,0,action);
-                    __ivy_out  << "= " << ivy.ext__downlink_nas_transport__recv() << std::endl;
+                    check_arity(args,5,action);
+                    ivy.ext__downlink_nas_transport__recv(_arg<unsigned>(args,0,256),_arg<downlink_nas_transport_test::message_enum>(args,1,3),_arg<int>(args,2,0),_arg<int>(args,3,0),_arg<downlink_nas_transport_test::nas_pdu_string>(args,4,27));
                 }
                 else
     
                 if (action == "downlink_nas_transport.send") {
-                    check_arity(args,5,action);
-                    ivy.ext__downlink_nas_transport__send(_arg<unsigned>(args,0,256),_arg<downlink_nas_transport_test::message_enum>(args,1,3),_arg<int>(args,2,0),_arg<int>(args,3,0),_arg<downlink_nas_transport_test::nas_pdu_string>(args,4,27));
+                    check_arity(args,0,action);
+                    __ivy_out  << "= " << ivy.ext__downlink_nas_transport__send() << std::endl;
                 }
                 else
     
