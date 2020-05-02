@@ -3,6 +3,12 @@
 type pcode_bits
 interpret pcode_bits -> bv[8]
 type cid
+type tac_octet
+interpret tac_octet -> bv[16]
+type plmn_octet
+interpret plmn_octet -> bv[24]
+type cell_bits
+interpret cell_bits -> bv[28]
 object nas_pdu_string = {
     type this = {0,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z} # 0 is error
 }
@@ -11,39 +17,53 @@ object message_enum = {
     type this = {initial_message, successful_outcome, unsuccessful_outcome}
 }
 
-object downlink_nas_transport = {
+object uplink_nas_transport = {
     individual pcode : pcode_bits
     individual msg : message_enum
     individual mme_ue_s1ap_id : cid
     individual enb_ue_s1ap_id : cid
     individual nas_pdu : nas_pdu_string
+    individual plmn_identity1 : plmn_octet
+    individual tac : tac_octet
+    individual plmn_identity2 : plmn_octet
+    individual cell_identity : cell_bits
     after init {
         pcode := 0;
         msg := message_enum.unsuccessful_outcome;
         mme_ue_s1ap_id := 0;
         enb_ue_s1ap_id := 0;
-        nas_pdu := nas_pdu_string.0
+        nas_pdu := nas_pdu_string.0;
+        plmn_identity1 := 0;
+        tac := 0;
+        plmn_identity2 := 0;
+        cell_identity := 0
+
     }
 
-    action send(x:pcode_bits, y:message_enum, m:cid, e:cid, n:nas_pdu_string) = {
+    action send(x:pcode_bits, y:message_enum, m:cid, e:cid, n:nas_pdu_string, a:plmn_octet, b:tac_octet, c:plmn_octet, d:cell_bits) = {
         pcode := x;
         msg := y;
         mme_ue_s1ap_id := m;
         enb_ue_s1ap_id := e;
-        nas_pdu := n
+        nas_pdu := n;
+        plmn_identity1 := a;
+        tac := b;
+        plmn_identity2 := c;
+        cell_identity := d
     }
 
     action recv returns(y:message_enum) = {
         y := message_enum.successful_outcome if msg = message_enum.initial_message & 
-               pcode = 11 & mme_ue_s1ap_id > 0 & enb_ue_s1ap_id > 0 & 
-               nas_pdu ~= nas_pdu_string.0 else message_enum.unsuccessful_outcome
+               pcode = 13 & mme_ue_s1ap_id > 0 & enb_ue_s1ap_id > 0 & 
+               nas_pdu ~= nas_pdu_string.0 & plmn_identity1 > 0 & tac > 0 &
+               plmn_identity2 > 0 & cell_identity > 0 else message_enum.unsuccessful_outcome
     }
 }
 
 import action ask returns (x:pcode_bits)
 export action ask_and_check_pcode returns(ok:bool) = {
-    ok := ask = 11
+    ok := ask = 13
 }
 
-export downlink_nas_transport.send
-export downlink_nas_transport.recv
+export uplink_nas_transport.send
+export uplink_nas_transport.recv
