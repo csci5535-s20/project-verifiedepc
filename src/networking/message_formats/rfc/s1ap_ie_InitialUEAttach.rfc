@@ -1,3 +1,329 @@
+
+uint64 BitRate;
+
+
+uint64 MME_UE_S1AP_ID	 //INTEGER (0..4294967295).  MMEUES1APID
+string MMEName<1..150> // PrintableString (SIZE (1..150,...))
+uint32 ENB_UE_S1AP_ID// INTEGER (0..16777215)
+string EncryptionAlgorithms<16..MAXSIZE> // BIT STRING (SIZE (16,...))
+string IntegrityProtectionAlgorithms<16..MAXSIZE> // BIT STRING (SIZE (16,...))
+
+
+string ENBName<1..150> //(SIZE (1..150,...))
+string NAS_PDU<1..MAXSIZE>	//OCTET STRING
+
+string TBCDString[3] //::= OCTET STRING (SIZE (3))
+
+TBCDString  PLMNIdentity;
+PLMNidentity BPLMNs;
+
+
+string CellIdentity
+string MMECode[1] // OCTET STRING (SIZE (1))
+string MTMSI[4]	//OCTET STRING (SIZE (4))
+string CSGId[27]
+
+string MMEGroupID[2]  // OCTET STRING (SIZE (2))
+
+string TAC[2] //::= OCTET STRING (SIZE (2))
+
+uint8 RelativeMMECapacity //INTEGER (0..255)
+
+string UERadioCapability<1..SIZE> //OCTET STRING
+
+string SecurityKey[256]  // BIT STRING (SIZE(256))
+string TransportLayerAddress[160]  // BIT STRING (SIZE(1..160, ...))
+string InterfacesToTrace[8] //BIT STRING (SIZE (8))
+string EUTRANTraceID[8]  //  OCTET STRING (SIZE (8))
+
+uint8 SubscriberProfileIDforRFP //INTEGER (1..256) 
+
+
+
+enum{ 
+	CS_FALLBACK_REQUIRED,
+	CS_FALLBACK_HIGH_PRIORITY
+} CSFallbackIndicator;
+
+enum {
+	V32,
+	V64,
+	V128,
+	v256,
+	}PagingDRX;
+
+enum {
+	EMERGENCY,
+	HIGH_PRIORITY_ACCESS,
+	MT_ACCESS,
+	MO_SIGNALLING,
+	MO_DATA,
+}RRCEstablishmentCause;
+
+
+enum {
+	V1S, 
+	V2S,
+	V5S, 
+	V10S,
+	V20S,
+	V60S,
+}TimeToWait;
+
+
+enum {
+	POSSIBLE,
+}SRVCCOperationPossible;
+
+
+struct {
+	string macro_enb_id<0..20>; 	//BIT STRING (SIZE(20))
+	string home_enb_id<0..28>; 		// BIT STRING (SIZE(28)),
+}ENBID;
+
+
+
+struct {
+	PLMNIdentity plmn_identity; 
+	CellIdentity cell_identity; 
+	EUTRAN_CGIExtIEs ie_extensions<MINSIZE..MAXSIZE> 
+}EUTRAN_CGI;
+
+
+struct {
+	PLMNIdentity 		plmn_identity;
+	TAC 					tac;
+	TAIExtIEs ie_extensions<0..MAXSIZE>; 
+}TAI;
+
+struct {
+	MMECode 		mmec;
+	MTMSI 			m_tmsi;
+	STMSIExtIEs 	ie_extensions<0..SIZE>;
+}S_TMSI;
+
+
+struct {
+	PLMNIdentity 	plmn_identity; 
+	MMEGroupID   	mme_group_id;
+	MMECode 			mme_code; 
+	GUMMEIExtIEs ie_extensions<0..MAXSIZE>;
+}GUMMEI;
+
+struct {
+	PLMNIdentity 	plmn_identity; 
+	ENBID 			enb_id; 
+	globalENBIDExtIEs ie_extensions<0..MAXSIZE>;
+}GlobalENBID;
+
+// -- C
+
+struct {
+	CauseRadioNetwork radioNetwork<0..MAXSIZE>;
+	CauseTransport	transport);
+	CauseNas 		nas;
+	CauseProtocol 	protocol;
+	CauseMisc 	misc<0..MAXSIZE>;
+}Cause;
+
+enum {	
+	CONTROL_PROCESSING_OVERLOAD(1),
+	NOT_ENOUGH_USER_PLANE_PROCESSING_RESOURCES(2),
+	HARDWARE_FAILURE(3),
+	OM_INTERVENTION(4),
+	UNSPECIFIED(5),
+	UNKNOWN_PLMN(6)
+}CauseMisc;
+
+enum{
+	TRANSFER_SYNTAX_ERROR(1),
+	ABSTRACT_SYNTAX_ERROR_REJECT(2),
+	ABSTRACT_SYNTAX_ERROR_IGNORE_AND_NOTIFY(3),
+	MESSAGE_NOT_COMPATIBLE_WITH_RECEIVER_STATE(4),
+	SEMANTIC_ERROR(5),
+	ABSTRACT_SYNTAX_ERROR_FALSELY_CONSTRUCTED_MESSAGE(6),
+	UNSPECIFIED(7)	
+}CauseProtocol;
+
+enum {  // TODO: Complete list
+	UNSPECIFIED(1),
+	SUCCESSFUL_HANDOVER(2)
+	}CauseRadioNetwork;
+
+enum {
+	TRANSPORT_RESOURCE_UNAVAILABLE(1),
+	UNSPECIFIED(2)
+}CauseTransport;
+
+enum {
+	NORMAL_RELEASE,
+	AUTHENTICATION_FAILURE,
+	DETACH,
+	UNSPECIFIED
+}CauseNas;
+
+
+struct {
+	CSGId 				csg_id;
+	CSGIdListItemExtIEs ie_extensions<0..IEExtMaxByteSize>;
+}CSGIdListItem;
+
+// Todo: Size(CSGIdListItem)*maxNOfCSGs
+CSGIdListItem CSGIdList<0..maxNrOfCSGs>
+
+
+struct {
+	ProcedureCode 			procedure_code<0..MAXSIZE>;
+	TriggeringMessage 		triggering_message<0..MAXSIZE>;
+	Criticality 			triggering_criticiality<0..MAXSIZE>;
+	CriticalityDiagnosticsIEList 	ies_criticality_diagnostics<0..MAXSIZE>;
+	CriticalityDiagnosticsExtIEs ie_extensions<0..IEExtMaxSize>;
+}CriticalityDiagnostics;
+
+
+//TODO: size(CriticalityDiagnosticsIEItem)*maxNrOfErrors
+CriticalityDiagnosticsIEItem CriticalityDiagnosticsIEList<0..maxNrOfErrors>
+
+
+struct {
+	Criticality 			ie_criticality;
+	ProtocolIEID 			ie_id;
+	TypeOfError 			type_of_error;
+	CriticalityDiagnosticsIEItemExtIEs ie_extensions<0..IEExtMaxByteSize>;
+}CriticalityDiagnosticsIEItem; 
+
+// -- E
+
+// TODO: size(PLMNIdentity)*maxnoofEPLMNs)
+PLMNIdentity EPLMNs<MINSIZE..MAXSIZE>;
+
+
+// -- F
+
+enum {
+	ALL, 
+	GERAN,
+	UTRAN,
+	CDMA2000
+}ForbiddenInterRATs;
+
+//TODO: size(ForbiddenTAsItem)*maxnoofEPLMNsPlusOne
+ForbiddenTAsItem ForbiddenTAs<MINSIZE..MAXSIZE>;
+
+
+struct {
+	PLMNIdentity 		plmn_identity;
+	ForbiddenTACs 		forbidden_tacs;
+	ForbiddenTAsItemExtIEs ie_extensions<0..MAXSIZE>;
+}ForbiddenTAsItem;
+
+//TODO: size(TAC)*maxnoofForbTACs)
+TAC ForbiddenTACs<MINSIZE..MAXSIZE>;
+
+
+//TODO: size(ForbiddenLAsItem)*maxnoofEPLMNsPlusOne)
+ForbiddenLAsItem ForbiddenLAs<MINSIZE..MAXSIZE>;
+
+
+struct {
+	PLMNIdentity 	plmn_identity;
+	ForbiddenLACs 	forbidden_identity;
+	ForbiddenLAsItemExtIEs ie_extensions<0..MAXSIZE>;
+}ForbiddenLAsItem;
+
+// TODO: size(LAC)*maxnoofForbLACs)
+LAC ForbiddenLACs<MINSIZE..MAXSIZE>
+
+// -- H
+
+
+struct {
+	PLMNIdentity 		serving_plmn;
+	EPLMNs 		equivalent_plmns<0..SIZE>; //TODO: What's the size of each item? 
+	ForbiddenTAs forbidden_tas<0..SIZE>;
+	ForbiddenLAs forbidden_las<0..SIZE>;
+	ForbiddenInterRATs forbidden_inter_rats<0..SIZE>;
+	HandoverRestrictionListExtIEs ie_extensions<0..MAXSIZE>; 
+}HandoverRestrictionList;
+
+
+// +++++++++++++++++++++++++++++++++++++++++++++++
+// -- S
+
+//TODO: size(SupportedTAsItem)* maxnoofTACs)
+SupportedTAsItem SupportedTAs<MINSIZE..MAXSIZE>
+
+struct {
+	TAC 					tac;
+	BPLMNs 					broadcastPLMNs;
+	SupportedTAsItemExtIEs 	ie_extensions<0..MAXSIZE>;
+}SupportedTAsItem;
+
+
+
+//TODO: size(ServedGUMMEIsItem)*(maxnoofRATs)
+ServedGUMMEIsItem ServedGUMMEIs<MINSIZE..MAXSIZE> 
+
+//TODO: size(maxnoofGroupIDs)
+MMEGroupID ServedGroupIDs<MINSIZE..MAXSIZE>
+
+
+//TODO : size(maxnoofMMECs) ServedMMECs
+MMECode ServedMMECs<MINSIZE..MAXSIZE>
+
+//TODO: size(maxnoofPLMNsPerMME)
+PLMNidentity ServedPLMNs<MINSIZE..MAXSIZE>
+
+struct {
+	ServedPLMNs 			served_plmns;
+	ServedGroupIDs 			served_group_ids;
+	ServedMMECs 			served_mmecs;
+	ServedGUMMEIsItemExtIEs ie_extensions<0..MAXSIZE>;
+}ServedGUMMEIsItem;
+
+// -- T
+
+
+struct {
+	EUTRANTraceID 			eutran_trace_id;
+	InterfacesToTrace 		interfaces_to_trace;
+	TraceDepth 				trace_depth;
+	TransportLayerAddress 	trace_collection_entity_ip_address;
+	TraceActivationExtIEs 	ie_extensions<0..MAXSIZE>; 
+}TraceActivation;
+
+
+
+enum { 
+	MINIMUM,
+	MEDIUM,
+	MAXIMUM,
+	MINIMUM_WITHOUT_VENDOR_SPECIFIC_EXTENSION,
+	MEDIUM_WITHOUT_VENDOR_SPECIFIC_EXTENSION,
+	MAXIMUM_WITHOUT_VENDOR_SPECIFIC_EXTENSION,
+}TraceDepth;
+
+
+
+// -- U
+
+struct {
+	BitRate 					ue_aggregate_maximum_bitrate_dl;
+	BitRate 	 				ue_aggregate_maximum_bitrate_ul;
+	UEAggregateMaximumBitratesExtIEs ie_extensions<0..MAXSIZE>;
+}UEAggregateMaximumBitrate;
+
+
+
+
+struct {
+	EncryptionAlgorithms 			encryption_algorithms,
+	IntegrityProtectionAlgorithms 	integrity_protection_algorithms,
+	UESecurityCapabilitiesExtIEs 	ie_extensions<0..MAXSIZE>;
+}UESecurityCapabilities;
+
+
+
 /*
 
 enum {
@@ -30,6 +356,8 @@ enum {
 	SUBSCRIBERR_PROFILE_ID_RFP_IE, 	// SubscriberProfileIDforRFP,
 	CS_FALLBACK_INDICATOR_IE, 		//CSFallbackIndicator,
 	SRVCC_OPERRATION_POSSIBLE_IE, 	// SRVCCOperationPossible,
+
+	// ----- what are these? 
 	ERAB_SETUP_LIST_CTXT_SURES_IE,  // ERABSetupListCtxtSURes,
 	ERAB_LIST_IE, 					// ERABList,
 	ERAB_TOBSETUP_LIST_CTXT_SUREQ_IE, // ERABToBeSetupListCtxtSUReq,
