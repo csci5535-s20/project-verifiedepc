@@ -30,7 +30,9 @@ enum {
 	SRVCC_OPERRATION_POSSIBLE_IE, 	// SRVCCOperationPossible,
 	ERAB_SETUP_LIST_CTXT_SURES_IE,  // ERABSetupListCtxtSURes,
 	ERAB_LIST_IE, 					// ERABList,
-	ERAB_TOBSETUPLIST_CTXT_SUREQ_IE, // ERABToBeSetupListCtxtSUReq,
+	ERAB_TOBSETUP_LIST_CTXT_SUREQ_IE, // ERABToBeSetupListCtxtSUReq,
+	ERAB_TOBSETUP_ITEM_CTXT_SUREQ_IE, // ERABToBeSetupItemCtxtSUReq,
+	ERAB_SETUP_ITEM_CTXT_SURES_IE,  // ERABSetupItemCtxtSURes,
 
 }S1apIETypes;
 
@@ -71,7 +73,8 @@ enum{
 		case(SRVCC_OPERRATION_POSSIBLE_IE):			SRVCCOperationPossible;
 		case(ERAB_SETUP_LIST_CTXT_SURES_IE):		ERABSetupListCtxtSURes;
 		case(ERAB_LIST_IE):			 				ERABList;
-		case(ERAB_TOBSETUPLIST_CTXT_SUREQ_IE):		ERABToBeSetupListCtxtSUReq,
+		case(ERAB_TOBSETUP_LIST_CTXT_SUREQ_IE):		ERABToBeSetupListCtxtSUReq,
+		case(ERAB_TOBSETUP_ITEM_CTXT_SUREQ_IE):		ERABToBeSetupItemCtxtSUReq,
 	};
 }S1apIE;
 
@@ -152,27 +155,17 @@ struct {
 
 
 struct {
-	S1apIE ie1 = {};
+	S1apIE ie1 = {ID_Global_ENB_ID_PIEID, Criticality.REJECT, Presence.MANDATORY, GLOBAL_ENB_ID_IE };
 
-	S1apIE ie2 = {};
+	S1apIE ie2 = {ID_eNBname_PIEID, Criticality.IGNORE, Presence.OPTIONAL, ENB_NAME_IE  };
 
-	S1apIE ie3 = {};
+	S1apIE ie3 = {ID_SupportedTAs_PIEID, Criticality.REJECT, Presence.MANDATORY, SUPPORTED_TAS_IE };
 
-	S1apIE ie4 = {};
+	S1apIE ie4 = {ID_DefaultPagingDRX_PIEID, Criticality.IGNORE, Presence.MANDATORY, PAGING_DRX_IE};
 
-	S1apIE ie5 = {};
+	S1apIE ie5 = {ID_CSG_IdList_PIEID, Criticality.REJECT, Presence.OPTIONAL, CSGID_LIST_IE };
 
 }S1SetupRequest;
-
-
-const list<S1apProtocolIES> S1SetupRequestIEs = [
-	{"id":ID_Global_ENB_ID_PIEID , "criticality": Criticality.REJECT, "type":GlobalENBID , "presence" :Presence.MANDATORY},
-	{"id":ID_eNBname_PIEID , "criticality": Criticality.IGNORE, "type":ENBName , "presence" :Presence.OPTIONAL},
-	{"id":ID_SupportedTAs_PIEID , "criticality": Criticality.REJECT, "type":SupportedTAs , "presence" :Presence.MANDATORY},
-	{"id":ID_DefaultPagingDRX_PIEID , "criticality": Criticality.IGNORE, "type":PagingDRX , "presence" :Presence.MANDATORY},
-	{"id":ID_CSG_IdList_PIEID , "criticality": Criticality.REJECT, "type":CSGIdList , "presence" :Presence.OPTIONAL},
-
-]
 
 
 // **************************************************************
@@ -180,18 +173,16 @@ const list<S1apProtocolIES> S1SetupRequestIEs = [
 // **************************************************************
 
 
-struct S1SetupResponse {
-	1: S1SetupResponseIEs protocol_ies;
-}
+struct {
+	S1apIE ie1 = {ID_MMEname_PIEID, Criticality.IGNORE, Presence.OPTIONAL, MME_NAME_IE };
 
-const list<S1apProtocolIES> S1SetupResponseIEs = [
-	{"id":ID_MMEname_PIEID , "criticality": Criticality.IGNORE, "type":MMEName , "presence" :Presence.OPTIONAL},
-	{"id":ID_ServedGUMMEIs_PIEID , "criticality": Criticality.REJECT, "type":ServedGUMMEIs , "presence" :Presence.MANDATORY},
-	{"id":ID_RelativeMMECapacity_PIEID , "criticality": Criticality.IGNORE, "type":RelativeMMECapacity , "presence" :Presence.MANDATORY},
-	{"id":ID_CriticalityDiagnostics_PIEID , "criticality": Criticality.IGNORE, "type":CriticalityDiagnostics , "presence" :Presence.OPTIONAL},
-]
+	S1apIE ie2 = {ID_ServedGUMMEIs_PIEID, Criticality.REJECT, Presence.MANDATORY, SERVED_GUMMEIS_IE };
 
+	S1apIE ie3 = {ID_RelativeMMECapacity_PIEID, Criticality.IGNORE, Presence.MANDATORY, RELATIVE_MME_CAPACITY_IE };
 
+	S1apIE ie4 = {ID_CriticalityDiagnostics_PIEID, Criticality.IGNORE, Presence.OPTIONAL,  CRITICALITY_DIAGNOSTICS_IE }; 
+
+}S1SetupResponse;
 
 
 
@@ -199,15 +190,14 @@ const list<S1apProtocolIES> S1SetupResponseIEs = [
 // S1 Setup Failure
 // **************************************************************
 
-struct S1SetupFailure {
-	1: S1SetupFailureIEs protocol_ies;
-}
+struct {
+	S1apIE ie1 = {ID_Cause_PIEID, Criticality.IGNORE, Presence.MANDATORY, CAUSE_IE };
 
-const list<S1apProtocolIES> S1SetupResponseIEs = [
-	{"id":ID_Cause_PIEID , "criticality": Criticality.IGNORE, "type":Cause , "presence" :Presence.MANDATORY},
-	{"id":ID_TimeToWait_PIEID , "criticality": Criticality.IGNORE, "type":TimeToWait	 , "presence" :Presence.OPTIONAL},
-	{"id":ID_CriticalityDiagnostics_PIEID , "criticality": Criticality.IGNORE, "type":CriticalityDiagnostics , "presence" :Presence.OPTIONAL},
-]
+	S1apIE ie2 = {ID_TimeToWait_PIEID, Criticality.IGNORE, Presence.OPTIONAL, TIME_TO_WAIT_IE }; //TimeToWait
+
+	S1apIE ie3 = {ID_CriticalityDiagnostics_PIEID, Criticality.IGNORE, Presence.OPTIONAL, CRITICALITY_DIAGNOSTICS_IE };
+
+}S1SetupFailure;
 
 
 
@@ -222,45 +212,50 @@ const list<S1apProtocolIES> S1SetupResponseIEs = [
 // **************************************************************
 
 
-struct InitialContextSetupRequest{
-	1: InitialContextSetupRequestIEs protocol_ies;
-}
+struct {
+	S1apIE ie1 = {ID_MME_UE_S1AP_ID_PIEID, Criticality.IGNORE, Presence.MANDATORY, MME_UE_S1AP_ID_IE };
 
-const list<S1apProtocolIES> InitialContextSetupRequestIEs = [
-		{"id":ID_MME_UE_S1AP_ID_PIEID , "criticality": Criticality.IGNORE, "type":MME_UE_S1AP_ID , "presence" :Presence.MANDATORY},
-		{"id":ID_eNB_UE_S1AP_ID_PIEID , "criticality": Criticality.IGNORE, "type":ENB_UE_S1AP_ID , "presence" :Presence.MANDATORY},
-	{"id":ID_uEaggregateMaximumBitrate_PIEID , "criticality": Criticality.REJECT, "type":UEAggregateMaximumBitrate , "presence" :Presence.MANDATORY},
-	{"id":ID_E_RABToBeSetupListCtxtSUReq_PIEID , "criticality": Criticality.REJECT, "type":ERABToBeSetupListCtxtSUReq , "presence" :Presence.MANDATORY},
-	{"id":ID_UESecurityCapabilities_PIEID , "criticality": Criticality.REJECT, "type":UESecurityCapabilities , "presence" :Presence.MANDATORY},
-	{"id":ID_SecurityKey_PIEID , "criticality": Criticality.REJECT, "type":SecurityKey , "presence" :Presence.MANDATORY},
-	{"id":ID_TraceActivation_PIEID , "criticality": Criticality.IGNORE, "type":TraceActivation , "presence" :Presence.OPTIONAL},
-	{"id":ID_HandoverRestrictionList_PIEID , "criticality": Criticality.IGNORE, "type":HandoverRestrictionList , "presence" :Presence.OPTIONAL},
-	{"id":ID_UERadioCapability_PIEID , "criticality": Criticality.IGNORE, "type":UERadioCapability , "presence" :Presence.OPTIONAL},
-	{"id":ID_SubscriberProfileIDforRFP_PIEID , "criticality": Criticality.IGNORE, "type":SubscriberProfileIDforRFP , "presence" :Presence.OPTIONAL},
-	{"id":ID_CSFallbackIndicator_PIEID , "criticality": Criticality.REJECT, "type":CSFallbackIndicator , "presence" :Presence.OPTIONAL},
-	{"id":ID_SRVCCOperationPossible_PIEID , "criticality": Criticality.IGNORE, "type":SRVCCOperationPossible , "presence" :Presence.OPTIONAL},
-]
+	S1apIE ie2 = {ID_eNB_UE_S1AP_ID_PIEID, Criticality.IGNORE, Presence.MANDATORY, ENB_UE_S1AP_ID_IE };
+
+	S1apIE ie3 = {ENB_UE_S1AP_ID, Criticality.REJECT, Presence.MANDATORY, UE_AGGREGATE_MAX_BITRATE_IE }; //UEAggregateMaximumBitrate
+
+	S1apIE ie4 = {ID_E_RABToBeSetupListCtxtSUReq_PIEID,  Criticality.REJECT, Presence.MANDATORY,  }; //ERABToBeSetupListCtxtSUReq
 
 
+	
+	S1apIE ie5 = {ID_UESecurityCapabilities_PIEID, Criticality.REJECT, Presence.MANDATORY, UE_SECURITY_CAPABILITIES_IE  }; //UESecurityCapabilities
+
+	S1apIE ie6 = {ID_SecurityKey_PIEID, Criticality.REJECT, Presence.MANDATORY, SECURITY_KEY_IE }; //SecurityKey
+
+	S1apIE ie7 = { ID_TraceActivation_PIEID, Criticality.IGNORE, Presence.OPTIONAL, TRACE_ACTIVATION_IE }; //TraceActivation
+
+	S1apIE ie8 = { ID_HandoverRestrictionList_PIEID, Criticality.IGNORE, Presence.OPTIONAL, HANDOVER_RESTRICTION_LIST_IE }; //HandoverRestrictionList
 
 
-//TODO: size(maxNrOfE-RABs)
-typedef list<ERABToBeSetupItemCtxtSUReqIEs> ERABToBeSetupListCtxtSUReq
+
+	S1apIE ie9 = {ID_UERadioCapability_PIEID, Criticality.IGNORE, Presence.OPTIONAL, UE_RADIO_CAPABILITY_IE }; //UERadioCapability
+	
+	S1apIE ie10 = { ID_SubscriberProfileIDforRFP_PIEID, Criticality.IGNORE, Presence.OPTIONAL, SUBSCRIBER_PROFILE_ID_FOR_RFP_IE }; //SubscriberProfileIDforRFP
+
+	S1apIE ie11 = { ID_CSFallbackIndicator_PIEID, Criticality.REJECT, Presence.OPTIONAL, CS_FALLBACK_INDICATOR_IE }; //CSFallbackIndicator 
+
+	S1apIE ie12 = { ID_SRVCCOperationPossible_PIEID, Criticality.IGNORE, Presence.OPTIONAL, SRVCC_OPERATION_POSSIBLE_IE  }; //SRVCCOperationPossible
+
+}InitialContextSetupRequest;
 
 
-const S1apProtocolIES ERABToBeSetupItemCtxtSUReqIEs = {"id":ID_E_RABToBeSetupItemCtxtSUReq_PIEID , "criticality": Criticality.REJECT, "type":ERABToBeSetupItemCtxtSUReq , "presence" :Presence.MANDATORY},
 
 
-struct ERABToBeSetupItemCtxtSUReq{
-	1: E_RAB_ID 				e_rab_id;
-	2: ERABLevelQoSParameters 	e_rab_level_qos_parameters;
-	3: GTP_TEID 				gtp_teid;
-	4: optional NAS_PDU 		nas_pdu;
-	5: optional list<ERABToBeSetupItemCtxtSUReqExtIEs> ie_extensions;
+//TODO: size(ERABToBeSetupItemCtxtSUReqIEs)* maxNrOfE-RABs)
+ERABToBeSetupItemCtxtSUReqIEs ERABToBeSetupListCtxtSUReq<MINSIZE..MAXSIZE>;
 
-}
 
-typedef S1apProtocolExtension ERABToBeSetupItemCtxtSUReqExtIEs
+S1apIE ERABToBeSetupItemCtxtSUReqIEs = {ID_E_RABToBeSetupItemCtxtSUReq_PIEID, Criticality.REJECT, Criticality.REJECT, ERAB_TOBSETUP_ITEM_CTXT_SUREQ_IE }; //ERABToBeSetupItemCtxtSUReq
+
+
+
+
+
 
 
 // **************************************************************
@@ -269,50 +264,42 @@ typedef S1apProtocolExtension ERABToBeSetupItemCtxtSUReqExtIEs
 
 
 
-struct InitialContextSetupResponse{
-	1: InitialContextSetupResponseIEs protocol_ies;
-}
+struct {
+	
+	S1apIE ie1 = {ID_MME_UE_S1AP_ID_PIEID, Criticality.IGNORE, Presence.MANDATORY, MME_UE_S1AP_ID_IE };
 
-const list<S1apProtocolIES> S1SetupResponseIEs = [
-		{"id":ID_MME_UE_S1AP_ID_PIEID , "criticality": Criticality.IGNORE, "type":MME_UE_S1AP_ID , "presence" :Presence.MANDATORY},
-		{"id":ID_eNB_UE_S1AP_ID_PIEID , "criticality": Criticality.IGNORE, "type":ENB_UE_S1AP_ID , "presence" :Presence.MANDATORY},
-		{"id":ID_E_RABSetupListCtxtSURes_PIEID , "criticality": Criticality.IGNORE, "type":ERABSetupListCtxtSURes , "presence" :Presence.MANDATORY},
-		{"id":ID_E_RABFailedToSetupListCtxtSURes_PIEID , "criticality": Criticality.IGNORE, "type":ERABList , "presence" :Presence.OPTIONAL},
-		{"id":ID_CriticalityDiagnostics_PIEID , "criticality": Criticality.IGNORE, "type":CriticalityDiagnostics , "presence" :Presence.OPTIONAL},
-]
+	S1apIE ie2 = {ID_eNB_UE_S1AP_ID_PIEID , Criticality.IGNORE,Presence.MANDATORY, ENB_UE_S1AP_ID_IE };
 
+	S1apIE ie3 = {ID_E_RABSetupListCtxtSURes_PIEID, Criticality.IGNORE, Presence.MANDATORY,  }; //ERABSetupListCtxtSURes
 
+	S1apIE ie4 = {ID_E_RABFailedToSetupListCtxtSURes_PIEID, Criticality.IGNORE, Presence.OPTIONAL, ERAB_LIST_IE }; //ERABList ,
 
-//TODO: size(maxNrOfE-RABs)
-typedef list<ERABSetupItemCtxtSUResIEs> ERABSetupListCtxtSURes
+	S1apIE ie5 = {ID_CriticalityDiagnostics_PIEID, Criticality.IGNORE, Presence.OPTIONAL, CRITICALITY_DIAGNOSTICS_IE }; // CriticalityDiagnostics
 
-const S1apProtocolIES ERABSetupItemCtxtSUResIEs = {"id":ID_E_RABSetupItemCtxtSURes_PIEID , "criticality": Criticality.IGNORE, "type": ERABSetupItemCtxtSURes, "presence": Presence.MANDATORY}
-
-struct ERABSetupItemCtxtSURes{
-	1: E_RAB_ID 				e_rab_id;
-	2: TransportLayerAddress 	transport_layer_address;
-	3: GTP_TEID 				gtp_teid;
-	4: optional list<ERABSetupItemCtxtSUResExtIEs> ie_extensions;
-}
+}InitialContextSetupResponse;
 
 
-typedef S1apProtocolExtension ERABSetupItemCtxtSUResExtIEs
+
+//TODO: size(ERABSetupItemCtxtSUResIEs) * maxNrOfE-RABs
+ERABSetupItemCtxtSUResIEs ERABSetupListCtxtSURes<MINSIZE..MAXSIZE>
+
+S1apIE ERABSetupItemCtxtSUResIEs = {ID_E_RABSetupItemCtxtSURes_PIEID , Criticality.IGNORE, Presence.MANDATORY, ERAB_SETUP_ITEM_CTXT_SURES_IE }; // ERABSetupItemCtxtSURes
+
 
 
 // **************************************************************
 // Initial Context Setup Failure
 // **************************************************************
-InitialContextSetupFailure ::= SEQUENCE {
-	protocolIEs			ProtocolIE-Container       { {InitialContextSetupFailureIEs} },
-	...
-}
+struct {
+	
+	S1apIE ie1 = {ID_MME_UE_S1AP_ID_PIEID, Criticality.IGNORE, Presence.MANDATORY, MME_UE_S1AP_ID_IE };
 
-InitialContextSetupFailureIEs S1AP-PROTOCOL-IES ::= {
-	{ ID id-MME-UE-S1AP-ID				CRITICALITY ignore	TYPE MME-UE-S1AP-ID	 				PRESENCE mandatory	}|
-	{ ID id-eNB-UE-S1AP-ID				CRITICALITY ignore	TYPE ENB-UE-S1AP-ID	 				PRESENCE mandatory	}|
-	{ ID id-Cause						CRITICALITY ignore	TYPE Cause						PRESENCE mandatory	}|
-	{ ID id-CriticalityDiagnostics		CRITICALITY ignore	TYPE CriticalityDiagnostics			PRESENCE optional	},
-	...
-}
+	S1apIE ie2 = {ID_eNB_UE_S1AP_ID_PIEID, Criticality.IGNORE, Presence.MANDATORY, ENB_UE_S1AP_ID_IE };
+
+	S1apIE ie3 = {ID_Cause_PIEID, Criticality.IGNORE, Presence.MANDATORY, CAUSE_IE };
+
+	S1apIE ie4 = {ID_CriticalityDiagnostics_PIEID, Criticality.IGNORE, Presence.OPTIONAL, CRITICALITY_DIAGNOSTICS_IE };
+
+}InitialContextSetupFailure;
 
 

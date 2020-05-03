@@ -51,6 +51,8 @@ enum{
 	UESecurityCapabilitiesExtIEs( 47),
 	UEAssociatedLogicalS1ConnectionItemExtIEs( 48),
 	X2TNLConfigurationInfoExtIEs(49),
+	ERABToBeSetupItemCtxtSUReqExtIEs(50),
+	ERABSetupItemCtxtSUResExtIEs(51),
 }S1apProtocolExtensionIENames;
 
 
@@ -517,12 +519,33 @@ struct {
 }ERABItem;
 
 
+
 struct {
 	QCI 									qci; 
 	AllocationAndRetentionPriority 		allocation_retention_priority;
 	GBRQosInformation 			gbr_qos_information<MINSIZE..MAXSIZE>;
 	ERABQoSParametersExtIEs ie_extensions<MINSIZE..MAXSIZE>;
 }ERABLevelQoSParameters;
+
+
+struct {
+	E_RAB_ID 				e_rab_id;
+	ERABLevelQoSParameters 	e_rab_level_qos_parameters;
+	GTP_TEID 				gtp_teid;
+	NAS_PDU 				nas_pdu<0..SIZE>;
+	ERABToBeSetupItemCtxtSUReqExtIEs ie_extensions<0..MAXSIZE>;
+
+}ERABToBeSetupItemCtxtSUReq;
+
+
+struct {
+	E_RAB_ID 				e_rab_id;
+	TransportLayerAddress 	transport_layer_address;
+	GTP_TEID 				gtp_teid;
+	ERABSetupItemCtxtSUResExtIEs ie_extensions<0..MAXSIZE>;
+}ERABSetupItemCtxtSURes;
+
+
 
 
 struct {
@@ -863,6 +886,7 @@ struct {
 	MTMSI 			m_tmsi;
 	STMSIExtIEs 	ie_extensions<0..SIZE>;
 }S_TMSI;
+
 
 
 
