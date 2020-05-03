@@ -1,0 +1,67 @@
+#lang ivy1.7
+
+include collections
+include order
+
+type pcode_bits
+interpret pcode_bits -> bv[8]
+type tac_octet
+interpret tac_octet -> bv[16]
+type plmn_octet
+interpret plmn_octet -> bv[24]
+
+object message_enum = {
+    type this = {initial_message, successful_outcome, unsuccessful_outcome}
+}
+
+object supported_ta = {
+    type this = struct {
+        tac : tac_octet,
+        plmn_identity2 : plmn_octet
+    }
+    instance idx : unbounded_sequence
+    instance arr : array(idx,this)
+}
+
+object drx_enum = {
+    type this = {0,32,64,128,256}   # 0 is error
+}
+
+object s1_setup = {
+    individual pcode : pcode_bits
+    individual msg : message_enum
+    individual plmn_identity : plmn_octet
+    individual global_choice_enb_id : plmn_octet
+    individual default_paging_drx : drx_enum
+    individual supported_tas : supported_ta.arr
+    after init {
+        pcode := 0;
+        msg := message_enum.unsuccessful_outcome;
+        plmn_identity := 0;
+        global_choice_enb_id := 0;
+        default_paging_drx := drx_enum.0;
+        supported_tas := supported_ta.arr.empty
+    }
+
+    action send(x:pcode_bits, y:message_enum, a:plmn_octet, b:plmn_octet, c:drx_enum, s:supported_ta.arr) = {
+        pcode := x;
+        msg := y if s.begin < s.end else message_enum.unsuccessful_outcome;
+        plmn_identity := a;
+        global_choice_enb_id := b;
+        default_paging_drx := c
+    }
+
+    action recv returns(y:message_enum) = {
+        y := message_enum.successful_outcome if msg = message_enum.initial_message & 
+               pcode = 17 & plmn_identity > 0 & global_choice_enb_id > 0 & 
+               default_paging_drx ~= drx_enum.0 else message_enum.unsuccessful_outcome
+    }
+}
+
+import action ask returns (x:pcode_bits)
+export action ask_and_check_pcode returns(ok:bool) = {
+    ok := ask = 17
+}
+
+export s1_setup.send
+export s1_setup.recv
