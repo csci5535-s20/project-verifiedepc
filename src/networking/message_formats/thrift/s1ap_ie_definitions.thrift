@@ -102,6 +102,8 @@ union BroadcastCompletedAreaList{
 	3: EmergencyAreaIDBroadcast 	emergency_areaID_broadcast;
 }
 
+// -- C
+
 union Cause{
 	1: CauseRadioNetwork radioNetwork;
 	2: CauseTransport	transport;
@@ -361,13 +363,6 @@ typedef list<ERABInformationListIEs maxNrOfE-RABs> ERABInformationList
 //TODO: How to do this? 
 
 
-/* TODO: How to modify this? 
-E-RABInformationListIEs S1AP-PROTOCOL-IES ::= {
-	{ ID id-E-RABInformationListItem			CRITICALITY ignore	TYPE E-RABInformationListItem			PRESENCE mandatory	},
-	...
-}
-*/
-
 
 struct ERABInformationListItem{
 	1: E_RAB_ID 			e_rab_id;
@@ -382,13 +377,7 @@ struct ERABInformationListItem{
 // TODO: size(maxNrOfE-RABs)
 typedef list<ERABItemIEs maxNrOfE_RABs> ERABList
 
- 
-/* TODO: How to handle this? 
-E-RABItemIEs 	S1AP-PROTOCOL-IES ::= {
-	{ ID id-E-RABItem	 CRITICALITY ignore 	TYPE E-RABItem 	PRESENCE mandatory },
-	...
-}
-*/
+
 
 
 

@@ -1,3 +1,6 @@
+// ------------------------------
+// S1AP-PROTOCOL-EXTENSION
+
 enum{
 	AllocationAndRetentionPriorityExtIEs( 1),
 	BearersSubjectToStatusTransferItemExtIEs(2 ),
@@ -50,6 +53,10 @@ enum{
 	X2TNLConfigurationInfoExtIEs(49),
 }S1apProtocolExtensionIENames;
 
+
+// ------------------------------
+// S1AP-PROTOCOL-IE
+
 enum {
 	BearersSubjectToStatusTransferItemIEsLabel(1),
 	ERABInformationListIEsLabel(2),
@@ -68,14 +75,6 @@ struct{
 	};
 }S1apProtocolIES;
 
-typedef S1apProtocolIES BearersSubjectToStatusTransferItemIEs = {"id": , "criticality": Criticality.IGNORE, "type": BearersSubjectToStatusTransferItem, "presence": Presence.MANDATORY}
-
-
-typedef S1apProtocolIES ERABInformationListIEs = {"id": ID_E_RABInformationListItem_PIEID, "criticality": Criticality.IGNORE , "type": ERABInformationListItem, "presence": Presence.MANDATORY}
-
-typedef S1apProtocolIES ERABItemIEs = {"id": ID_E_RABItem_PIEID, "criticality": Criticality.IGNORE, "type": ERABItem, "presence": Presence.MANDATORY}
-
-
 struct {
 	ProtocolIEID 	ID_Bearers_SubjectToStatusTransfer_Item_PIEID;		//UNIQUE
 	Criticality  	Criticality.IGNORE;
@@ -84,16 +83,960 @@ struct {
 }BearersSubjectToStatusTransferItemIEs
 
 struct {
-	ProtocolIEID 							id(1);		//UNIQUE
-	Criticality 							criticality(2);
-	opaque 									value(3);
-	Presence 								presence(4);
+	ProtocolIEID 							ID_E_RABInformationListItem_PIEID;		//UNIQUE
+	Criticality 							Criticality.IGNORE;
+	opaque 									ERABInformationListItem;
+	Presence 								Presence.MANDATORY;
 }ERABInformationListIEs;
 
 
 struct {
-	ProtocolIEID 							id(1);		//UNIQUE
-	Criticality 							criticality(2);
-	opaque									value(3);
-	Presence 								presence(4);
+	ProtocolIEID 							ID_E_RABItem_PIEID;		//UNIQUE
+	Criticality 							Criticality.IGNORE;
+	opaque									ERABItem;
+	Presence 								Presence.MANDATORY;
 }ERABItemIEs;
+
+
+
+// ------------------------------
+// S1AP-IEs
+
+
+uint8 IEExtMaxByteSize = 800; //bytes? 
+uint8 IEMaxByteSize = 800; //bytes? 
+uint8 MAXSIZE = 800; // Temporary Ceiling size maintained. 
+
+uint16 ExtendedRNC-ID<4096..65535>
+uint64 BitRate;
+
+uint32 HFN // INTEGER (0..1048575)
+
+string CSGId[27]
+
+string CellIdentity
+
+
+
+string DataCodingScheme[8]
+
+string EmergencyAreaID[3] 	//OCTET STRING SIZE 3
+
+string ENBName<1..150> //(SIZE (1..150,...))
+
+uint32 ENB_UE_S1AP_ID// INTEGER (0..16777215)
+
+string EncryptionAlgorithms<16..MAXSIZE> // BIT STRING (SIZE (16,...))
+
+string Cdma2000PDU<1..MAXSIZE> 	// OCTET STRING
+string Cdma2000SectorID<1..MAXSIZE>
+
+string Cdma2000OneXMEID<1..MAXSIZE> // OCTET STRING
+
+string Cdma2000OneXMSI<1..MAXSIZE> // OCTET STRING
+
+string Cdma2000OneXPilot<1..MAXSIZE> // OCTET STRING
+
+string Cdma2000OneXRAND<1..MAXSIZE> // OCTET STRING
+
+string GTP-TEID[4]   // OCTET STRING (SIZE (4))
+
+
+string IMSI<3..8> // OCTET STRING (SIZE (3..8))
+string IntegrityProtectionAlgorithms<16..MAXSIZE> // BIT STRING (SIZE (16,...))
+string InterfacesToTrace[8] //BIT STRING (SIZE (8))
+
+
+string LAC[2] //OCTET STRING (SIZE (2))
+string LastVisitedUTRANCellInformation<1..MAXSIZE>	 //TODO: OCTET STRING
+string L3Information<1..MAXSIZE>  // OCTET STRING
+
+string LastVisitedUTRANCellInformation<1..MAXSIZE>	 //TODO: OCTET STRING
+string L3Information<1..MAXSIZE>  // OCTET STRING
+
+
+string MessageIdentifier[16]   // BIT STRING (SIZE (16))
+
+string MMEName<1..150> // PrintableString (SIZE (1..150,...))
+
+
+string MMEGroupID[2]  // OCTET STRING (SIZE (2))
+
+string MMECode[1] // OCTET STRING (SIZE (1))
+
+uint64 MME_UE_S1AP_ID	 //INTEGER (0..4294967295).  MMEUES1APID
+
+
+string MTMSI[4]	//OCTET STRING (SIZE (4))
+
+string MSClassmark2<1..MAXSIZE> 	// OCTET STRING
+string MSClassmark3<1..MAXSIZE> 	// OCTET STRING
+
+
+
+string NAS_PDU<1..MAXSIZE>	//OCTET STRING
+
+string NASSecurityParametersfromEUTRAN<1..MAXSIZE> //OCTET STRING
+
+string NASSecurityParameterstoEUTRAN<1..MAXSIZE> //OCTET STRING
+
+uint16 NumberofBroadcastRequest //INTEGER (0..65535)
+
+
+uint16 NumberofBroadcast //INTEGER (0..65535)
+
+string OldBSSToNewBSSInformation<1..MAXSIZE> //OCTET STRING
+
+uint16 PDCPSN //INTEGER (0..4095) 
+
+uint8 QCI  // ::= INTEGER (0..255)
+
+string ReceiveStatusofULPDCPSDUs[4096] //BIT STRING (SIZE(4096))
+
+uint8 RelativeMMECapacity //INTEGER (0..255)
+
+string RAC[1] // OCTET STRING (SIZE (1))
+
+uint16 RepetitionPeriod //::= INTEGER (0..4095)
+uint16 RNC-ID  // INTEGER (0..4095)
+
+string RIMInformation<1..SIZE> //::= OCTET STRING
+string RRC-Container<1..SIZE>   //	::= OCTET STRING
+
+string SecurityKey[256]  // BIT STRING (SIZE(256))
+string SerialNumber[16];  // BIT STRING (SIZE (16))
+uint8 SubscriberProfileIDforRFP //INTEGER (1..256) 
+string SourceRNCToTargetRNCTransparentContainer<1..SIZE>		//::= OCTET STRING
+
+string SourceToTargetTransparentContainer<1..SIZE>; //::= OCTET STRING
+
+string SourceBSSToTargetBSSTransparentContainer<1..SIZE>; //::= OCTET STRING
+
+
+
+string TAC[2] //::= OCTET STRING (SIZE (2))
+typedef binary TBCDString[3] //::= OCTET STRING (SIZE (3))
+uint8  TimeUEStayedInCell // INTEGER (0..4095)
+
+string TransportLayerAddress[160]  // BIT STRING (SIZE(1..160, ...))
+
+string EUTRANTraceID[8]  //  OCTET STRING (SIZE (8))
+//TODO: size(10)
+string UEIdentityIndexValue[10];	//BIT STRING (SIZE (10))
+string UERadioCapability<1..SIZE> //OCTET STRING
+string WarningType[2]; //OCTET STRING (SIZE (2))
+string WarningSecurityInfo[50]; //OCTET STRING (SIZE (50))
+string WarningMessageContents<1..9600>;  //OCTET STRING (SIZE(1..9600))
+
+
+// ------------------------------
+// typedef PLMNidentity BPLMNs
+
+PLMNidentity BPLMNs;
+
+
+// -- A
+
+struct AllocationAndRetentionPriority{
+	PriorityLevel 			priority_level(1);
+	PreEmptionCapability 	pre_emption_capability(2);
+	PreEmptionVulnerability 	pre_emption_vulnerability(3);
+	ProtocolExtensionContainer ie_extensions<0..IEExtMaxByteSize>(4); // TODO: Verify this
+}
+
+// -- B
+
+// TODO: totalBytes =  size(BearersSubjectToStatusTransferItemIEs)*maxNrOfE-RABs
+BearersSubjectToStatusTransferItemIEs BearersSubjectToStatusTransferList<0..maxNrOfE-RABs>
+
+struct BearersSubjectToStatusTransferItem{
+	ERABID 								e_rab_id;
+	COUNTValue 							ul_count_value;
+	COUNTValue 							dl_count_value; 
+	ReceiveStatusOfULPDCPSDUs 	receive_status_of_ul_pdcpsdus<0..MAXSIZE>;
+	BearersSubjectToStatusTransferItemExtIEs ie_extensions<0..IEExtMaxByteSize>; 
+}
+
+
+
+struct {
+	CellIDBroadcast 			cellID_broadcast<0..MAXSIZE>;
+	TAIBroadcast 				tAI_broadcast<0..MAXSIZE>;
+	EmergencyAreaIDBroadcast 	emergency_areaID_broadcast<0..MAXSIZE>;
+}BroadcastCompletedAreaList;
+
+// -- C
+
+struct {
+	CauseRadioNetwork radioNetwork<0..MAXSIZE>;
+	CauseTransport	transport);
+	CauseNas 		nas;
+	CauseProtocol 	protocol;
+	CauseMisc 	misc<0..MAXSIZE>;
+}Cause;
+
+enum {	
+	CONTROL_PROCESSING_OVERLOAD(1),
+	NOT_ENOUGH_USER_PLANE_PROCESSING_RESOURCES(2),
+	HARDWARE_FAILURE(3),
+	OM_INTERVENTION(4),
+	UNSPECIFIED(5),
+	UNKNOWN_PLMN(6)
+}CauseMisc;
+
+enum{
+	TRANSFER_SYNTAX_ERROR(1),
+	ABSTRACT_SYNTAX_ERROR_REJECT(2),
+	ABSTRACT_SYNTAX_ERROR_IGNORE_AND_NOTIFY(3),
+	MESSAGE_NOT_COMPATIBLE_WITH_RECEIVER_STATE(4),
+	SEMANTIC_ERROR(5),
+	ABSTRACT_SYNTAX_ERROR_FALSELY_CONSTRUCTED_MESSAGE(6),
+	UNSPECIFIED(7)	
+}CauseProtocol;
+
+enum {  // TODO: Complete list
+	UNSPECIFIED(1),
+	SUCCESSFUL_HANDOVER(2)
+	}CauseRadioNetwork;
+
+enum {
+	TRANSPORT_RESOURCE_UNAVAILABLE(1),
+	UNSPECIFIED(2)
+}CauseTransport;
+
+enum {
+	NORMAL_RELEASE,
+	AUTHENTICATION_FAILURE,
+	DETACH,
+	UNSPECIFIED
+}CauseNas;
+
+
+
+//typedef list<CellID-Broadcast-Item> CellIDBroadcast
+CellID-Broadcast-Item CellIDBroadcast<MINSIZE..MAXSIZE>
+
+struct CellIDBroadcastItem{
+	EUTRAN-CGI 			eCGI;
+	CellIDBroadcastItemExtIEs ie_extensions<0..MAXSIZE>;
+}
+
+
+
+enum {
+	H_RPD,
+	ONEX_RTT,
+}Cdma2000RATType;
+
+
+enum {
+	HO_SUCCESS,
+	HO_FAILURE
+}Cdma2000HOStatus ;
+
+enum {
+	TRUE,
+	FALSE
+}Cdma2000HORequiredIndication ;
+
+
+
+struct {
+	Cdma2000OneXMEID 		cdma2000OneXMEID;
+	Cdma2000OneXMSI			cdma2000OneXMSI;
+	Cdma2000OneXPilot		cdma2000OneXPilot;
+	Cdma2000OneXSRVCCInfoExtIEs ie_extensions<0..IEExtMaxByteSize>;
+}Cdma2000OneXSRVCCInfo;
+
+enum {
+	VERYSMALL, 
+	SMALL,
+	MEDIUM,
+	LARGE
+}CellSize;
+
+
+struct {
+	CellSize 		cell_size;
+	CellTypeExtIEs ie_extensions<0..IEExtMaxByteSize>;
+}CellType;
+
+
+//typedef string CI 		// OCTET STRING (SIZE (2))
+string CI[2];
+
+
+
+struct {
+	PLMNidentity 	plmn_identity;
+	LAC 				lac;
+	CI 				ci;
+	RAC 				rac;
+	CGIextIEs ie_extensions<0..IEExtMaxByteSize>;
+}CGI;
+
+
+enum {
+	PS, 
+	CS 
+}CNDomain;
+
+enum{ 
+	CS_FALLBACK_REQUIRED,
+	CS_FALLBACK_HIGH_PRIORITY
+} CSFallbackIndicator;
+
+
+
+struct {
+	CSGId 				csg_id;
+	CSGIdListItemExtIEs ie_extensions<0..IEExtMaxByteSize>;
+}CSGIdListItem;
+
+// Todo: Size(CSGIdListItem)*maxNOfCSGs
+CSGIdListItem CSGIdList<0..maxNrOfCSGs>
+
+struct {
+	PDCP_SN 		pdcp_sn;
+	HFN 			hfn;
+	COUNTvalueExtIEs ie_extensions<0..IEExtMaxByteSize>;
+}COUNTvalue;
+
+
+struct {
+	ProcedureCode 			procedure_code<0..MAXSIZE>;
+	TriggeringMessage 		triggering_message<0..MAXSIZE>;
+	Criticality 			triggering_criticiality<0..MAXSIZE>;
+	CriticalityDiagnosticsIEList 	ies_criticality_diagnostics<0..MAXSIZE>;
+	CriticalityDiagnosticsExtIEs ie_extensions<0..IEExtMaxSize>;
+}CriticalityDiagnostics;
+
+
+//TODO: size(CriticalityDiagnosticsIEItem)*maxNrOfErrors
+CriticalityDiagnosticsIEItem CriticalityDiagnosticsIEList<0..maxNrOfErrors>
+
+
+struct {
+	Criticality 			ie_criticality;
+	ProtocolIEID 			ie_id;
+	TypeOfError 			type_of_error;
+	CriticalityDiagnosticsIEItemExtIEs ie_extensions<0..IEExtMaxByteSize>;
+}CriticalityDiagnosticsIEItem; 
+
+// -- D
+
+
+
+enum {
+	DL_FORWARDING_PROPOSED,
+}DLForwarding;
+
+enum {
+	DIRECT_PATH_AVAILABLE,
+}DirectForwardingPathAvailability;
+
+// -- E
+
+
+//TODO : size(EUTRAN_CGI)*maxnoofCellID
+EUTRAN_CGI ECGIList<0..maxnoofCellID>;
+
+
+EmergencyAreaID EmergencyAreaIDList<3..MAXSIZE>; // TODO? 
+
+
+
+// TODO: size(EmergencyAreaIDBroadcastItem) * maxnoofEmergencyAreaID)
+EmergencyAreaIDBroadcastItem EmergencyAreaID-Broadcast<MINSIZE..maxnoofEmergencyAreaID>;
+
+struct {
+	EmergencyAreaID 			emergency_area_id;
+	CompletedCellInEAI 		completed_cell_in_eai;
+	EmergencyAreaIDBroadcastItemExtIEs ie_extensions<0..IEExtMaxByteSize>;
+}EmergencyAreaIDBroadcastItem;
+
+
+//TODO: size(CompletedCellinEAIItem)*maxnoofCellinEAI)
+CompletedCellinEAIItem CompletedCellinEAI<MINSIZE..maxnoofCellinEAI>;
+
+struct {
+	EUTRAN_CGI 			ecgi;
+	CompletedCellinEAIItemExtIEs ie_extensions<0..IEExtMaxByteSize>;
+}CompletedCellinEAIItem;
+
+
+struct {
+	string macro_enb_id<0..20>; 	//BIT STRING (SIZE(20))
+	string home_enb_id<0..28>; 		// BIT STRING (SIZE(28)),
+}ENBID;
+
+
+struct {
+	BearersSubjectToStatusTransferList bearers_subject_to_status_transfer_list;
+	ENBStatusTransferTransparentContainerExtIEs ie_extensions<0..IEExtMaxByteSize>;
+}ENBStatusTransferTransparentContainer;
+
+
+// TODO: size(TransportLayerAddress)*maxnoofeNBX2TLAs)
+TransportLayerAddress ENBX2TLAs<MINSIZE..MAXSIZE>;
+
+// TODO: size(PLMNIdentity)*maxnoofEPLMNs)
+PLMNIdentity EPLMNs<MINSIZE..MAXSIZE>;
+
+enum {
+ 	DIRECT,
+ 	CHANGE_OF_SERVE_CELL,
+ 	STOP_CHANGE_OF_SERVE_CELL,
+}EventType ;
+
+
+struct  {	 	// INTEGER (0..15, ...)
+	uint8 	id_1<0..1>;
+	uint64 	id_2<0..8>;
+}E_RAB_ID;
+
+ 
+//TODO: size(ERABInformationListIEs)*maxNrOfE_RABs
+ERABInformationListIEs ERABInformationList<MINSIZE..MAXSIZE>;
+
+
+
+struct {
+	E_RAB_ID 			e_rab_id;
+	DLForwarding dl_forwarding<0..MAXSIZE>; 
+	ERABInformationListItemExtIEs ie_extensions<0..IEExtMaxByteSize>;
+}ERABInformationListItem;
+
+// TODO: size(ERABItemIEs)* (maxNrOfE-RABs)
+ERABItemIEs ERABList<MINSIZE..MAXSIZE>
+
+struct {
+	E_RAB_ID 			e_rab_id;
+	Cause 				cause;
+	ERABItemExtIEs ie_extensions<0..MAXSIZE>;
+}ERABItem;
+
+
+struct {
+	QCI 									qci; 
+	AllocationAndRetentionPriority 		allocation_retention_priority;
+	GBRQosInformation 			gbr_qos_information<MINSIZE..MAXSIZE>;
+	ERABQoSParametersExtIEs ie_extensions<MINSIZE..MAXSIZE>;
+}ERABLevelQoSParameters;
+
+
+struct {
+	PLMNIdentity plmn_identity; 
+	CellIdentity cell_identity; 
+	EUTRAN_CGIExtIEs ie_extensions<MINSIZE..MAXSIZE> 
+}EUTRAN_CGI;
+
+
+uint16 ExtendedRNC-ID  // INTEGER (4096..65535)
+
+
+// -- F
+
+enum {
+	ALL, 
+	GERAN,
+	UTRAN,
+	CDMA2000
+}ForbiddenInterRATs;
+
+//TODO: size(ForbiddenTAsItem)*maxnoofEPLMNsPlusOne
+ForbiddenTAsItem ForbiddenTAs<MINSIZE..MAXSIZE>;
+
+
+struct {
+	PLMNIdentity 		plmn_identity;
+	ForbiddenTACs 		forbidden_tacs;
+	ForbiddenTAsItemExtIEs ie_extensions<0..MAXSIZE>;
+}ForbiddenTAsItem;
+
+
+//TODO: size(TAC)*maxnoofForbTACs)
+TAC ForbiddenTACs<MINSIZE..MAXSIZE>;
+
+
+//TODO: size(ForbiddenLAsItem)*maxnoofEPLMNsPlusOne)
+ForbiddenLAsItem ForbiddenLAs<MINSIZE..MAXSIZE>;
+
+
+struct {
+	PLMNIdentity 	plmn_identity;
+	ForbiddenLACs 	forbidden_identity;
+	ForbiddenLAsItemExtIEs ie_extensions<0..MAXSIZE>;
+}ForbiddenLAsItem;
+
+// TODO: size(LAC)*maxnoofForbLACs)
+LAC ForbiddenLACs<MINSIZE..MAXSIZE>
+
+// -- G
+
+
+struct {
+	LAI 			lai;
+	RAC 			rac;
+	CI  			ci;
+	GERANCellIDExtIEs ie_extensions<0..MAXSIZE>; 
+}GERANCellID;
+
+struct {
+	PLMNIdentity 	plmn_identity; 
+	ENBID 			enb_id; 
+	globalENBIDExtIEs ie_extensions<0..MAXSIZE>;
+}GlobalENBID;
+
+
+struct {
+	BitRate e_rab_maximum_bitrate_dl; 
+	BitRate e_rab_guaranteed_bitrate_dl; 
+	BitRate e_rab_guaranteed_bitrate_dl; 
+	GBRQosInformationExtIEs ie_extensions<0..MAXSIZE>;
+}GBR-QosInformation;
+
+
+struct {
+	PLMNIdentity 	plmn_identity; 
+	MMEGroupID   	mme_group_id;
+	MMECode 			mme_code; 
+	GUMMEIExtIEs ie_extensions<0..MAXSIZE>;
+}GUMMEI;
+
+
+
+-- H
+
+struct {
+	PLMNIdentity 		serving_plmn;
+	EPLMNs 		equivalent_plmns<0..SIZE>; //TODO: What's the size of each item? 
+	ForbiddenTAs forbidden_tas<0..SIZE>;
+	ForbiddenLAs forbidden_las<0..SIZE>;
+	ForbiddenInterRATs forbidden_inter_rats<0..SIZE>;
+	HandoverRestrictionListExtIEs ie_extensions<0..MAXSIZE>; 
+}HandoverRestrictionList;
+
+
+enum {
+	INTRALTE,
+	LTETOUTRAN,
+	LTETOGERAN,
+	UTRANTOLTE,
+	GERANTOLTE,
+}HandoverType;
+
+
+
+
+// -- I
+
+
+// -- L
+
+
+
+struct {
+	PLMNIdentity 	plmn_identity;
+	LAC 				lac;
+	LAIExtIEs ie_extensions<0..MAXSIZE>;
+}LAI;
+
+
+struct {  //TODO: what's the size? 
+	LastVisitedEUTRANCellInformation e_utran_cell<0..SIZE>;
+	LastVisitedUTRANCellInformation utran_cell<0..SIZE>;
+	LastVisitedGERANCellInformation geran_cell<0..SIZE>; 
+}LastVisitedCellItem;
+
+
+struct LastVisitedEUTRANCellInformation{
+	1: EUTRAN_CGI 	global_cell_id; 
+	2: CellType 	cell_type; 
+	3: TimeUEStayedInCell time_ue_stayed_in_cell;
+	4: optional list<LastVisitedEUTRANCellInformationExtIEs> ie_extensions;
+}
+
+
+
+
+struct {
+	NULL undefined;
+}LastVisitedGERANCellInformation;
+
+
+
+// -- M
+//--N
+
+// -- O
+
+enum {
+	REJECT_NON_EMERGENCY_MO_DT,
+	RERJECT_ALL_RRC_CR_SIGNALLING,
+	PERMIT_EMERGENCY_SESSIONS_ONLY,
+}OverloadAction;
+
+struct {
+	OverloadAction 	overload_action<0..SIZE>;		//TODO: What's size? 
+}OverloadResponse;
+
+// -- P
+
+enum {
+	V32,
+	V64,
+	V128,
+	v256,
+	}PagingDRX;
+
+
+
+TBCDString  PLMNIdentity
+
+enum {
+	SHALL_NOT_TRIGGER_PRE_EMPTION,
+	MAY_TRIGGER_PRE_EMPTION,
+}PreEmptionCapability;
+
+enum {
+	NOT_PRE_EMPTABLE,
+	PRE_EMPTABLE,
+}PreEmptionVulnerability;
+
+/*
+
+TODO: PRIORITY_LEVEL:  INTEGER { spare (0), highest (1), lowest (14), no-priority (15) } (0..15)
+
+typedef Map<string, binary> PriorityLevel = {"SPARE":0x0, "HIGHER":0x1, "LOWEST":0xE, "NO_PRIORITY":0xF}
+*/
+
+enum {
+	SPARE=0,
+	HIGHER=1,
+	LOWEST=14,
+	NO_PRIORITY=15
+}PriorityLevel;			
+
+
+// -- Q
+
+
+// -- R
+
+
+struct {
+	EventType 			event_type;
+	ReportArea 			report_area;
+	RequestTypeExtIEs ie_extensions<0..MAXSIZE>; 
+}RequestType;
+
+
+struct {
+	RIMInformation 				rim_information;
+	RIMRoutingAddress 	rim_routing_address<0..SIZE>;
+	RIMTransferExtIEs ie_extensions<0..MAXSIZE>;
+}RIMTransfer;
+
+
+struct {
+	GERANCellID geran_cell_id<0..SIZE>;
+}RIMRoutingAddress;
+
+enum {
+	ECGI,
+}ReportArea;
+
+enum {
+	EMERGENCY,
+	HIGH_PRIORITY_ACCESS,
+	MT_ACCESS,
+	MO_SIGNALLING,
+	MO_DATA,
+}RRCEstablishmentCause;
+
+
+//-- S
+
+
+
+
+struct {
+	uint8 next_hop_chaining_count;			// TODO: INTEGER (0..7),
+	SecurityKey next_hop_parameter;
+	SecurityContextExtIEs ie_extensions<0..MAXSIZE>;
+}SecurityContext;
+
+
+
+
+
+struct {   
+	SONInformationRequest 	son_information_request<0..SIZE>;
+	SONInformationReply 		son_information_reply<0..SIZE>;
+	}SONInformation; // TODO: What's size? 
+
+
+enum { 
+	X2TNL_CONFIGURATION_INFO
+}SONInformationRequest;
+
+struct {
+	X2TNLConfigurationInfo x2tnl_configuration_info<0..SIZE>;
+	SONInformationReplyExtIEs ie_extensions<0..MAXSIZE>;
+}SONInformationReply;
+
+struct {
+	TargeteNBID 					target_enb_id; 
+	SourceeNB-ID					source_enb_id;
+	SONInformation 					son_information; 
+	SONConfigurationTransferExtIEs ie_extensions<0..MAXSIZE>;
+}SONConfigurationTransfer;
+
+
+
+struct {
+	GlobalENBID 			global_enb_id;
+	TAI 					selected_tai;
+	SourceeNBIDExtIEs ie_extensions<0..MAXSIZE>; 
+}SourceeNBID;
+
+
+enum {
+	POSSIBLE,
+}SRVCCOperationPossible;
+
+enum{
+	PS_AND_CS,
+	CS_ONLY,
+}SRVCCHOIndication;
+
+
+
+struct {
+	RRCContainer 					rrc_container;
+	RABInformationList 				e_rab_information_list<0..SIZE>;
+	EUTRAN_CGI 						target_cell_id;
+	SubscriberProfileIDforRFP  		subscriberr_profile_id_for_rfp<0..SIZE>;
+	UEHistoryInformation 			ue_history_information;
+	SourceeNBToTargeteNBTransparentContainerExtIEs  ie_extensions<0..MAXSIZE>;
+}SourceeNBToTargeteNBTransparentContainer;
+
+
+
+
+//TODO: size(ServedGUMMEIsItem)*(maxnoofRATs)
+ServedGUMMEIsItem ServedGUMMEIs<MINSIZE..MAXSIZE> 
+
+
+struct {
+	ServedPLMNs 			served_plmns;
+	ServedGroupIDs 			served_group_ids;
+	ServedMMECs 			served_mmecs;
+	ServedGUMMEIsItemExtIEs ie_extensions<0..MAXSIZE>;
+}ServedGUMMEIsItem;
+
+
+//TODO: size(maxnoofGroupIDs)
+MMEGroupID ServedGroupIDs<MINSIZE..MAXSIZE>
+
+
+//TODO : size(maxnoofMMECs) ServedMMECs
+MMECode ServedMMECs<MINSIZE..MAXSIZE>
+
+//TODO: size(maxnoofPLMNsPerMME)
+PLMNidentity ServedPLMNs<MINSIZE..MAXSIZE>
+
+
+
+//TODO: size(SupportedTAsItem)* maxnoofTACs)
+SupportedTAsItem SupportedTAs<MINSIZE..MAXSIZE>
+
+struct {
+	TAC 					tac;
+	BPLMNs 					broadcastPLMNs;
+	SupportedTAsItemExtIEs 	ie_extensions<0..MAXSIZE>;
+}SupportedTAsItem;
+
+struct {
+	MMECode 		mmec;
+	MTMSI 			m_tmsi;
+	STMSIExtIEs 	ie_extensions<0..SIZE>;
+}S_TMSI;
+
+
+
+-- T
+
+//TODO: size(maxnoofTAIforWarning)
+typedef list<TAI> TAIListforWarning
+
+
+struct TAI{
+	1: PLMNIdentity 		plmn_identity;
+	2: TAC 					tac;
+	3: optional list<TAIExtIEs> ie_extensions; 
+}
+
+//TODO: size(TAIBroadcastItem)* maxnoofTAIforWarning)
+TAIBroadcastItem TAIBroadcast<MINSIZE..MAXSIZE>;
+
+
+
+struct {
+	TAI 					tai;
+	CompletedCellinTAI 		completed_cell_in_tai;
+	TAIBroadcastItemExtIEs  ie_extensions<0..MAXSIZE>; 
+}TAIBroadcastItem;
+
+
+//TODO: size(maxnoofCellinTAI)
+CompletedCellinTAIItem CompletedCellinTAI<MINSIZE..MAXSIZE>;
+
+struct {
+	EUTRAN_CGI 						e_cgi;
+	CompletedCellinTAIItemExtIEs 	ie_extensions; 
+}CompletedCellinTAIItem;
+
+
+
+
+
+
+
+struct{
+	TargeteNBID 		target_enb_id<0..SIZE>; 
+	TargetRNCID 		target_rnc_id<0..SIZE>;
+	CGI 				cgi<0..SIZE>; 
+} TargetID;
+
+struct {
+	GlobalENBID 		global_enb_id;
+	TAI 				selected_tai;
+	TargeteNBIDExtIEs 	ie_extensions<0..MAXSIZE>; 
+}TargeteNB-ID;
+
+struct {
+	LAI 				lai;
+	RAC 				rac;
+	RNCID 			rnc_id; 
+	ExtendedRNCID 	extended_rnc_id<0..SIZE>;
+	TargetRNCIDExtIE> ie_extensions<0..MAXSIZE>; 
+	}TargetRNCID;
+
+
+
+
+stuct {
+	RRCContainer 			rrc_container;
+	TargeteNBToSourceeNBTransparentContainerExtIEs ie_extensions<0..MAXSIZE>; 
+}TargeteNBToSourceeNBTransparentContainer;
+
+
+enum {
+	V1S, 
+	V2S,
+	V5S, 
+	V10S,
+	V20S,
+	V60S,
+}TimeToWait;
+
+
+
+struct {
+	EUTRANTraceID 			eutran_trace_id;
+	InterfacesToTrace 		interfaces_to_trace;
+	TraceDepth 				trace_depth;
+	TransportLayerAddress 	trace_collection_entity_ip_address;
+	TraceActivationExtIEs 	ie_extensions<0..MAXSIZE>; 
+}TraceActivation;
+
+
+
+enum { 
+	MINIMUM,
+	MEDIUM,
+	MAXIMUM,
+	MINIMUM_WITHOUT_VENDOR_SPECIFIC_EXTENSION,
+	MEDIUM_WITHOUT_VENDOR_SPECIFIC_EXTENSION,
+	MAXIMUM_WITHOUT_VENDOR_SPECIFIC_EXTENSION,
+}TraceDepth;
+
+
+enum  {
+	NOT_UNDERSTOOD,
+	MISSING
+}TypeOfError;
+
+
+
+-- U
+
+struct {
+	BitRate 					ue_aggregate_maximum_bitrate_dl;
+	BitRate 	 				ue_aggregate_maximum_bitrate_ul;
+	UEAggregateMaximumBitratesExtIEs ie_extensions<0..MAXSIZE>;
+}UEAggregateMaximumBitrate;
+
+
+struct {
+	UES1APIDPair 		ue_s1ap_id_pair<0..SIZE>;
+	MME_UE_S1AP_ID		mme_ue_s1ap_id<0..SIZE>;
+}UES1APIDS;
+
+struct {
+	MME_UE_S1AP_ID 		mme_ue_s1ap_id;
+	ENB_UE_S1AP_ID 		enb_ue_s1ap_id;
+	UES1APIDPairExtIEs ie_extensions<0..MAXSIZE>; 
+}UE_S1APIDPair;
+
+
+struct { //TODO: What's size? 
+	MME_UE_S1AP_ID 		mme_ue_s1ap_id<0..SIZE>;
+	ENB_UE_S1AP_ID  		enb_ue_s1ap_id<0..SIZE>;
+	UEAssociatedLogicalS1ConnectionItemExtIEs ie_extensions<0..MAXSIZE>; 
+}UEassociatedLogicalS1ConnectionItem;
+
+
+
+
+// TODO: size(LastVisitedCellItem)*maxnoofCells)
+LastVisitedCellItem UE-HistoryInformation<MINSIZE..MAXSIZE>;
+
+struct {
+	S_TMSI 		s_tmsi;
+	IMSI 		imsi;
+	}UEPagingID;
+
+
+
+struct {
+	EncryptionAlgorithms 			encryption_algorithms,
+	IntegrityProtectionAlgorithms 	integrity_protection_algorithms,
+	UESecurityCapabilitiesExtIEs 	ie_extensions<0..MAXSIZE>;
+}UESecurityCapabilities;
+
+-- W
+
+struct {
+	ECGIList 					cell_id_list;
+	TAIListforWarning 			tracking_area_list_for_warning;
+	EmergencyAreaIDList 		emergency_area_id_list;
+}WarningAreaList;
+
+
+
+
+
+// -- X
+
+
+struct {
+	ENBX2TLAs 					enb_x2_transport_layer_address;
+	X2TNLConfigurationInfoExtIEs ie_extensions<0..MAXSIZE>;
+}X2TNLConfigurationInfo;
+
+
+
+
