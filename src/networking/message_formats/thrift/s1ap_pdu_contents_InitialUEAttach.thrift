@@ -257,21 +257,18 @@ typedef S1apProtocolExtension ERABSetupItemCtxtSUResExtIEs
 // **************************************************************
 // Initial Context Setup Failure
 // **************************************************************
-InitialContextSetupFailure ::= SEQUENCE {
-	protocolIEs			ProtocolIE-Container       { {InitialContextSetupFailureIEs} },
-	...
+
+
+struct InitialContextSetupFailure{
+	1: InitialContextSetupFailureIEs protocol_ies;
 }
 
-InitialContextSetupFailureIEs S1AP-PROTOCOL-IES ::= {
-	{ ID id-MME-UE-S1AP-ID				CRITICALITY ignore	TYPE MME-UE-S1AP-ID	 				PRESENCE mandatory	}|
-	{ ID id-eNB-UE-S1AP-ID				CRITICALITY ignore	TYPE ENB-UE-S1AP-ID	 				PRESENCE mandatory	}|
-	{ ID id-Cause						CRITICALITY ignore	TYPE Cause						PRESENCE mandatory	}|
-	{ ID id-CriticalityDiagnostics		CRITICALITY ignore	TYPE CriticalityDiagnostics			PRESENCE optional	},
-	...
-}
-
-
-
+const list<S1apProtocolIES> InitialContextSetupFailureIEs = [
+		{"id":ID_MME_UE_S1AP_ID_PIEID , "criticality": Criticality.IGNORE, "type":MME_UE_S1AP_ID , "presence" :Presence.MANDATORY},
+		{"id":ID_eNB_UE_S1AP_ID_PIEID , "criticality": Criticality.IGNORE, "type":ENB_UE_S1AP_ID , "presence" :Presence.MANDATORY},
+		{"id":ID_Cause_PIEID , "criticality": Criticality.IGNORE, "type":Cause , "presence" :Presence.OPTIONAL},
+		{"id":ID_CriticalityDiagnostics_PIEID , "criticality": Criticality.IGNORE, "type":CriticalityDiagnostics , "presence" :Presence.OPTIONAL},
+]
 
 
 /*

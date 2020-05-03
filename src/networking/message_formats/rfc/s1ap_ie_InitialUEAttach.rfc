@@ -1,0 +1,41 @@
+/*
+
+enum {
+	MME_UE_S1AP_ID_IE, 				// MME_UE_S1AP_ID,
+	MME_NAME_IE, 					// MMEName,
+	ENB_UE_S1AP_ID_IE, 				// ENB_UE_S1AP_ID,
+	ENB_NAME_IE, 					// ENBName,
+	NAS_PDU_IE, 					// NAS_PDU
+	TIME_TO_WAIT_IE, 				// TimeToWait,
+	CAUSE_IE, 						// Cause,
+	TAI_IE, 						// TAI
+	EUTRAN_CGI_IE, 					// EUTRAN_CGI,
+	S_TMSI_IE, 						// S_TMSI,
+	CSGID_IE, 						// CSGId,
+	GUMMEI_IE,  					// GUMMEI,
+	GLOBAL_ENB_ID_IE, 				// GlobalENBID,
+	SUPPORTED_TAS_IE, 				// SupportedTAs,
+	PAGING_DRX_IE, 					// PagingDRX,
+	CSGID_LIST_IE, 					// CSGIdList ,
+	SERVED_GUMMEIS_IE, 				// ServedGUMMEIs,
+	RELATIVE_MME_CAPACITY_IE, 		// RelativeMMECapacity,
+	CRITICALITY_DIAGNOSTICS_IE, 	// CriticalityDiagnostics,
+	UE_RADIO_CAPABILITY_IE, 			// UERadioCapability,
+	UE_AGGREGATE_MAX_BITRATE_IE, 	// UEAggregateMaximumBitrate,
+	UE_SECURITY_CAPABILITIES_IE, 		// UESecurityCapabilities,
+	SECURITY_KEY_IE, 					// SecurityKey,
+	TRACE_ACTIVATION_IE, 				// TraceActivation,
+	HANDOVER_RESTRICTION_LIST_IE, 	// HandoverRestrictionList,
+	RRC_ESTABLISHMENT_CAUSE_IE, 	// RRCEstablishmentCause,
+	SUBSCRIBERR_PROFILE_ID_RFP_IE, 	// SubscriberProfileIDforRFP,
+	CS_FALLBACK_INDICATOR_IE, 		//CSFallbackIndicator,
+	SRVCC_OPERRATION_POSSIBLE_IE, 	// SRVCCOperationPossible,
+	ERAB_SETUP_LIST_CTXT_SURES_IE,  // ERABSetupListCtxtSURes,
+	ERAB_LIST_IE, 					// ERABList,
+	ERAB_TOBSETUP_LIST_CTXT_SUREQ_IE, // ERABToBeSetupListCtxtSUReq,
+	ERAB_TOBSETUP_ITEM_CTXT_SUREQ_IE, // ERABToBeSetupItemCtxtSUReq,
+	ERAB_SETUP_ITEM_CTXT_SURES_IE,  // ERABSetupItemCtxtSURes,
+
+}S1apIETypes;
+
+*/
