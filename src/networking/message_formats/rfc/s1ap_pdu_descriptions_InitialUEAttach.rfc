@@ -1,0 +1,195 @@
+// S1AP-PDU-Descriptions - InitialUEAttach Procedure requirements only. 
+
+// -------  Interface Elementary Procedure List
+
+
+enum{
+
+	InitialContextSetup,
+	S1Setup,
+	DownlinkNASTransport,
+	InitialUEMessage,
+	UplinkNASTransport,
+	
+}S1APElementaryProcedureNames;
+
+struct{
+	select (S1APElementaryProcedureNames) {
+		case(InitialContextSetup):		InitialContextSetup_EP;
+		case(S1Setup):					S1Setup_EP;
+		case(DownlinkNASTransport): 	DownlinkNASTransport_EP;
+		case(InitialUEMessage): 		InitialUEMessage_EP;
+		case(UplinkNASTransport): 		UplinkNASTransport_EP;
+	}; 
+}S1apElementaryProcedures;
+
+// -------  Interface Elementary Procedure Class
+
+/*
+   Under-specified types (opaque, variable-length vectors, and
+   structures that contain opaque) cannot be assigned values.  No fields
+   of a multi-element structure or vector may be elided.
+*/
+
+/*
+// Elementary Procedure Defintions
+
+
+enum {
+	INITIAL_CONTEXT_SETUP_REQUEST, //InitialContextSetupRequest,
+	DOWNLINK_NAS_TRANSPORT, //DownlinkNASTransport,
+	INITIAL_UE_MESSAGE, //InitialUEMessage,
+	UPLINK_NAS_TRANSPORT, //UplinkNASTransport,
+	S1_SETUP_REQUEST, //S1SetupRequest
+}InitiatingMessageType;
+
+enum {
+	INITIAL_CONTEXT_SETUP_RESPONSE, //InitialContextSetupResponse,
+	S1_SETUP_RESPONSE, //S1SetupResponse
+
+}SuccessfulOutcomeType;
+
+enum {
+	INITIAL_CONTEXT_SETUP_FAILURE, //InitialContextSetupFailure
+	S1_SETUP_FAILURE, //S1SetupFailure
+	
+}UnsuccessfulOutcomeType;
+
+
+struct{
+	InitiatingMessageType 			initiating_message_type;
+	select(InitiatingMessage.initiating_message_type){
+		case(INITIAL_CONTEXT_SETUP_REQUEST): 	InitialContextSetupRequest;
+		case(DOWNLINK_NAS_TRANSPORT):			DownlinkNASTransport;
+		case(INITIAL_UE_MESSAGE): 				InitialUEMessage;
+		case(UPLINK_NAS_TRANSPORT): 			UplinkNASTransport;
+		case(S1_SETUP_REQUEST): 				S1SetupRequest;
+	};
+}InitiatingMessage;
+
+
+struct {
+	SuccessfulOutcomeType 			successful_outcome_type; 
+	select(SuccessfulOutcome.successful_outcome_type){
+		case(INITIAL_CONTEXT_SETUP_RESPONSE): 	InitialContextSetupResponse;
+		case(S1_SETUP_RESPONSE): 				S1SetupResponse;
+	};
+
+}SuccessfulOutcome;
+
+struct {
+	UnsuccessfulOutcomeType 		unsuccessful_outcome_type; 
+	select(UnsuccessfulOutcome.unsuccessful_outcome_type){
+		case(INITIAL_CONTEXT_SETUP_FAILURE): 	InitialContextSetupFailure;
+		case(S1_SETUP_FAILURE): 				S1SetupFailure;
+	};
+	
+}UnsuccessfulOutcome;
+// ************************************************************************
+// -------  Interface PDU Definition
+
+struct {
+	InitiatingMessageType 			initiating_message_type;
+	SuccessfulOutcomeType 			successful_outcome_type;
+	UnsuccessfulOutcomeType 		unsuccessful_outcome_type; 
+	select(S1APPDU.initiating_message_type){
+		case(INITIAL_CONTEXT_SETUP_REQUEST): 	InitialContextSetupRequest;
+		case(DOWNLINK_NAS_TRANSPORT):			DownlinkNASTransport;
+		case(INITIAL_UE_MESSAGE): 				InitialUEMessage;
+		case(UPLINK_NAS_TRANSPORT): 			UplinkNASTransport;
+		case(S1_SETUP_REQUEST): 				S1SetupRequest;
+	};
+
+	select(S1APPDU.successful_outcome_type){
+		case(INITIAL_CONTEXT_SETUP_RESPONSE): 	InitialContextSetupResponse;
+		case(S1_SETUP_RESPONSE): 				S1SetupResponse;
+	};
+
+	select(S1APPDU.unsuccessful_outcome_type){
+		case(INITIAL_CONTEXT_SETUP_FAILURE): 	InitialContextSetupFailure;
+		case(S1_SETUP_FAILURE): 				S1SetupFailure;
+	};
+}S1APPDU;
+
+
+// ************************************************************************
+// Defining the Elementary-Procedures
+
+
+struct {
+	InitiatingMessage 				initiating_message;
+	SuccessfulOutcome 				successful_outcome<0..SIZE>;
+	UnsuccessfulOutcome 			unsuccessful_outcome<0..SIZE>; 
+	ProcedureCode 					procedure_code;  //TODO : UNIQUE
+	Criticality 					criticality;
+}S1APElementaryProcedure;
+
+
+
+struct {
+	InitiatingMessageType 			initiating_message_type;
+	ProcedureCodeType				procedure_code;  //TODO : UNIQUE
+	Criticality 					criticality;
+	SuccessfulOutcomeType 			successful_outcome_type;
+	UnsuccessfulOutcomeType 		unsuccessful_outcome_type; 
+
+	select(S1APElementaryProcedure.initiating_message_type){
+		case(INITIAL_CONTEXT_SETUP_REQUEST): 	InitialContextSetupRequest;
+		case(DOWNLINK_NAS_TRANSPORT):			DownlinkNASTransport;
+		case(INITIAL_UE_MESSAGE): 				InitialUEMessage;
+		case(UPLINK_NAS_TRANSPORT): 			UplinkNASTransport;
+		case(S1_SETUP_REQUEST): 				S1SetupRequest;
+	};
+
+	select(S1APElementaryProcedure.successful_outcome_type){
+		case(INITIAL_CONTEXT_SETUP_RESPONSE): 	InitialContextSetupResponse;
+		case(S1_SETUP_RESPONSE): 				S1SetupResponse;
+	};
+
+	select(S1APElementaryProcedure.unsuccessful_outcome_type){
+		case(INITIAL_CONTEXT_SETUP_FAILURE): 	InitialContextSetupFailure;
+		case(S1_SETUP_FAILURE): 				S1SetupFailure;
+	};
+}S1APElementaryProcedure;
+
+// EP9
+S1apElementaryProcedure InitialContextSetup_EP = { 
+	InitiatingMessageType.INITIAL_CONTEXT_SETUP_REQUEST, 
+	ID_InitialContextSetup_PC, 
+	Criticality.REJECT,	
+	SuccessfulOutcomeType.INITIAL_CONTEXT_SETUP_RESPONSE,
+	UnsuccessfulOutcomeType.INITIAL_CONTEXT_SETUP_FAILURE };
+
+
+// EP11
+S1apElementaryProcedure InitialContextSetup_EP = { 
+	InitiatingMessageType.DOWNLINK_NAS_TRANSPORT, 
+	ID_downlinkNASTransport_PC, 
+	Criticality.IGNORE
+};
+
+
+// EP12
+S1apElementaryProcedure InitialContextSetup_EP = { 
+	InitiatingMessageType.INITIAL_UE_MESSAGE, 
+	ID_initialUEMessage_PC, 
+	Criticality.IGNORE	
+};
+
+// EP13
+S1apElementaryProcedure InitialContextSetup_EP = { 
+	InitiatingMessageType.UPLINK_NAS_TRANSPORT, 
+	ID_uplinkNASTransport_PC, 
+	Criticality.IGNORE
+};
+
+
+// EP17
+S1apElementaryProcedure InitialContextSetup_EP = { 
+	InitiatingMessageType.S1_SETUP_REQUEST, 
+	ID_S1Setup_PC, 
+	Criticality.REJECT,	
+	SuccessfulOutcomeType.S1_SETUP_RESPONSE,
+	UnsuccessfulOutcomeType.S1_SETUP_FAILURE };
+
+
