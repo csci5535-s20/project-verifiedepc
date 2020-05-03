@@ -37,7 +37,7 @@ enum {
 }S1apIETypes;
 
 enum{
-	ProtocolID 							id;
+	ProtocolIEID 							id;
 	Criticality 						criticality; 
 	Presence 							presence; 
 	S1apIETypes 						ie_type;
@@ -73,8 +73,9 @@ enum{
 		case(SRVCC_OPERRATION_POSSIBLE_IE):			SRVCCOperationPossible;
 		case(ERAB_SETUP_LIST_CTXT_SURES_IE):		ERABSetupListCtxtSURes;
 		case(ERAB_LIST_IE):			 				ERABList;
-		case(ERAB_TOBSETUP_LIST_CTXT_SUREQ_IE):		ERABToBeSetupListCtxtSUReq,
-		case(ERAB_TOBSETUP_ITEM_CTXT_SUREQ_IE):		ERABToBeSetupItemCtxtSUReq,
+		case(ERAB_TOBSETUP_LIST_CTXT_SUREQ_IE):		ERABToBeSetupListCtxtSUReq;
+		case(ERAB_TOBSETUP_ITEM_CTXT_SUREQ_IE):		ERABToBeSetupItemCtxtSUReq;
+		case(ERAB_SETUP_ITEM_CTXT_SURES_IE):        ERABSetupItemCtxtSURes;
 	};
 }S1apIE;
 
@@ -246,17 +247,6 @@ struct {
 
 
 
-//TODO: size(ERABToBeSetupItemCtxtSUReqIEs)* maxNrOfE-RABs)
-ERABToBeSetupItemCtxtSUReqIEs ERABToBeSetupListCtxtSUReq<MINSIZE..MAXSIZE>;
-
-
-S1apIE ERABToBeSetupItemCtxtSUReqIEs = {ID_E_RABToBeSetupItemCtxtSUReq_PIEID, Criticality.REJECT, Criticality.REJECT, ERAB_TOBSETUP_ITEM_CTXT_SUREQ_IE }; //ERABToBeSetupItemCtxtSUReq
-
-
-
-
-
-
 
 // **************************************************************
 // Initial Context Setup Response
@@ -280,11 +270,6 @@ struct {
 
 
 
-//TODO: size(ERABSetupItemCtxtSUResIEs) * maxNrOfE-RABs
-ERABSetupItemCtxtSUResIEs ERABSetupListCtxtSURes<MINSIZE..MAXSIZE>
-
-S1apIE ERABSetupItemCtxtSUResIEs = {ID_E_RABSetupItemCtxtSURes_PIEID , Criticality.IGNORE, Presence.MANDATORY, ERAB_SETUP_ITEM_CTXT_SURES_IE }; // ERABSetupItemCtxtSURes
-
 
 
 // **************************************************************
@@ -301,5 +286,24 @@ struct {
 	S1apIE ie4 = {ID_CriticalityDiagnostics_PIEID, Criticality.IGNORE, Presence.OPTIONAL, CRITICALITY_DIAGNOSTICS_IE };
 
 }InitialContextSetupFailure;
+
+
+// **************************************************************
+// Initial Context Setup Failure
+// **************************************************************
+
+
+//TODO: size(ERABToBeSetupItemCtxtSUReqIEs)* maxNrOfE-RABs)
+ERABToBeSetupItemCtxtSUReqIEs ERABToBeSetupListCtxtSUReq<MINSIZE..MAXSIZE>;
+
+
+S1apIE ERABToBeSetupItemCtxtSUReqIEs = {ID_E_RABToBeSetupItemCtxtSUReq_PIEID, Criticality.REJECT, Criticality.REJECT, ERAB_TOBSETUP_ITEM_CTXT_SUREQ_IE }; //ERABToBeSetupItemCtxtSUReq
+
+
+
+//TODO: size(ERABSetupItemCtxtSUResIEs) * maxNrOfE-RABs
+ERABSetupItemCtxtSUResIEs ERABSetupListCtxtSURes<MINSIZE..MAXSIZE>
+
+S1apIE ERABSetupItemCtxtSUResIEs = {ID_E_RABSetupItemCtxtSURes_PIEID , Criticality.IGNORE, Presence.MANDATORY, ERAB_SETUP_ITEM_CTXT_SURES_IE }; // ERABSetupItemCtxtSURes
 
 

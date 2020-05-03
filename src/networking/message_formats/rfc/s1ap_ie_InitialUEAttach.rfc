@@ -1,42 +1,37 @@
 
+uint8 RelativeMMECapacity 							//INTEGER (0..255)
+uint8 SubscriberProfileIDforRFP 					//INTEGER (1..256) 
+uint32 ENB_UE_S1AP_ID 								// INTEGER (0..16777215)
+uint64 MME_UE_S1AP_ID							 	//INTEGER (0..4294967295).  MMEUES1APID
 uint64 BitRate;
 
 
-uint64 MME_UE_S1AP_ID	 //INTEGER (0..4294967295).  MMEUES1APID
-string MMEName<1..150> // PrintableString (SIZE (1..150,...))
-uint32 ENB_UE_S1AP_ID// INTEGER (0..16777215)
-string EncryptionAlgorithms<16..MAXSIZE> // BIT STRING (SIZE (16,...))
-string IntegrityProtectionAlgorithms<16..MAXSIZE> // BIT STRING (SIZE (16,...))
 
-
-string ENBName<1..150> //(SIZE (1..150,...))
-string NAS_PDU<1..MAXSIZE>	//OCTET STRING
-
-string TBCDString[3] //::= OCTET STRING (SIZE (3))
-
+string MMEName<1..150> 										// PrintableString (SIZE (1..150,...))
+string ENBName<1..150> 					//(SIZE (1..150,...))
+string TBCDString[3] 					//::= OCTET STRING (SIZE (3))
 TBCDString  PLMNIdentity;
 PLMNidentity BPLMNs;
 
-
 string CellIdentity
-string MMECode[1] // OCTET STRING (SIZE (1))
-string MTMSI[4]	//OCTET STRING (SIZE (4))
+string MMECode[1] 					// OCTET STRING (SIZE (1))
+string MTMSI[4]						//OCTET STRING (SIZE (4))
 string CSGId[27]
+string MMEGroupID[2]  				// OCTET STRING (SIZE (2))
+string TAC[2] 						//::= OCTET STRING (SIZE (2))
+string SecurityKey[256]  			// BIT STRING (SIZE(256))
+string TransportLayerAddress[160]  	// BIT STRING (SIZE(1..160, ...))
+string InterfacesToTrace[8] 		//BIT STRING (SIZE (8))
+string EUTRANTraceID[8]  			//  OCTET STRING (SIZE (8))
 
-string MMEGroupID[2]  // OCTET STRING (SIZE (2))
 
-string TAC[2] //::= OCTET STRING (SIZE (2))
+string NAS_PDU<1..MAXSIZE>										//OCTET STRING
+string UERadioCapability<1..SIZE>								//OCTET STRING
+string EncryptionAlgorithms<16..MAXSIZE> 						// BIT STRING (SIZE (16,...))
+string IntegrityProtectionAlgorithms<16..MAXSIZE> 				// BIT STRING (SIZE (16,...))
 
-uint8 RelativeMMECapacity //INTEGER (0..255)
 
-string UERadioCapability<1..SIZE> //OCTET STRING
 
-string SecurityKey[256]  // BIT STRING (SIZE(256))
-string TransportLayerAddress[160]  // BIT STRING (SIZE(1..160, ...))
-string InterfacesToTrace[8] //BIT STRING (SIZE (8))
-string EUTRANTraceID[8]  //  OCTET STRING (SIZE (8))
-
-uint8 SubscriberProfileIDforRFP //INTEGER (1..256) 
 
 
 
@@ -197,6 +192,19 @@ struct {
 // TODO: size(PLMNIdentity)*maxnoofEPLMNs)
 PLMNIdentity EPLMNs<MINSIZE..MAXSIZE>;
 
+ERABItemIEs ERABList<MINSIZE..MAXSIZE>
+
+struct  {	 	// INTEGER (0..15, ...)
+	uint8 	id_1<0..1>;
+	uint64 	id_2<0..8>;
+}E_RAB_ID;
+
+struct {
+	E_RAB_ID 			e_rab_id;
+	Cause 				cause;
+	ERABItemExtIEs ie_extensions<0..MAXSIZE>;
+}ERABItem;
+
 
 // -- F
 
@@ -326,6 +334,7 @@ struct {
 
 /*
 
+// Reference of the IE-Types that's used in s1ap_pdu_content.rfc
 enum {
 	MME_UE_S1AP_ID_IE, 				// MME_UE_S1AP_ID,
 	MME_NAME_IE, 					// MMEName,
