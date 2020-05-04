@@ -46,6 +46,7 @@ object s1_setup = {
     action send(x:pcode_bits, y:message_enum, a:plmn_octet, b:plmn_octet, c:drx_enum, s:supported_ta.arr) = {
         pcode := x;
         msg := y if s.begin < s.end else message_enum.unsuccessful_outcome;
+#        msg := y;
         plmn_identity := a;
         global_choice_enb_id := b;
         default_paging_drx := c

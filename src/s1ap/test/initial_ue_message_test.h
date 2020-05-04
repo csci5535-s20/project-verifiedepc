@@ -588,9 +588,9 @@ struct hash_thunk {
     class reader;
     class timer;
 
-class s1_setup_test2 {
+class initial_ue_message_test {
   public:
-    typedef s1_setup_test2 ivy_class;
+    typedef initial_ue_message_test ivy_class;
 
     std::vector<std::string> __argv;
 #ifdef _WIN32
@@ -611,45 +611,36 @@ class s1_setup_test2 {
     void install_reader(reader *);
     void install_thread(reader *);
     void install_timer(timer *);
-    virtual ~s1_setup_test2();
+    virtual ~initial_ue_message_test();
     std::vector<int> ___ivy_stack;
     int ___ivy_choose(int rng,const char *name,int id);
     virtual void ivy_assert(bool,const char *){}
     virtual void ivy_assume(bool,const char *){}
     virtual void ivy_check_progress(int,int){}
+    enum nas_pdu_string{nas_pdu_string__0,nas_pdu_string__a,nas_pdu_string__b,nas_pdu_string__c,nas_pdu_string__d,nas_pdu_string__e,nas_pdu_string__f,nas_pdu_string__g,nas_pdu_string__h,nas_pdu_string__i,nas_pdu_string__j,nas_pdu_string__k,nas_pdu_string__l,nas_pdu_string__m,nas_pdu_string__n,nas_pdu_string__o,nas_pdu_string__p,nas_pdu_string__q,nas_pdu_string__r,nas_pdu_string__s,nas_pdu_string__t,nas_pdu_string__u,nas_pdu_string__v,nas_pdu_string__w,nas_pdu_string__x,nas_pdu_string__y,nas_pdu_string__z};
     enum message_enum{message_enum__initial_message,message_enum__successful_outcome,message_enum__unsuccessful_outcome};
-    struct supported_ta {
-    unsigned tac;
-    unsigned plmn_identity2;
-        size_t __hash() const { return hash_space::hash<unsigned>()(tac)+hash_space::hash<unsigned>()(plmn_identity2);}
-    };
-    class supported_ta__arr : public std::vector<supported_ta>{
-        public: size_t __hash() const { return hash_space::hash<std::vector<supported_ta> >()(*this);};
-    };
-    enum drx_enum{drx_enum__0,drx_enum__32,drx_enum__64,drx_enum__128,drx_enum__256};
-    unsigned s1_setup__plmn_identity;
-    supported_ta__arr s1_setup__supported_tas;
-    message_enum s1_setup__msg;
-    unsigned s1_setup__pcode;
-    drx_enum s1_setup__default_paging_drx;
+    enum rrc_enum{rrc_enum__0,rrc_enum__emergency,rrc_enum__highPriorityAccess,rrc_enum__mt_Access,rrc_enum__mo_Signalling};
+    unsigned initial_ue_message__plmn_identity2;
+    unsigned initial_ue_message__tac;
+    unsigned initial_ue_message__plmn_identity1;
+    unsigned initial_ue_message__pcode;
     bool _generating;
-    unsigned s1_setup__global_choice_enb_id;
+    message_enum initial_ue_message__msg;
+    int initial_ue_message__enb_ue_s1ap_id;
+    nas_pdu_string initial_ue_message__nas_pdu;
+    unsigned initial_ue_message__cell_identity;
+    rrc_enum initial_ue_message__rrc_establishment_cause;
     long long __CARD__pcode_bits;
-    long long __CARD__supported_ta__idx;
-    long long __CARD__tac_octet;
     long long __CARD__plmn_octet;
-    virtual supported_ta supported_ta__arr__value(const supported_ta__arr& a, unsigned long long i);
-    virtual unsigned long long supported_ta__arr__end(const supported_ta__arr& a);
-    s1_setup_test2();
-    virtual void ext__s1_setup__send(unsigned x, message_enum y, unsigned a, unsigned b, drx_enum c);
-    virtual supported_ta__arr ext__supported_ta__arr__empty();
-    virtual bool ext__ask_and_check_pcode();
-    virtual message_enum ext__s1_setup__recv();
+    long long __CARD__tac_octet;
+    long long __CARD__cell_bits;
+    long long __CARD__cid;
+    initial_ue_message_test();
     virtual void __init();
-    virtual unsigned ext__ask();
+    virtual message_enum ext__initial_ue_message__recv();
+    virtual bool ext__ask_and_check_pcode();
     virtual unsigned imp__ask();
+    virtual unsigned ext__ask();
+    virtual void ext__initial_ue_message__send(unsigned x, message_enum y, int e, nas_pdu_string n, unsigned p1, unsigned t, unsigned p2, unsigned c, rrc_enum r);
     void __tick(int timeout);
 };
-inline bool operator ==(const s1_setup_test2::supported_ta &s, const s1_setup_test2::supported_ta &t){
-    return ((s.tac == t.tac) && (s.plmn_identity2 == t.plmn_identity2));
-}

@@ -1,0 +1,74 @@
+#lang ivy1.7
+
+type cid
+type pcode_bits
+interpret pcode_bits -> bv[8]
+type tac_octet
+interpret tac_octet -> bv[16]
+type plmn_octet
+interpret plmn_octet -> bv[24]
+type cell_bits
+interpret cell_bits -> bv[28]
+
+object nas_pdu_string = {
+    type this = {0,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z} # 0 is error
+}
+
+object message_enum = {
+    type this = {initial_message, successful_outcome, unsuccessful_outcome}
+}
+
+object rrc_enum = {
+    type this = {0, emergency, highPriorityAccess, mt_Access, mo_Signalling} # 0 is error
+}
+
+object initial_ue_message = {
+    individual pcode : pcode_bits
+    individual msg : message_enum
+    individual enb_ue_s1ap_id : cid
+    individual nas_pdu : nas_pdu_string
+    individual plmn_identity1 : plmn_octet
+    individual tac : tac_octet
+    individual plmn_identity2 : plmn_octet
+    individual cell_identity : cell_bits
+    individual rrc_establishment_cause : rrc_enum
+    after init {
+        pcode := 0;
+        msg := message_enum.unsuccessful_outcome;
+        enb_ue_s1ap_id := 0;
+        nas_pdu := nas_pdu_string.0;
+        plmn_identity1 := 0;
+        tac := 0;
+        plmn_identity2 := 0;
+        cell_identity := 0;
+        rrc_establishment_cause := rrc_enum.0
+    }
+
+    action send(x:pcode_bits, y:message_enum, e:cid, n:nas_pdu_string, p1:plmn_octet,
+            t:tac_octet, p2:plmn_octet, c:cell_bits, r:rrc_enum) = {
+        pcode := x;
+        msg := y;
+        enb_ue_s1ap_id := e;
+        nas_pdu := n;
+        plmn_identity1 := p1;
+        tac := t;
+        plmn_identity2 := p2;
+        cell_identity := c;
+        rrc_establishment_cause := r
+    }
+
+    action recv returns(y:message_enum) = {
+        y := message_enum.successful_outcome if msg = message_enum.initial_message & 
+               pcode = 12 & enb_ue_s1ap_id > 0 & nas_pdu ~= nas_pdu_string.0 &
+               plmn_identity1 > 0 & tac > 0 & plmn_identity2 > 0 & cell_identity > 0 &
+               rrc_establishment_cause ~= rrc_enum.0 else message_enum.unsuccessful_outcome
+    }
+}
+
+import action ask returns (x:pcode_bits)
+export action ask_and_check_pcode returns(ok:bool) = {
+    ok := ask = 12
+}
+
+export initial_ue_message.send
+export initial_ue_message.recv

@@ -1,4 +1,4 @@
-#include "s1_setup_test2.h"
+#include "initial_context_setup_test.h"
 
 #include <sstream>
 #include <algorithm>
@@ -29,7 +29,7 @@
 #else
 #include <cstdint>
 #endif
-typedef s1_setup_test2 ivy_class;
+typedef initial_context_setup_test ivy_class;
 std::ofstream __ivy_out;
 std::ofstream __ivy_modelfile;
 void __ivy_exit(int code){exit(code);}
@@ -96,7 +96,7 @@ void * _thread_timer( void *tmr_void )
 } 
 #endif 
 
-void s1_setup_test2::install_reader(reader *r) {
+void initial_context_setup_test::install_reader(reader *r) {
     #ifdef _WIN32
 
         DWORD dummy;
@@ -123,11 +123,11 @@ void s1_setup_test2::install_reader(reader *r) {
     #endif
 }      
 
-void s1_setup_test2::install_thread(reader *r) {
+void initial_context_setup_test::install_thread(reader *r) {
     install_reader(r);
 }
 
-void s1_setup_test2::install_timer(timer *r) {
+void initial_context_setup_test::install_timer(timer *r) {
     #ifdef _WIN32
 
         DWORD dummy;
@@ -156,11 +156,11 @@ void s1_setup_test2::install_timer(timer *r) {
 
 
 #ifdef _WIN32
-    void s1_setup_test2::__lock() { WaitForSingleObject(mutex,INFINITE); }
-    void s1_setup_test2::__unlock() { ReleaseMutex(mutex); }
+    void initial_context_setup_test::__lock() { WaitForSingleObject(mutex,INFINITE); }
+    void initial_context_setup_test::__unlock() { ReleaseMutex(mutex); }
 #else
-    void s1_setup_test2::__lock() { pthread_mutex_lock(&mutex); }
-    void s1_setup_test2::__unlock() { pthread_mutex_unlock(&mutex); }
+    void initial_context_setup_test::__lock() { pthread_mutex_lock(&mutex); }
+    void initial_context_setup_test::__unlock() { pthread_mutex_unlock(&mutex); }
 #endif
 
 /*++
@@ -582,196 +582,75 @@ void __deser<bool>(ivy_deser &inp, bool &res) {
 
 class gen;
 
-std::ostream &operator <<(std::ostream &s, const s1_setup_test2::drx_enum &t);
+std::ostream &operator <<(std::ostream &s, const initial_context_setup_test::message_enum &t);
 template <>
-s1_setup_test2::drx_enum _arg<s1_setup_test2::drx_enum>(std::vector<ivy_value> &args, unsigned idx, long long bound);
+initial_context_setup_test::message_enum _arg<initial_context_setup_test::message_enum>(std::vector<ivy_value> &args, unsigned idx, long long bound);
 template <>
-void  __ser<s1_setup_test2::drx_enum>(ivy_ser &res, const s1_setup_test2::drx_enum&);
+void  __ser<initial_context_setup_test::message_enum>(ivy_ser &res, const initial_context_setup_test::message_enum&);
 template <>
-void  __deser<s1_setup_test2::drx_enum>(ivy_deser &inp, s1_setup_test2::drx_enum &res);
-std::ostream &operator <<(std::ostream &s, const s1_setup_test2::message_enum &t);
-template <>
-s1_setup_test2::message_enum _arg<s1_setup_test2::message_enum>(std::vector<ivy_value> &args, unsigned idx, long long bound);
-template <>
-void  __ser<s1_setup_test2::message_enum>(ivy_ser &res, const s1_setup_test2::message_enum&);
-template <>
-void  __deser<s1_setup_test2::message_enum>(ivy_deser &inp, s1_setup_test2::message_enum &res);
-std::ostream &operator <<(std::ostream &s, const s1_setup_test2::supported_ta &t);
-template <>
-s1_setup_test2::supported_ta _arg<s1_setup_test2::supported_ta>(std::vector<ivy_value> &args, unsigned idx, long long bound);
-template <>
-void  __ser<s1_setup_test2::supported_ta>(ivy_ser &res, const s1_setup_test2::supported_ta&);
-template <>
-void  __deser<s1_setup_test2::supported_ta>(ivy_deser &inp, s1_setup_test2::supported_ta &res);
-        template <typename T>
-        T __array_segment(const T &a, long long lo, long long hi) {
-            T res;
-            lo = (lo < 0) ? 0 : lo;
-            hi = (hi > a.size()) ? a.size() : hi;
-            if (hi > lo) {
-                res.resize(hi-lo);
-                std::copy(a.begin()+lo,a.begin()+hi,res.begin());
-            }
-            return res;
-        }
-        	    std::ostream &operator <<(std::ostream &s, const s1_setup_test2::supported_ta__arr &a) {
-	        s << '[';
-		for (unsigned i = 0; i < a.size(); i++) {
-		    if (i != 0)
-		        s << ',';
-		    s << a[i];
-		}
-	        s << ']';
-		return s;
-            }
-
-	    template <>
-	    s1_setup_test2::supported_ta__arr _arg<s1_setup_test2::supported_ta__arr>(std::vector<ivy_value> &args, unsigned idx, long long bound) {
-	        ivy_value &arg = args[idx];
-	        if (arg.atom.size()) 
-	            throw out_of_bounds(idx);
-	        s1_setup_test2::supported_ta__arr a;
-	        a.resize(arg.fields.size());
-		for (unsigned i = 0; i < a.size(); i++) {
-		    a[i] = _arg<s1_setup_test2::supported_ta>(arg.fields,i,0);
-	        }
-	        return a;
-	    }
-
-	    template <>
-	    void __deser<s1_setup_test2::supported_ta__arr>(ivy_deser &inp, s1_setup_test2::supported_ta__arr &res) {
-	        inp.open_list();
-	        while(inp.open_list_elem()) {
-		    res.resize(res.size()+1);
-	            __deser(inp,res.back());
-		    inp.close_list_elem();
-                }
-		inp.close_list();
-	    }
-
-	    template <>
-	    void __ser<s1_setup_test2::supported_ta__arr>(ivy_ser &res, const s1_setup_test2::supported_ta__arr &inp) {
-	        int sz = inp.size();
-	        res.open_list(sz);
-	        for (unsigned i = 0; i < (unsigned)sz; i++) {
-		    res.open_list_elem();
-	            __ser(res,inp[i]);
-		    res.close_list_elem();
-                }
-	        res.close_list();
-	    }
-
-	    #ifdef Z3PP_H_
-	    template <>
-            z3::expr __to_solver(gen& g, const z3::expr& z3val, s1_setup_test2::supported_ta__arr& val) {
-	        z3::expr z3end = g.apply("supported_ta.arr.end",z3val);
-	        z3::expr __ret = z3end  == g.int_to_z3(z3end.get_sort(),val.size());
-	        unsigned __sz = val.size();
-	        for (unsigned __i = 0; __i < __sz; ++__i)
-		    __ret = __ret && __to_solver(g,g.apply("supported_ta.arr.value",z3val,g.int_to_z3(g.sort("supported_ta.idx"),__i)),val[__i]);
-                return __ret;
-            }
-
-	    template <>
-	    void  __from_solver<s1_setup_test2::supported_ta__arr>( gen &g, const  z3::expr &v,s1_setup_test2::supported_ta__arr &res){
-	        unsigned long long __end;
-	        __from_solver(g,g.apply("supported_ta.arr.end",v),__end);
-	        unsigned __sz = (unsigned) __end;
-	        res.resize(__sz);
-	        for (unsigned __i = 0; __i < __sz; ++__i)
-		    __from_solver(g,g.apply("supported_ta.arr.value",v,g.int_to_z3(g.sort("supported_ta.idx"),__i)),res[__i]);
-	    }
-
-	    template <>
-	    void  __randomize<s1_setup_test2::supported_ta__arr>( gen &g, const  z3::expr &v){
-	        unsigned __sz = rand() % 4;
-                z3::expr val_expr = g.int_to_z3(g.sort("supported_ta.idx"),__sz);
-                z3::expr pred =  g.apply("supported_ta.arr.end",v) == val_expr;
-                g.add_alit(pred);
-	        for (unsigned __i = 0; __i < __sz; ++__i)
-	            __randomize<s1_setup_test2::supported_ta>(g,g.apply("supported_ta.arr.value",v,g.int_to_z3(g.sort("supported_ta.idx"),__i)));
-	    }
-	    #endif
-
-	int s1_setup_test2::___ivy_choose(int rng,const char *name,int id) {
+void  __deser<initial_context_setup_test::message_enum>(ivy_deser &inp, initial_context_setup_test::message_enum &res);
+int initial_context_setup_test::___ivy_choose(int rng,const char *name,int id) {
         return 0;
     }
-s1_setup_test2::supported_ta s1_setup_test2::supported_ta__arr__value(const supported_ta__arr& a, unsigned long long i){
-    s1_setup_test2::supported_ta val;
-    val.tac = (unsigned)___ivy_choose(0,"ret:val",0);
-    val.plmn_identity2 = (unsigned)___ivy_choose(0,"ret:val",0);
-    val =  (0 <= i && i < a.size()) ? a[i] : val ;
-    return val;
-}
-unsigned long long s1_setup_test2::supported_ta__arr__end(const supported_ta__arr& a){
-    unsigned long long val;
-    val = (unsigned long long)___ivy_choose(0,"ret:val",0);
-    val =  a.size() ;
-    return val;
-}
-void s1_setup_test2::ext__s1_setup__send(unsigned x, message_enum y, unsigned a, unsigned b, drx_enum c){
+void initial_context_setup_test::__init(){
     {
-        s1_setup__pcode = x;
-        s1_setup__msg = y;
-        s1_setup__plmn_identity = a;
-        s1_setup__global_choice_enb_id = b;
-        s1_setup__default_paging_drx = c;
+        {
+            initial_context_setup__pcode = (0 & 255);
+            initial_context_setup__msg = message_enum__unsuccessful_outcome;
+            initial_context_setup__mme_ue_s1ap_id = 0;
+            initial_context_setup__enb_ue_s1ap_id = 0;
+            initial_context_setup__max_bit_rate_downlink = 0;
+            initial_context_setup__max_bit_rate_uplink = 0;
+            initial_context_setup__security_key = 0;
+        }
     }
 }
-s1_setup_test2::supported_ta__arr s1_setup_test2::ext__supported_ta__arr__empty(){
-    s1_setup_test2::supported_ta__arr a;
-    {
-        
-    }
-    return a;
+initial_context_setup_test::message_enum initial_context_setup_test::ext__initial_context_setup__send(){
+    initial_context_setup_test::message_enum y;
+    y = (message_enum)___ivy_choose(0,"fml:y",0);
+    y = (((initial_context_setup__msg == message_enum__initial_message) && (initial_context_setup__pcode == (9 & 255)) && (0 < initial_context_setup__mme_ue_s1ap_id) && (0 < initial_context_setup__enb_ue_s1ap_id) && (0 < initial_context_setup__max_bit_rate_downlink) && (0 < initial_context_setup__max_bit_rate_uplink) && (0 < initial_context_setup__security_key)) ? message_enum__successful_outcome : message_enum__unsuccessful_outcome);
+    return y;
 }
-bool s1_setup_test2::ext__ask_and_check_pcode(){
+bool initial_context_setup_test::ext__ask_and_check_pcode(){
     bool ok;
     ok = (bool)___ivy_choose(0,"fml:ok",0);
     {
         unsigned loc__0;
-    loc__0 = (unsigned)___ivy_choose(0,"loc:0",21);
+    loc__0 = (unsigned)___ivy_choose(0,"loc:0",10);
         {
             loc__0 = ext__ask();
-            ok = (loc__0 == (17 & 255));
+            ok = (loc__0 == (9 & 255));
         }
     }
     return ok;
 }
-s1_setup_test2::message_enum s1_setup_test2::ext__s1_setup__recv(){
-    s1_setup_test2::message_enum y;
-    y = (message_enum)___ivy_choose(0,"fml:y",0);
-    y = (((s1_setup__msg == message_enum__initial_message) && (s1_setup__pcode == (17 & 255)) && ((0 & 16777215) < s1_setup__plmn_identity) && ((0 & 16777215) < s1_setup__global_choice_enb_id) && !(s1_setup__default_paging_drx == drx_enum__0)) ? message_enum__successful_outcome : message_enum__unsuccessful_outcome);
-    return y;
-}
-void s1_setup_test2::__init(){
+unsigned initial_context_setup_test::imp__ask(){
+    unsigned x;
+    x = (unsigned)___ivy_choose(0,"fml:x",0);
     {
-        {
-            s1_setup__pcode = (0 & 255);
-            s1_setup__msg = message_enum__unsuccessful_outcome;
-            s1_setup__plmn_identity = (0 & 16777215);
-            s1_setup__global_choice_enb_id = (0 & 16777215);
-            s1_setup__default_paging_drx = drx_enum__0;
-            s1_setup__supported_tas = ext__supported_ta__arr__empty();
-        }
     }
+    return x;
 }
-unsigned s1_setup_test2::ext__ask(){
+unsigned initial_context_setup_test::ext__ask(){
     unsigned x;
     x = (unsigned)___ivy_choose(0,"fml:x",0);
     x = imp__ask();
     return x;
 }
-unsigned s1_setup_test2::imp__ask(){
-    unsigned x;
-    x = (unsigned)___ivy_choose(0,"fml:x",0);
+void initial_context_setup_test::ext__initial_context_setup__recv(unsigned x, message_enum y, int m, int e, int md, int mu, int s){
     {
+        initial_context_setup__pcode = x;
+        initial_context_setup__msg = y;
+        initial_context_setup__mme_ue_s1ap_id = m;
+        initial_context_setup__enb_ue_s1ap_id = e;
+        initial_context_setup__max_bit_rate_downlink = md;
+        initial_context_setup__max_bit_rate_uplink = mu;
+        initial_context_setup__security_key = s;
     }
-    return x;
 }
-void s1_setup_test2::__tick(int __timeout){
+void initial_context_setup_test::__tick(int __timeout){
 }
-s1_setup_test2::s1_setup_test2(){
+initial_context_setup_test::initial_context_setup_test(){
 #ifdef _WIN32
 mutex = CreateMutex(NULL,FALSE,NULL);
 #else
@@ -779,17 +658,17 @@ pthread_mutex_init(&mutex,NULL);
 #endif
 __lock();
     __CARD__pcode_bits = 256;
-    __CARD__supported_ta__idx = 0;
-    __CARD__tac_octet = 65536;
-    __CARD__plmn_octet = 16777216;
-    s1_setup__plmn_identity = (unsigned)___ivy_choose(0,"init",0);
-    s1_setup__msg = (message_enum)___ivy_choose(0,"init",0);
-    s1_setup__pcode = (unsigned)___ivy_choose(0,"init",0);
-    s1_setup__default_paging_drx = (drx_enum)___ivy_choose(0,"init",0);
+    __CARD__cid = 0;
     _generating = (bool)___ivy_choose(0,"init",0);
-    s1_setup__global_choice_enb_id = (unsigned)___ivy_choose(0,"init",0);
+    initial_context_setup__mme_ue_s1ap_id = (int)___ivy_choose(0,"init",0);
+    initial_context_setup__msg = (message_enum)___ivy_choose(0,"init",0);
+    initial_context_setup__security_key = (int)___ivy_choose(0,"init",0);
+    initial_context_setup__enb_ue_s1ap_id = (int)___ivy_choose(0,"init",0);
+    initial_context_setup__max_bit_rate_uplink = (int)___ivy_choose(0,"init",0);
+    initial_context_setup__pcode = (unsigned)___ivy_choose(0,"init",0);
+    initial_context_setup__max_bit_rate_downlink = (int)___ivy_choose(0,"init",0);
 }
-s1_setup_test2::~s1_setup_test2(){
+initial_context_setup_test::~initial_context_setup_test(){
     __lock(); // otherwise, thread may die holding lock!
     for (unsigned i = 0; i < thread_ids.size(); i++){
 #ifdef _WIN32
@@ -803,47 +682,14 @@ s1_setup_test2::~s1_setup_test2(){
     }
     __unlock();
 }
-std::ostream &operator <<(std::ostream &s, const s1_setup_test2::supported_ta &t){
-    s<<"{";
-    s<< "tac:";
-    s << t.tac;
-    s<<",";
-    s<< "plmn_identity2:";
-    s << t.plmn_identity2;
-    s<<"}";
+std::ostream &operator <<(std::ostream &s, const initial_context_setup_test::message_enum &t){
+    if (t == initial_context_setup_test::message_enum__initial_message) s<<"initial_message";
+    if (t == initial_context_setup_test::message_enum__successful_outcome) s<<"successful_outcome";
+    if (t == initial_context_setup_test::message_enum__unsuccessful_outcome) s<<"unsuccessful_outcome";
     return s;
 }
 template <>
-void  __ser<s1_setup_test2::supported_ta>(ivy_ser &res, const s1_setup_test2::supported_ta&t){
-    res.open_struct();
-    res.open_field("tac");
-    __ser<unsigned>(res,t.tac);
-    res.close_field();
-    res.open_field("plmn_identity2");
-    __ser<unsigned>(res,t.plmn_identity2);
-    res.close_field();
-    res.close_struct();
-}
-std::ostream &operator <<(std::ostream &s, const s1_setup_test2::drx_enum &t){
-    if (t == s1_setup_test2::drx_enum__0) s<<"0";
-    if (t == s1_setup_test2::drx_enum__32) s<<"32";
-    if (t == s1_setup_test2::drx_enum__64) s<<"64";
-    if (t == s1_setup_test2::drx_enum__128) s<<"128";
-    if (t == s1_setup_test2::drx_enum__256) s<<"256";
-    return s;
-}
-template <>
-void  __ser<s1_setup_test2::drx_enum>(ivy_ser &res, const s1_setup_test2::drx_enum&t){
-    __ser(res,(int)t);
-}
-std::ostream &operator <<(std::ostream &s, const s1_setup_test2::message_enum &t){
-    if (t == s1_setup_test2::message_enum__initial_message) s<<"initial_message";
-    if (t == s1_setup_test2::message_enum__successful_outcome) s<<"successful_outcome";
-    if (t == s1_setup_test2::message_enum__unsuccessful_outcome) s<<"unsuccessful_outcome";
-    return s;
-}
-template <>
-void  __ser<s1_setup_test2::message_enum>(ivy_ser &res, const s1_setup_test2::message_enum&t){
+void  __ser<initial_context_setup_test::message_enum>(ivy_ser &res, const initial_context_setup_test::message_enum&t){
     __ser(res,(int)t);
 }
 
@@ -861,7 +707,7 @@ int ask_ret(long long bound) {
 
 
 
-    class s1_setup_test2_repl : public s1_setup_test2 {
+    class initial_context_setup_test_repl : public initial_context_setup_test {
 
     public:
 
@@ -881,7 +727,7 @@ int ask_ret(long long bound) {
             __ivy_exit(1);
         }
     }
-    s1_setup_test2_repl() : s1_setup_test2(){}
+    initial_context_setup_test_repl() : initial_context_setup_test(){}
     virtual unsigned imp__ask(){
     __ivy_out  << "< ask" << std::endl;
     return ask_ret(__CARD__pcode_bits);
@@ -1025,83 +871,19 @@ void check_arity(std::vector<ivy_value> &args, unsigned num, std::string &action
 }
 
 template <>
-s1_setup_test2::supported_ta _arg<s1_setup_test2::supported_ta>(std::vector<ivy_value> &args, unsigned idx, long long bound){
-    s1_setup_test2::supported_ta res;
-    ivy_value &arg = args[idx];
-    if (arg.atom.size() || arg.fields.size() != 2) throw out_of_bounds("wrong number of fields",args[idx].pos);
-    std::vector<ivy_value> tmp_args(1);
-    if (arg.fields[0].is_member()){
-        tmp_args[0] = arg.fields[0].fields[0];
-        if (arg.fields[0].atom != "tac") throw out_of_bounds("unexpected field: " + arg.fields[0].atom,arg.fields[0].pos);
-    }
-    else{
-        tmp_args[0] = arg.fields[0];
-    }
-    try{
-        res.tac = _arg<unsigned>(tmp_args,0,65536);
-;
-    }
-    catch(const out_of_bounds &err){
-        throw out_of_bounds("in field tac: " + err.txt,err.pos);
-    }
-    if (arg.fields[1].is_member()){
-        tmp_args[0] = arg.fields[1].fields[0];
-        if (arg.fields[1].atom != "plmn_identity2") throw out_of_bounds("unexpected field: " + arg.fields[1].atom,arg.fields[1].pos);
-    }
-    else{
-        tmp_args[0] = arg.fields[1];
-    }
-    try{
-        res.plmn_identity2 = _arg<unsigned>(tmp_args,0,16777216);
-;
-    }
-    catch(const out_of_bounds &err){
-        throw out_of_bounds("in field plmn_identity2: " + err.txt,err.pos);
-    }
-    return res;
-}
-template <>
-void __deser<s1_setup_test2::supported_ta>(ivy_deser &inp, s1_setup_test2::supported_ta &res){
-    inp.open_struct();
-    inp.open_field("tac");
-    __deser(inp,res.tac);
-    inp.close_field();
-    inp.open_field("plmn_identity2");
-    __deser(inp,res.plmn_identity2);
-    inp.close_field();
-    inp.close_struct();
-}
-template <>
-s1_setup_test2::drx_enum _arg<s1_setup_test2::drx_enum>(std::vector<ivy_value> &args, unsigned idx, long long bound){
+initial_context_setup_test::message_enum _arg<initial_context_setup_test::message_enum>(std::vector<ivy_value> &args, unsigned idx, long long bound){
     ivy_value &arg = args[idx];
     if (arg.atom.size() == 0 || arg.fields.size() != 0) throw out_of_bounds(idx,arg.pos);
-    if(arg.atom == "0") return s1_setup_test2::drx_enum__0;
-    if(arg.atom == "32") return s1_setup_test2::drx_enum__32;
-    if(arg.atom == "64") return s1_setup_test2::drx_enum__64;
-    if(arg.atom == "128") return s1_setup_test2::drx_enum__128;
-    if(arg.atom == "256") return s1_setup_test2::drx_enum__256;
+    if(arg.atom == "initial_message") return initial_context_setup_test::message_enum__initial_message;
+    if(arg.atom == "successful_outcome") return initial_context_setup_test::message_enum__successful_outcome;
+    if(arg.atom == "unsuccessful_outcome") return initial_context_setup_test::message_enum__unsuccessful_outcome;
     throw out_of_bounds("bad value: " + arg.atom,arg.pos);
 }
 template <>
-void __deser<s1_setup_test2::drx_enum>(ivy_deser &inp, s1_setup_test2::drx_enum &res){
+void __deser<initial_context_setup_test::message_enum>(ivy_deser &inp, initial_context_setup_test::message_enum &res){
     int __res;
     __deser(inp,__res);
-    res = (s1_setup_test2::drx_enum)__res;
-}
-template <>
-s1_setup_test2::message_enum _arg<s1_setup_test2::message_enum>(std::vector<ivy_value> &args, unsigned idx, long long bound){
-    ivy_value &arg = args[idx];
-    if (arg.atom.size() == 0 || arg.fields.size() != 0) throw out_of_bounds(idx,arg.pos);
-    if(arg.atom == "initial_message") return s1_setup_test2::message_enum__initial_message;
-    if(arg.atom == "successful_outcome") return s1_setup_test2::message_enum__successful_outcome;
-    if(arg.atom == "unsuccessful_outcome") return s1_setup_test2::message_enum__unsuccessful_outcome;
-    throw out_of_bounds("bad value: " + arg.atom,arg.pos);
-}
-template <>
-void __deser<s1_setup_test2::message_enum>(ivy_deser &inp, s1_setup_test2::message_enum &res){
-    int __res;
-    __deser(inp,__res);
-    res = (s1_setup_test2::message_enum)__res;
+    res = (initial_context_setup_test::message_enum)__res;
 }
 
 
@@ -1141,9 +923,9 @@ public:
 class cmd_reader: public stdin_reader {
     int lineno;
 public:
-    s1_setup_test2_repl &ivy;    
+    initial_context_setup_test_repl &ivy;    
 
-    cmd_reader(s1_setup_test2_repl &_ivy) : ivy(_ivy) {
+    cmd_reader(initial_context_setup_test_repl &_ivy) : ivy(_ivy) {
         lineno = 1;
         if (isatty(fdes()))
             __ivy_out << "> "; __ivy_out.flush();
@@ -1162,15 +944,15 @@ public:
                 }
                 else
     
-                if (action == "s1_setup.recv") {
-                    check_arity(args,0,action);
-                    __ivy_out  << "= " << ivy.ext__s1_setup__recv() << std::endl;
+                if (action == "initial_context_setup.recv") {
+                    check_arity(args,7,action);
+                    ivy.ext__initial_context_setup__recv(_arg<unsigned>(args,0,256),_arg<initial_context_setup_test::message_enum>(args,1,3),_arg<int>(args,2,0),_arg<int>(args,3,0),_arg<int>(args,4,0),_arg<int>(args,5,0),_arg<int>(args,6,0));
                 }
                 else
     
-                if (action == "s1_setup.send") {
-                    check_arity(args,5,action);
-                    ivy.ext__s1_setup__send(_arg<unsigned>(args,0,256),_arg<s1_setup_test2::message_enum>(args,1,3),_arg<unsigned>(args,2,16777216),_arg<unsigned>(args,3,16777216),_arg<s1_setup_test2::drx_enum>(args,4,5));
+                if (action == "initial_context_setup.send") {
+                    check_arity(args,0,action);
+                    __ivy_out  << "= " << ivy.ext__initial_context_setup__send() << std::endl;
                 }
                 else
     
@@ -1268,7 +1050,7 @@ int main(int argc, char **argv){
         _dup2(fd, 0);
     }
     if (argc != 1){
-        std::cerr << "usage: s1_setup_test2 \n";
+        std::cerr << "usage: initial_context_setup_test \n";
         __ivy_exit(1);
     }
     std::vector<std::string> args;
@@ -1309,7 +1091,7 @@ int main(int argc, char **argv){
         }
     }
 #endif
-    s1_setup_test2_repl ivy;
+    initial_context_setup_test_repl ivy;
     for(unsigned i = 0; i < argc; i++) {ivy.__argv.push_back(argv[i]);}
     ivy.__init();
 
