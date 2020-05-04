@@ -628,17 +628,6 @@ ServedGUMMEIsItem ServedGUMMEIs<8..2^16-1>; 		/* TODO: size(ServedGUMMEIsItem)*(
 
 /* -- T */
 
-
-struct {
-	EUTRANTraceID 			eutran_trace_id;
-	InterfacesToTrace 		interfaces_to_trace;
-	TraceDepth 				trace_depth;
-	TransportLayerAddress 	trace_collection_entity_ip_address;
-	opaque 	ie_extensions<0..2^16-1>; 
-}TraceActivation;
-
-
-
 enum { 
 	MINIMUM,
 	MEDIUM,
@@ -649,7 +638,13 @@ enum {
 	(255)
 }TraceDepth;
 
-
+struct {
+	EUTRANTraceID 			eutran_trace_id;
+	InterfacesToTrace 		interfaces_to_trace;
+	TraceDepth 				trace_depth;
+	TransportLayerAddress 	trace_collection_entity_ip_address;
+	opaque 	ie_extensions<0..2^16-1>; 
+}TraceActivation;
 
 /* -- U */ 
 
@@ -705,11 +700,13 @@ enum {
 	SUBSCRIBER_PROFILE_ID_RFP_IE(27), 	/* SubscriberProfileIDforRFP, */
 	CS_FALLBACK_INDICATOR_IE(28), 		/*CSFallbackIndicator, */
 	SRVCC_OPERATION_POSSIBLE_IE(29), 	/* SRVCCOperationPossible, */
-	ERAB_SETUP_LIST_CTXT_SURES_IE(30),  /* ERABSetupListCtxtSURes, */
-	ERAB_LIST_IE(31), 					/* ERABList, */
-	ERAB_TOBSETUP_LIST_CTXT_SUREQ_IE(31), /* ERABToBeSetupListCtxtSUReq, */
-	ERAB_TOBSETUP_ITEM_CTXT_SUREQ_IE(32), /* ERABToBeSetupItemCtxtSUReq, */
-	ERAB_SETUP_ITEM_CTXT_SURES_IE(33),  /* ERABSetupItemCtxtSURes, */
+	ERAB_LIST_IE(30), 					/* ERABList, */
+	/*
+	ERAB_SETUP_LIST_CTXT_SURES_IE(31),  /* ERABSetupListCtxtSURes, */
+	ERAB_TOBSETUP_LIST_CTXT_SUREQ_IE(32), /* ERABToBeSetupListCtxtSUReq, */
+	ERAB_TOBSETUP_ITEM_CTXT_SUREQ_IE(33), /* ERABToBeSetupItemCtxtSUReq, */
+	ERAB_SETUP_ITEM_CTXT_SURES_IE(34),  /* ERABSetupItemCtxtSURes, */
+	*/
 (255)
 }S1apIETypes;
 
@@ -720,7 +717,7 @@ struct {
 	Criticality 		criticality; 
 	Presence 			presence; 
 	S1apIETypes 		ie_type;
-	select(S1apIE.ie_type){
+	select(ie_type){
 		case MME_UE_S1AP_ID_IE :			 		MME_UE_S1AP_ID;
 		case MME_NAME_IE :			 				MMEName;
 		case ENB_UE_S1AP_ID_IE :					ENB_UE_S1AP_ID;
@@ -750,13 +747,37 @@ struct {
 		case SUBSCRIBERR_PROFILE_ID_RFP_IE :		SubscriberProfileIDforRFP;
 		case CS_FALLBACK_INDICATOR_IE :				CSFallbackIndicator;
 		case SRVCC_OPERRATION_POSSIBLE_IE :			SRVCCOperationPossible;
-		case ERAB_SETUP_LIST_CTXT_SURES_IE :		ERABSetupListCtxtSURes;
 		case ERAB_LIST_IE :			 				ERABList;
+		/*
+		case ERAB_SETUP_LIST_CTXT_SURES_IE :		ERABSetupListCtxtSURes;
 		case ERAB_TOBSETUP_LIST_CTXT_SUREQ_IE :		ERABToBeSetupListCtxtSUReq;
 		case ERAB_TOBSETUP_ITEM_CTXT_SUREQ_IE :		ERABToBeSetupItemCtxtSUReq;
 		case ERAB_SETUP_ITEM_CTXT_SURES_IE :        ERABSetupItemCtxtSURes;
+		*/
 	} ie_body;
 }S1apIE;
+
+
+
+
+
+/*
+// **************************************************************
+// New Data Structures: Seems to be cyclically defined!!
+// **************************************************************
+*/
+
+/*
+S1apIE ERABToBeSetupItemCtxtSUReqIEs = { 52, 1, 3, 32}; 
+
+ERABToBeSetupItemCtxtSUReqIEs ERABToBeSetupListCtxtSUReq<8..2^16-1>;    /* TODO: size(ERABToBeSetupItemCtxtSUReqIEs)* maxNrOfE-RABs) */
+
+
+S1apIE ERABSetupItemCtxtSUResIEs = { 50 , 2, 3, 33 }; 
+
+ERABSetupItemCtxtSUResIEs ERABSetupListCtxtSURes<8..2^16-1>;    /* TODO: size(ERABSetupItemCtxtSUResIEs) * maxNrOfE-RABs */
+*/
+
 
 /*
 // **************************************************************
@@ -1032,7 +1053,7 @@ enum {
 
 struct{
 	InitiatingMessageType 			initiating_message_type;
-	select(InitiatingMessage.initiating_message_type){
+	select(initiating_message_type){
 		case INITIAL_CONTEXT_SETUP_REQUEST : 	InitialContextSetupRequest;
 		case DOWNLINK_NAS_TRANSPORT :			DownlinkNASTransport;
 		case INITIAL_UE_MESSAGE : 				InitialUEMessage;
@@ -1044,7 +1065,7 @@ struct{
 
 struct {
 	SuccessfulOutcomeType 			successful_outcome_type; 
-	select(SuccessfulOutcome.successful_outcome_type){
+	select(successful_outcome_type){
 		case INITIAL_CONTEXT_SETUP_RESPONSE : 	InitialContextSetupResponse;
 		case S1_SETUP_RESPONSE : 				S1SetupResponse;
 	}successful_outcome;
@@ -1053,7 +1074,7 @@ struct {
 
 struct {
 	UnsuccessfulOutcomeType 		unsuccessful_outcome_type; 
-	select(UnsuccessfulOutcome.unsuccessful_outcome_type){
+	select(unsuccessful_outcome_type){
 		case INITIAL_CONTEXT_SETUP_FAILURE : 	InitialContextSetupFailure;
 		case S1_SETUP_FAILURE : 				S1SetupFailure;
 	}unsuccessful_outcome;
@@ -1061,34 +1082,7 @@ struct {
 }UnsuccessfulOutcome;
 
 
-/*
-// ************************************************************************
-// -------  Interface PDU Definition
-// ************************************************************************
-*/
 
-struct {
-	InitiatingMessageType 			initiating_message_type;
-	SuccessfulOutcomeType 			successful_outcome_type;
-	UnsuccessfulOutcomeType 		unsuccessful_outcome_type; 
-	select(S1APPDU.initiating_message_type){
-		case INITIAL_CONTEXT_SETUP_REQUEST : 	InitialContextSetupRequest;
-		case DOWNLINK_NAS_TRANSPORT :			DownlinkNASTransport;
-		case INITIAL_UE_MESSAGE : 				InitialUEMessage;
-		case UPLINK_NAS_TRANSPORT : 			UplinkNASTransport;
-		case S1_SETUP_REQUEST : 				S1SetupRequest;
-	}initiating_message;
-
-	select(S1APPDU.successful_outcome_type){
-		case INITIAL_CONTEXT_SETUP_RESPONSE : 	InitialContextSetupResponse;
-		case S1_SETUP_RESPONSE : 				S1SetupResponse;
-	}successful_outcome;
-
-	select(S1APPDU.unsuccessful_outcome_type){
-		case INITIAL_CONTEXT_SETUP_FAILURE : 	InitialContextSetupFailure;
-		case S1_SETUP_FAILURE : 				S1SetupFailure;
-	}unsuccessful_outcome;
-}S1APPDU;
 
 /*
 // ************************************************************************
@@ -1097,12 +1091,12 @@ struct {
 
 struct {
 	InitiatingMessageType 			initiating_message_type;
-	ProcedureCodeType				procedure_code;  					/* TODO : UNIQUE */
+	ProcedureCode				    procedure_code;  					/* TODO : UNIQUE */
 	Criticality 					criticality;
 	SuccessfulOutcomeType 			successful_outcome_type<0..2>; 		
 	UnsuccessfulOutcomeType 		unsuccessful_outcome_type<0..2>;    
 
-	select(S1APElementaryProcedure.initiating_message_type){
+	select(initiating_message_type){
 		case INITIAL_CONTEXT_SETUP_REQUEST : 	InitialContextSetupRequest;
 		case DOWNLINK_NAS_TRANSPORT :			DownlinkNASTransport;
 		case INITIAL_UE_MESSAGE : 				InitialUEMessage;
@@ -1110,12 +1104,12 @@ struct {
 		case S1_SETUP_REQUEST : 				S1SetupRequest;
 	} initiating_message;
 
-	select(S1APElementaryProcedure.successful_outcome_type){
+	select(successful_outcome_type){
 		case INITIAL_CONTEXT_SETUP_RESPONSE : 	InitialContextSetupResponse;
 		case S1_SETUP_RESPONSE : 				S1SetupResponse;
 	}successful_outcome;
 
-	select(S1APElementaryProcedure.unsuccessful_outcome_type){
+	select(unsuccessful_outcome_type){
 		case INITIAL_CONTEXT_SETUP_FAILURE : 	InitialContextSetupFailure;
 		case S1_SETUP_FAILURE : 				S1SetupFailure;
 	}unsuccessful_outcome;
@@ -1165,25 +1159,36 @@ S1APElementaryProcedure InitialContextSetup_EP = {
 	2,
 	2 };
 
+
 /*
-// **************************************************************
-// New Data Structures: Not sure how its used. 
-// **************************************************************
+// ************************************************************************
+// -------  Interface PDU Definition
+// ************************************************************************
 */
 
-/* TODO: size(ERABToBeSetupItemCtxtSUReqIEs)* maxNrOfE-RABs) */
-ERABToBeSetupItemCtxtSUReqIEs ERABToBeSetupListCtxtSUReq<8..2^16-1>;
+struct {
+	InitiatingMessageType 			initiating_message_type;
+	SuccessfulOutcomeType 			successful_outcome_type;
+	UnsuccessfulOutcomeType 		unsuccessful_outcome_type; 
+	
+	select(initiating_message_type){
+		case INITIAL_CONTEXT_SETUP_REQUEST : 	InitialContextSetupRequest;
+		case DOWNLINK_NAS_TRANSPORT :			DownlinkNASTransport;
+		case INITIAL_UE_MESSAGE : 				InitialUEMessage;
+		case UPLINK_NAS_TRANSPORT : 			UplinkNASTransport;
+		case S1_SETUP_REQUEST : 				S1SetupRequest;
+	}initiating_message;
 
+	select(successful_outcome_type){
+		case INITIAL_CONTEXT_SETUP_RESPONSE : 	InitialContextSetupResponse;
+		case S1_SETUP_RESPONSE : 				S1SetupResponse;
+	}successful_outcome;
 
-S1apIE ERABToBeSetupItemCtxtSUReqIEs = { 52, 1, 3, 32}; 
-
-
-
-/* TODO: size(ERABSetupItemCtxtSUResIEs) * maxNrOfE-RABs */
-ERABSetupItemCtxtSUResIEs ERABSetupListCtxtSURes<8..2^16-1>;
-
-S1apIE ERABSetupItemCtxtSUResIEs = { 50 , 2, 3, 33 }; 
-
+	select(unsuccessful_outcome_type){
+		case INITIAL_CONTEXT_SETUP_FAILURE : 	InitialContextSetupFailure;
+		case S1_SETUP_FAILURE : 				S1SetupFailure;
+	}unsuccessful_outcome;
+}S1APPDU;
 
 
 
