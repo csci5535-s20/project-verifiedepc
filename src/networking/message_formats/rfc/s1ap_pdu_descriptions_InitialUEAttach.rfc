@@ -162,7 +162,7 @@ S1apElementaryProcedure InitialContextSetup_EP = {
 
 
 // EP11
-S1apElementaryProcedure InitialContextSetup_EP = { 
+S1apElementaryProcedure DownlinkNASTransport_EP = { 
 	InitiatingMessageType.DOWNLINK_NAS_TRANSPORT, 
 	ID_downlinkNASTransport_PC, 
 	Criticality.IGNORE
@@ -170,14 +170,14 @@ S1apElementaryProcedure InitialContextSetup_EP = {
 
 
 // EP12
-S1apElementaryProcedure InitialContextSetup_EP = { 
+S1apElementaryProcedure InitialUEMessage_EP = { 
 	InitiatingMessageType.INITIAL_UE_MESSAGE, 
 	ID_initialUEMessage_PC, 
 	Criticality.IGNORE	
 };
 
 // EP13
-S1apElementaryProcedure InitialContextSetup_EP = { 
+S1apElementaryProcedure UplinkNASTransport_EP = { 
 	InitiatingMessageType.UPLINK_NAS_TRANSPORT, 
 	ID_uplinkNASTransport_PC, 
 	Criticality.IGNORE
@@ -185,7 +185,7 @@ S1apElementaryProcedure InitialContextSetup_EP = {
 
 
 // EP17
-S1apElementaryProcedure InitialContextSetup_EP = { 
+S1apElementaryProcedure S1Setup_EP = { 
 	InitiatingMessageType.S1_SETUP_REQUEST, 
 	ID_S1Setup_PC, 
 	Criticality.REJECT,	
