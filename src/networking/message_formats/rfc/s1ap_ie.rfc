@@ -63,40 +63,38 @@ enum {
 	BearersSubjectToStatusTransferItemIEsLabel(1),
 	ERABInformationListIEsLabel(2),
 	ERABItemIEsLabel(3),
+	(255)
 }S1apProtocolIELabels;
 
 
 struct{
 	select(S1apProtocolIELabels){
-		case BearersSubjectToStatusTransferItemIEsLabel:
-			BearersSubjectToStatusTransferItemIEs;
-		case ERABInformationListIEsLabel:
-			ERABInformationListIEs;
-		case ERABItemIEsLabel:
-			ERABItemIEs;
-	};
+		case BearersSubjectToStatusTransferItemIEsLabel: 	BearersSubjectToStatusTransferItemIEs;
+		case ERABInformationListIEsLabel:					ERABInformationListIEs;
+		case ERABItemIEsLabel: 								ERABItemIEs;
+	}protocol_ies;
 }S1apProtocolIES;
 
 struct {
-	ProtocolIEID 	ID_Bearers_SubjectToStatusTransfer_Item_PIEID;		//UNIQUE
-	Criticality  	Criticality.IGNORE;
-	opaque  		BearersSubjectToStatusTransferItem;
-	Presence 		Presence.MANDATORY;
+	ProtocolIEID 	id = ProtocolIEID.ID_Bearers_SubjectToStatusTransfer_Item_PIEID;		//UNIQUE
+	Criticality  	criticality = Criticality.IGNORE;
+	Presence 		presence = Presence.MANDATORY;
+	opaque  		item; /* BearersSubjectToStatusTransferItem; */
 }BearersSubjectToStatusTransferItemIEs
 
 struct {
 	ProtocolIEID 							ID_E_RABInformationListItem_PIEID;		//UNIQUE
 	Criticality 							Criticality.IGNORE;
-	opaque 									ERABInformationListItem;
 	Presence 								Presence.MANDATORY;
-}ERABInformationListIEs;
+	opaque 									item; /*ERABInformationListItem; */
+ }ERABInformationListIEs;
 
 
 struct {
 	ProtocolIEID 							ID_E_RABItem_PIEID;		//UNIQUE
 	Criticality 							Criticality.IGNORE;
-	opaque									ERABItem;
 	Presence 								Presence.MANDATORY;
+	opaque									item; /* ERABItem; */
 }ERABItemIEs;
 
 
@@ -509,8 +507,8 @@ struct {
 	ERABInformationListItemExtIEs ie_extensions<0..IEExtMaxByteSize>;
 }ERABInformationListItem;
 
-// TODO: size(ERABItemIEs)* (maxNrOfE-RABs)
-ERABItemIEs ERABList<MINSIZE..MAXSIZE>
+
+ERABItemIEs ERABList<0..2^16-1>; /* TODO: size(ERABItemIEs)* (maxNrOfE-RABs). */
 
 struct {
 	E_RAB_ID 			e_rab_id;

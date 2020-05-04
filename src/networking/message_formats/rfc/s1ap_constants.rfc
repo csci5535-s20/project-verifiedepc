@@ -7,14 +7,14 @@ enum {
   REJECT(1),
   IGNORE(2),
   NOTIFY(3),
-  (7)
+  (255)
  } Criticality;
 
  enum {
   OPTIONAL(1),
   CONDITIONAL(2),
   MANDATORY(3),
-  (7)
+  (255)
  } Presence;
 
  struct{	// TODO: Choice, oneof ( is Union correct)
@@ -27,8 +27,8 @@ enum {
   INITIATING_MESSAGE(1),
   SUCCESSFUL_OUTCOME(2),
   UNSUCCESSFULOUTCOME(3),
-  (7)
- }TriggeringMesage;
+  (255)
+ }TriggeringMessage;
 
 
 uint8 ProcedureCode;				// INTEGER (0..255)
