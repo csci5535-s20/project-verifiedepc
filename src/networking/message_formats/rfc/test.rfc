@@ -1,0 +1,41 @@
+enum {
+  REJECT(1),
+  IGNORE(2),
+  NOTIFY(3),
+  (7)
+ } Criticality;
+
+ enum {
+  OPTIONAL(1),
+  CONDITIONAL(2),
+  MANDATORY(3),
+  (7)
+ } Presence;
+
+enum{
+	BANANA,
+	APPLE
+}Fruit; 
+
+struct{
+	uint8 number; 
+}V1; 
+
+struct{
+	uint16 number; 
+}V2;
+
+ struct{
+ 	Criticality 	criticality;
+ 	Presence 		presence; 
+ 	Fruit 			fruit;
+ 	select(fruit){
+ 	case BANANA: 	V1; 
+ 	case APPLE: 	V2;
+ 	}fruit_body;
+
+ }Object;
+
+Object o1 = {Criticality.REJECT, Presence.OPTIONAL, Fruit.BANANA};
+
+Object o2 = {1, 1, 1};

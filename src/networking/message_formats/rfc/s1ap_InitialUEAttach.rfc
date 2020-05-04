@@ -31,10 +31,7 @@ enum {
   (7)
  }TriggeringMesage;
 
-
-uint8 ProcedureCode;				
-uint16 ProtocolExtensionID; 		
-uint16 ProtocolIEID; 				
+				
 
 /*
 // **************************************************************
@@ -257,42 +254,6 @@ enum {
 }ProtocolIEID;
 
 
-/*
-// **************************************************************
-// Container definitions
-// **************************************************************
-*/
-
-struct {
-	ProtocolIEID 							id;					/* UNIQUE */
-	Criticality 							criticality;
-	opaque									value;
-	Presence 								presence;
-}S1apProtocolIES;
-
-
-struct {
-	ProtocolIEID 							id;						/* UNIQUE */
-	Criticality 							first_criticality;
-	opaque									first_value;
-	Criticality 							second_criticality;
-	opaque									second_value;
-	Presence 								presence;
-}S1apProtocolIESPair;
-
-struct {
-	ProtocolIEID 							id;						/* UNIQUE */
-	Criticality 							criticality;
-	Extension 								extension;
-	Presence 								presence;
-}S1apProtocolExtension;
-
-struct {
-	ProtocolIEID 							id;
-	Criticality 							criticality;
-	opaque									value;
-	Presence 								presence;
-}S1apPrivateIES;
 
 /*
 // **************************************************************
@@ -490,7 +451,7 @@ struct {
 	Criticality 			ie_criticality;
 	ProtocolIEID 			ie_id;
 	TypeOfError 			type_of_error;
-	opqaue CriticalityDiagnosticsIEItemExtIEs ie_extensions<0..2^16-1>;
+	CriticalityDiagnosticsIEItemExtIEs ie_extensions<0..2^16-1>;
 }CriticalityDiagnosticsIEItem; 
 
 /* -- E.  */
@@ -644,42 +605,44 @@ struct {
 
 
 enum {
-	MME_UE_S1AP_ID_IE, 				/* MME_UE_S1AP_ID, */
-	MME_NAME_IE, 					/* MMEName, */
-	ENB_UE_S1AP_ID_IE, 				/* ENB_UE_S1AP_ID, */
-	ENB_NAME_IE, 					/* ENBName, */
-	NAS_PDU_IE, 					/* NAS_PDU */
-	TIME_TO_WAIT_IE, 				/* TimeToWait, */
-	CAUSE_IE, 						/* Cause, */
-	TAI_IE, 						/* TAI */
-	EUTRAN_CGI_IE, 					/* EUTRAN_CGI, */
-	S_TMSI_IE, 						/* S_TMSI, */
-	CSGID_IE, 						/* CSGId, */
-	GUMMEI_IE,  					/* GUMMEI, */
-	GLOBAL_ENB_ID_IE, 				/* GlobalENBID, */
-	SUPPORTED_TAS_IE, 				/* SupportedTAs, */
-	PAGING_DRX_IE, 					/* PagingDRX, */
-	CSGID_LIST_IE, 					/* CSGIdList , */
-	SERVED_GUMMEIS_IE, 				/* ServedGUMMEIs, */
-	RELATIVE_MME_CAPACITY_IE, 		/* RelativeMMECapacity, */
-	CRITICALITY_DIAGNOSTICS_IE, 	/* CriticalityDiagnostics, */
-	UE_RADIO_CAPABILITY_IE, 			/* UERadioCapability, */
-	UE_AGGREGATE_MAX_BITRATE_IE, 	/* UEAggregateMaximumBitrate, */
-	UE_SECURITY_CAPABILITIES_IE, 		/* UESecurityCapabilities, */
-	SECURITY_KEY_IE, 					/* SecurityKey, */
-	TRACE_ACTIVATION_IE, 				/* TraceActivation, */
-	HANDOVER_RESTRICTION_LIST_IE, 	/* HandoverRestrictionList, */
-	RRC_ESTABLISHMENT_CAUSE_IE, 	/* RRCEstablishmentCause, */
-	SUBSCRIBERR_PROFILE_ID_RFP_IE, 	/* SubscriberProfileIDforRFP, */
-	CS_FALLBACK_INDICATOR_IE, 		/*CSFallbackIndicator, */
-	SRVCC_OPERRATION_POSSIBLE_IE, 	/* SRVCCOperationPossible, */
-	ERAB_SETUP_LIST_CTXT_SURES_IE,  /* ERABSetupListCtxtSURes, */
-	ERAB_LIST_IE, 					/* ERABList, */
-	ERAB_TOBSETUP_LIST_CTXT_SUREQ_IE, /* ERABToBeSetupListCtxtSUReq, */
-	ERAB_TOBSETUP_ITEM_CTXT_SUREQ_IE, /* ERABToBeSetupItemCtxtSUReq, */
-	ERAB_SETUP_ITEM_CTXT_SURES_IE  /* ERABSetupItemCtxtSURes, */
+	MME_UE_S1AP_ID_IE(1), 				/* MME_UE_S1AP_ID, */
+	MME_NAME_IE(2), 					/* MMEName, */
+	ENB_UE_S1AP_ID_IE(3), 				/* ENB_UE_S1AP_ID, */
+	ENB_NAME_IE(4), 					/* ENBName, */
+	NAS_PDU_IE(5), 					/* NAS_PDU */
+	TIME_TO_WAIT_IE(6), 				/* TimeToWait, */
+	CAUSE_IE(7), 						/* Cause, */
+	TAI_IE(8), 						/* TAI */
+	EUTRAN_CGI_IE(9), 					/* EUTRAN_CGI, */
+	S_TMSI_IE(10), 						/* S_TMSI, */
+	CSGID_IE(11), 						/* CSGId, */
+	GUMMEI_IE(12),  					/* GUMMEI, */
+	GLOBAL_ENB_ID_IE(13), 				/* GlobalENBID, */
+	SUPPORTED_TAS_IE(14), 				/* SupportedTAs, */
+	PAGING_DRX_IE(15), 					/* PagingDRX, */
+	CSGID_LIST_IE(16), 					/* CSGIdList , */
+	SERVED_GUMMEIS_IE(17), 				/* ServedGUMMEIs, */
+	RELATIVE_MME_CAPACITY_IE(18), 		/* RelativeMMECapacity, */
+	CRITICALITY_DIAGNOSTICS_IE(19), 	/* CriticalityDiagnostics, */
+	UE_RADIO_CAPABILITY_IE(20), 			/* UERadioCapability, */
+	UE_AGGREGATE_MAX_BITRATE_IE(21), 	/* UEAggregateMaximumBitrate, */
+	UE_SECURITY_CAPABILITIES_IE(22), 		/* UESecurityCapabilities, */
+	SECURITY_KEY_IE(23), 					/* SecurityKey, */
+	TRACE_ACTIVATION_IE(24), 				/* TraceActivation, */
+	HANDOVER_RESTRICTION_LIST_IE(25), 	/* HandoverRestrictionList, */
+	RRC_ESTABLISHMENT_CAUSE_IE(26), 	/* RRCEstablishmentCause, */
+	SUBSCRIBER_PROFILE_ID_RFP_IE(27), 	/* SubscriberProfileIDforRFP, */
+	CS_FALLBACK_INDICATOR_IE(28), 		/*CSFallbackIndicator, */
+	SRVCC_OPERATION_POSSIBLE_IE(29), 	/* SRVCCOperationPossible, */
+	ERAB_SETUP_LIST_CTXT_SURES_IE(30),  /* ERABSetupListCtxtSURes, */
+	ERAB_LIST_IE(31), 					/* ERABList, */
+	ERAB_TOBSETUP_LIST_CTXT_SUREQ_IE(31), /* ERABToBeSetupListCtxtSUReq, */
+	ERAB_TOBSETUP_ITEM_CTXT_SUREQ_IE(32), /* ERABToBeSetupItemCtxtSUReq, */
+	ERAB_SETUP_ITEM_CTXT_SURES_IE(33)  /* ERABSetupItemCtxtSURes, */
 
 }S1apIETypes;
+
+
 
 struct {
 	ProtocolIEID 		protocol_id;
@@ -739,14 +702,16 @@ struct {
 // **************************************************************
 */
 
+
+
 struct  {
-	S1apIE ie1 = {ID_MME_UE_S1AP_ID_PIEID, Criticality.REJECT, Presence.MANDATORY, S1apIETypes.MME_UE_S1AP_ID_IE };
+        S1apIE ie1 = { 0, 1, 3, 1 };
 
-	S1apIE ie2 = {ID_eNB_UE_S1AP_ID_PIEID, Criticality.REJECT, Presence.MANDATORY, S1apIETypes.ENB_UE_S1AP_ID_IE };
+        S1apIE ie2 = { 1, 1, 3, 2 };
 
-	S1apIE ie3 = {ID_NAS_PDU_PIEID, Criticality.REJECT, Presence.MANDATORY, S1apIETypes.NAS_PDU_IE };
+        S1apIE ie3 = { 26, 1, 3, 5 };
 
-	S1apIE ie4 = {ID_HandoverRestrictionList_PIEID, Criticality.IGNORE, Presence.OPTIONAL, S1apIETypes.HANDOVER_RESTRICTION_LIST_IE }
+        S1apIE ie4 = { 41 , 2, 1, 25 };
 
 }DownlinkNASTransport;
 
@@ -756,22 +721,24 @@ struct  {
 // **************************************************************
 */
 
+
+
 struct {
-	S1apIE ie1 = {ID_eNB_UE_S1AP_ID_PIEID, Criticality.REJECT, Presence.MANDATORY, S1apIETypes.ENB_UE_S1AP_ID_IE };
+	S1apIE ie1 = {8, 1, 3, 3 };
 
-	S1apIE ie2 = {ID_NAS_PDU_PIEID, Criticality.REJECT, Presence.MANDATORY, S1apIETypes.NAS_PDU_IE };
+	S1apIE ie2 = {26, 1, 3, 5 };
 
-	S1apIE ie3 = {ID_TAI_PIEID ,Criticality.REJECT, Presence.MANDATORY, S1apIETypes.TAI_IE};
+	S1apIE ie3 = {67 ,1, 3, 8};
 
-	S1apIE ie4 = {ID_EUTRAN_CGI_PIEID, Criticality.IGNORE, Presence.MANDATORY, S1apIETypes.EUTRAN_CGI_IE };
+	S1apIE ie4 = {100, 2, 3, 9 };
 
-	S1apIE ie5 = {ID_RRC_Establishment_Cause_PIEID, Criticality.IGNORE, Presence.MANDATORY, S1apIETypes.RRC_ESTABLISHMENT_CAUSE_IE };
+	S1apIE ie5 = {134, 2, 3, 26 };
 
-	S1apIE ie6 = {ID_S_TMSI_PIEID, Criticality.REJECT, Presence.OPTIONAL, S1apIETypes.S_TMSI_IE};
+	S1apIE ie6 = {96, 1, 1, 10};
 
-	S1apIE ie7 = {ID_CSG_Id_PIEID, Criticality.REJECT, Presence.OPTIONAL, S1apIETypes.CSGID_IE};
+	S1apIE ie7 = {127, 1, 1, 11};
 
-	S1apIE ie8 = {ID_GUMMEI_ID_PIEID, Criticality.REJECT, Presence.OPTIONAL, S1apIETypes.GUMMEI_IE };
+	S1apIE ie8 = {75, 1, 1, 12 };
 
 }InitialUEMessage;
 
@@ -782,20 +749,18 @@ struct {
 */
 
 
+
 struct {
-	S1apIE ie1 = {ID_MME_UE_S1AP_ID_PIEID, Criticality.REJECT, Presence.MANDATORY, S1apIETypes.MME_UE_S1AP_ID_IE  };
+	S1apIE ie1 = {0, 1, 3, 1  };
 
-	S1apIE ie2 = {ID_eNB_UE_S1AP_ID_PIEID, Criticality.REJECT, Presence.MANDATORY, S1apIETypes.ENB_UE_S1AP_ID_IE  };
+	S1apIE ie2 = {8, 1, 3, 2  };
 
-	S1apIE ie3 = {ID_NAS_PDU_PIEID, Criticality.REJECT, Presence.MANDATORY, S1apIETypes.NAS_PDU_IE };
+	S1apIE ie3 = {26, 1, 3, 5 };
 
-	S1apIE ie4 = {ID_EUTRAN_CGI_PIEID, Criticality.IGNORE, Presence.MANDATORY, S1apIETypes.EUTRAN_CGI_IE };
+	S1apIE ie4 = {100, 2, 3, 9 };
 
-	S1apIE ie5 = {ID_TAI_PIEID, Criticality.IGNORE, Presence.MANDATORY, S1apIETypes.TAI_IE };
-
-
-}UplinkNASTransport;
-
+	S1apIE ie5 = {67, 2, 3, 8 };
+}UplinkNASTransport; 
 
 
 /*
@@ -806,15 +771,15 @@ struct {
 
 
 struct {
-	S1apIE ie1 = {ID_Global_ENB_ID_PIEID, Criticality.REJECT, Presence.MANDATORY, S1apIETypes.GLOBAL_ENB_ID_IE };
+	S1apIE ie1 = {59, 1, 3, 13 };
 
-	S1apIE ie2 = {ID_eNBname_PIEID, Criticality.IGNORE, Presence.OPTIONAL, S1apIETypes.ENB_NAME_IE  };
+	S1apIE ie2 = {60, 2, 1, 4 };
 
-	S1apIE ie3 = {ID_SupportedTAs_PIEID, Criticality.REJECT, Presence.MANDATORY, S1apIETypes.SUPPORTED_TAS_IE };
+	S1apIE ie3 = {64, 1, 3, 14 };
 
-	S1apIE ie4 = {ID_DefaultPagingDRX_PIEID, Criticality.IGNORE, Presence.MANDATORY, S1apIETypes.PAGING_DRX_IE};
+	S1apIE ie4 = {137, 2, 3, 15 };
 
-	S1apIE ie5 = {ID_CSG_IdList_PIEID, Criticality.REJECT, Presence.OPTIONAL, S1apIETypes.CSGID_LIST_IE };
+	S1apIE ie5 = {128, 1, 1, 16};
 
 }S1SetupRequest;
 
@@ -824,16 +789,18 @@ struct {
 // **************************************************************
 */
 
+
+
 struct {
-	S1apIE ie1 = {ID_MMEname_PIEID, Criticality.IGNORE, Presence.OPTIONAL, S1apIETypes.MME_NAME_IE };
+	S1apIE ie1 = {61, 2, 1, 2 };
 
-	S1apIE ie2 = {ID_ServedGUMMEIs_PIEID, Criticality.REJECT, Presence.MANDATORY, S1apIETypes.SERVED_GUMMEIS_IE };
+	S1apIE ie2 = {105, 1, 3, 17 };
 
-	S1apIE ie3 = {ID_RelativeMMECapacity_PIEID, Criticality.IGNORE, Presence.MANDATORY, S1apIETypes.RELATIVE_MME_CAPACITY_IE };
+	S1apIE ie3 = {87, 2, 3, 18 };
 
-	S1apIE ie4 = {ID_CriticalityDiagnostics_PIEID, Criticality.IGNORE, Presence.OPTIONAL,  S1apIETypes.CRITICALITY_DIAGNOSTICS_IE }; 
+	S1apIE ie4 = {58, 2, 1,  19 }; 
 
-}S1SetupResponse;
+}S1SetupResponse; 
 
 
 /*
@@ -844,14 +811,13 @@ struct {
 
 
 struct {
-	S1apIE ie1 = {ID_Cause_PIEID, Criticality.IGNORE, Presence.MANDATORY, S1apIETypes.CAUSE_IE };
+	S1apIE ie1 = {2, 2, 3, 7 };
 
-	S1apIE ie2 = {ID_TimeToWait_PIEID, Criticality.IGNORE, Presence.OPTIONAL, S1apIETypes.TIME_TO_WAIT_IE }; 
+	S1apIE ie2 = {65, 2, 1, 6 }; 
 
-	S1apIE ie3 = {ID_CriticalityDiagnostics_PIEID, Criticality.IGNORE, Presence.OPTIONAL, S1apIETypes.CRITICALITY_DIAGNOSTICS_IE };
+	S1apIE ie3 = {58, 2, 1, 19 };
 
 }S1SetupFailure;
-
 
 /*
 // **************************************************************
@@ -867,34 +833,36 @@ struct {
 // **************************************************************
 */
 
+
+
 struct {
-	S1apIE ie1 = {ID_MME_UE_S1AP_ID_PIEID, Criticality.IGNORE, Presence.MANDATORY, S1apIETypes.MME_UE_S1AP_ID_IE };
+	S1apIE ie1 = {0, 2, 3, 1 };
 
-	S1apIE ie2 = {ID_eNB_UE_S1AP_ID_PIEID, Criticality.IGNORE, Presence.MANDATORY, S1apIETypes.ENB_UE_S1AP_ID_IE };
+	S1apIE ie2 = {8, 2, 3, 2 };
 
-	S1apIE ie3 = {ENB_UE_S1AP_ID, Criticality.REJECT, Presence.MANDATORY, S1apIETypes.UE_AGGREGATE_MAX_BITRATE_IE }; 
+	S1apIE ie3 = {8, 1, 3, 21 }; 
 
-	S1apIE ie4 = {ID_E_RABToBeSetupListCtxtSUReq_PIEID,  Criticality.REJECT, Presence.MANDATORY, S1apIETypes.ERAB_TOBSETUP_LIST_CTXT_SUREQ_IE }; 
+	S1apIE ie4 = {24,  1, 3, 31 }; 
 
 
 	
-	S1apIE ie5 = {ID_UESecurityCapabilities_PIEID, Criticality.REJECT, Presence.MANDATORY, S1apIETypes.UE_SECURITY_CAPABILITIES_IE  }; 
+	S1apIE ie5 = {107, 1, 3, 22}; 
 
-	S1apIE ie6 = {ID_SecurityKey_PIEID, Criticality.REJECT, Presence.MANDATORY, S1apIETypes.SECURITY_KEY_IE }; 
+	S1apIE ie6 = {73, 1, 3, 23 }; 
 
-	S1apIE ie7 = { ID_TraceActivation_PIEID, Criticality.IGNORE, Presence.OPTIONAL, S1apIETypes.TRACE_ACTIVATION_IE }; 
+	S1apIE ie7 = { 25, 2, 1, 24 }; 
 
-	S1apIE ie8 = { ID_HandoverRestrictionList_PIEID, Criticality.IGNORE, Presence.OPTIONAL, S1apIETypes.HANDOVER_RESTRICTION_LIST_IE }; 
+	S1apIE ie8 = { 41, 2, 1, 25 }; 
 
 
 
-	S1apIE ie9 = {ID_UERadioCapability_PIEID, Criticality.IGNORE, Presence.OPTIONAL, S1apIETypes.UE_RADIO_CAPABILITY_IE }; 
+	S1apIE ie9 = {74, 2, 1, 20}; 
 	
-	S1apIE ie10 = { ID_SubscriberProfileIDforRFP_PIEID, Criticality.IGNORE, Presence.OPTIONAL, S1apIETypes.SUBSCRIBER_PROFILE_ID_FOR_RFP_IE }; 
+	S1apIE ie10 = { 106, 2, 1, 27 }; 
 
-	S1apIE ie11 = { ID_CSFallbackIndicator_PIEID, Criticality.REJECT, Presence.OPTIONAL, S1apIETypes.CS_FALLBACK_INDICATOR_IE }; 
+	S1apIE ie11 = { 108, 1, 1, 28 }; 
 
-	S1apIE ie12 = { ID_SRVCCOperationPossible_PIEID, Criticality.IGNORE, Presence.OPTIONAL, S1apIETypes.SRVCC_OPERATION_POSSIBLE_IE  }; 
+	S1apIE ie12 = { 124, 2, 1, 29 }; 
 
 }InitialContextSetupRequest;
 
@@ -910,17 +878,18 @@ struct {
 
 struct {
 	
-	S1apIE ie1 = {ID_MME_UE_S1AP_ID_PIEID, Criticality.IGNORE, Presence.MANDATORY, S1apIETypes.MME_UE_S1AP_ID_IE };
+	S1apIE ie1 = {0, 2, 3, 1 };
 
-	S1apIE ie2 = {ID_eNB_UE_S1AP_ID_PIEID , Criticality.IGNORE,Presence.MANDATORY, S1apIETypes.ENB_UE_S1AP_ID_IE };
+	S1apIE ie2 = {8 , 2,3, 2};
 
-	S1apIE ie3 = {ID_E_RABSetupListCtxtSURes_PIEID, Criticality.IGNORE, Presence.MANDATORY, S1apIETypes.ERAB_SETUP_LIST_CTXT_SURES_IE }; 
+	S1apIE ie3 = {51, 2, 3, 33 }; 
 
-	S1apIE ie4 = {ID_E_RABFailedToSetupListCtxtSURes_PIEID, Criticality.IGNORE, Presence.OPTIONAL, S1apIETypes.ERAB_LIST_IE }; 
+	S1apIE ie4 = {48, 2, 1, 31 }; 
 
-	S1apIE ie5 = {ID_CriticalityDiagnostics_PIEID, Criticality.IGNORE, Presence.OPTIONAL, S1apIETypes.CRITICALITY_DIAGNOSTICS_IE }; 
+	S1apIE ie5 = {58, 2, 1, 19 }; 
 
 }InitialContextSetupResponse;
+
 
 
 
@@ -935,34 +904,17 @@ struct {
 
 struct {
 	
-	S1apIE ie1 = {ID_MME_UE_S1AP_ID_PIEID, Criticality.IGNORE, Presence.MANDATORY, S1apIETypes.MME_UE_S1AP_ID_IE };
+	S1apIE ie1 = {0, 2, 3, 1 };
 
-	S1apIE ie2 = {ID_eNB_UE_S1AP_ID_PIEID, Criticality.IGNORE, Presence.MANDATORY, S1apIETypes.ENB_UE_S1AP_ID_IE };
+	S1apIE ie2 = {8, 2, 3, 2 };
 
-	S1apIE ie3 = {ID_Cause_PIEID, Criticality.IGNORE, Presence.MANDATORY, S1apIETypes.CAUSE_IE };
+	S1apIE ie3 = {2, 2, 3, 7 };
 
-	S1apIE ie4 = {ID_CriticalityDiagnostics_PIEID, Criticality.IGNORE, Presence.OPTIONAL, S1apIETypes.CRITICALITY_DIAGNOSTICS_IE };
+	S1apIE ie4 = {58, 2, 1, 19 };
 
 }InitialContextSetupFailure;
 
-/*
-// **************************************************************
-// New Data Structures: Not sure how its used. 
-// **************************************************************
-*/
 
-/* TODO: size(ERABToBeSetupItemCtxtSUReqIEs)* maxNrOfE-RABs) */
-ERABToBeSetupItemCtxtSUReqIEs ERABToBeSetupListCtxtSUReq<8..2^16-1>;
-
-
-S1apIE ERABToBeSetupItemCtxtSUReqIEs = {ID_E_RABToBeSetupItemCtxtSUReq_PIEID, Criticality.REJECT, Criticality.REJECT, S1apIETypes.ERAB_TOBSETUP_ITEM_CTXT_SUREQ_IE }; 
-
-
-
-/* TODO: size(ERABSetupItemCtxtSUResIEs) * maxNrOfE-RABs */
-ERABSetupItemCtxtSUResIEs ERABSetupListCtxtSURes<8..2^16-1>
-
-S1apIE ERABSetupItemCtxtSUResIEs = {ID_E_RABSetupItemCtxtSURes_PIEID , Criticality.IGNORE, Presence.MANDATORY, ERAB_SETUP_ITEM_CTXT_SURES_IE }; 
 
 /*
 // **************************************************************
@@ -985,22 +937,22 @@ S1apIE ERABSetupItemCtxtSUResIEs = {ID_E_RABSetupItemCtxtSURes_PIEID , Criticali
 
 
 enum {
-	INITIAL_CONTEXT_SETUP_REQUEST, 				/* InitialContextSetupRequest, */
-	DOWNLINK_NAS_TRANSPORT, 					/* DownlinkNASTransport, */
-	INITIAL_UE_MESSAGE, 						/* InitialUEMessage, */
-	UPLINK_NAS_TRANSPORT, 						/* UplinkNASTransport, */
-	S1_SETUP_REQUEST, 							/* S1SetupRequest */
+	INITIAL_CONTEXT_SETUP_REQUEST(1), 				/* InitialContextSetupRequest, */
+	DOWNLINK_NAS_TRANSPORT(2), 					/* DownlinkNASTransport, */
+	INITIAL_UE_MESSAGE(3), 						/* InitialUEMessage, */
+	UPLINK_NAS_TRANSPORT(4), 						/* UplinkNASTransport, */
+	S1_SETUP_REQUEST(5), 							/* S1SetupRequest */
 }InitiatingMessageType;
 
 enum {
-	INITIAL_CONTEXT_SETUP_RESPONSE, 			/* InitialContextSetupResponse, */
-	S1_SETUP_RESPONSE, 							/* S1SetupResponse */
+	INITIAL_CONTEXT_SETUP_RESPONSE(1), 			/* InitialContextSetupResponse, */
+	S1_SETUP_RESPONSE(2), 							/* S1SetupResponse */
 
 }SuccessfulOutcomeType;
 
 enum {
-	INITIAL_CONTEXT_SETUP_FAILURE, 				/* InitialContextSetupFailure. */
-	S1_SETUP_FAILURE, 							/* S1SetupFailure. */
+	INITIAL_CONTEXT_SETUP_FAILURE(1), 				/* InitialContextSetupFailure. */
+	S1_SETUP_FAILURE(2), 							/* S1SetupFailure. */
 	
 }UnsuccessfulOutcomeType;
 
@@ -1097,46 +1049,67 @@ struct {
 
 }S1APElementaryProcedure;
 
+
+
+
 /*  EP9.  */
 S1APElementaryProcedure InitialContextSetup_EP = { 
-	InitiatingMessageType.INITIAL_CONTEXT_SETUP_REQUEST, 
-	ID_InitialContextSetup_PC, 
-	Criticality.REJECT,	
-	SuccessfulOutcomeType.INITIAL_CONTEXT_SETUP_RESPONSE,
-	UnsuccessfulOutcomeType.INITIAL_CONTEXT_SETUP_FAILURE };
+	1, 
+	9, 
+	1,	
+	1,
+	1 };
 
 
 /* EP11 */
 S1APElementaryProcedure InitialContextSetup_EP = { 
-	InitiatingMessageType.DOWNLINK_NAS_TRANSPORT, 
-	ID_downlinkNASTransport_PC, 
-	Criticality.IGNORE
+	2, 
+	11, 
+	2
 };
 
 
 /*  EP12. */
 S1APElementaryProcedure InitialContextSetup_EP = { 
-	InitiatingMessageType.INITIAL_UE_MESSAGE, 
-	ID_initialUEMessage_PC, 
-	Criticality.IGNORE	
+	3, 
+	12, 
+	2	
 };
 
 /* EP13.  */
 S1APElementaryProcedure InitialContextSetup_EP = { 
-	InitiatingMessageType.UPLINK_NAS_TRANSPORT, 
-	ID_uplinkNASTransport_PC, 
-	Criticality.IGNORE
+	4, 
+	13, 
+	2
 };
 
 
 /* EP17 */
 S1APElementaryProcedure InitialContextSetup_EP = { 
-	InitiatingMessageType.S1_SETUP_REQUEST, 
-	ID_S1Setup_PC, 
-	Criticality.REJECT,	
-	SuccessfulOutcomeType.S1_SETUP_RESPONSE,
-	UnsuccessfulOutcomeType.S1_SETUP_FAILURE };
+	5, 
+	17, 
+	1,	
+	2,
+	2 };
 
+/*
+// **************************************************************
+// New Data Structures: Not sure how its used. 
+// **************************************************************
+*/
+
+/* TODO: size(ERABToBeSetupItemCtxtSUReqIEs)* maxNrOfE-RABs) */
+ERABToBeSetupItemCtxtSUReqIEs ERABToBeSetupListCtxtSUReq<8..2^16-1>;
+
+
+S1apIE ERABToBeSetupItemCtxtSUReqIEs = { 52, 1, 3, 32}; 
+
+
+
+/* TODO: size(ERABSetupItemCtxtSUResIEs) * maxNrOfE-RABs */
+ERABSetupItemCtxtSUResIEs ERABSetupListCtxtSURes<8..2^16-1>
+
+S1apIE ERABSetupItemCtxtSUResIEs = { 50 , 2, 3, 33 }; 
 
 
 
