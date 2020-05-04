@@ -1,0 +1,53 @@
+#lang ivy1.7
+
+type cid
+type pcode_bits
+interpret pcode_bits -> bv[8]
+
+object message_enum = {
+    type this = {initial_message, successful_outcome, unsuccessful_outcome}
+}
+
+object initial_context_setup = {
+    individual pcode : pcode_bits
+    individual msg : message_enum
+    individual mme_ue_s1ap_id : cid
+    individual enb_ue_s1ap_id : cid
+    individual max_bit_rate_downlink : cid
+    individual max_bit_rate_uplink : cid
+    individual security_key : cid
+    after init {
+        pcode := 0;
+        msg := message_enum.unsuccessful_outcome;
+        mme_ue_s1ap_id := 0;
+        enb_ue_s1ap_id := 0;
+        max_bit_rate_downlink := 0;
+        max_bit_rate_uplink := 0;
+        security_key := 0
+    }
+
+    action recv(x:pcode_bits, y:message_enum, m:cid, e:cid, md:cid, mu:cid, s:cid) = {
+        pcode := x;
+        msg := y;
+        mme_ue_s1ap_id := m;
+        enb_ue_s1ap_id := e;
+        max_bit_rate_downlink := md;
+        max_bit_rate_uplink := mu;
+        security_key := s
+    }
+
+    action send returns(y:message_enum) = {
+        y := message_enum.successful_outcome if msg = message_enum.initial_message & 
+               pcode = 9 & mme_ue_s1ap_id > 0 & enb_ue_s1ap_id > 0 & 
+               max_bit_rate_downlink > 0 & max_bit_rate_uplink > 0 &
+               security_key > 0 else message_enum.unsuccessful_outcome
+    }
+}
+
+import action ask returns (x:pcode_bits)
+export action ask_and_check_pcode returns(ok:bool) = {
+    ok := ask = 9
+}
+
+export initial_context_setup.send
+export initial_context_setup.recv
