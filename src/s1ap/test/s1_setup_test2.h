@@ -634,13 +634,16 @@ class s1_setup_test2 {
     drx_enum s1_setup__default_paging_drx;
     bool _generating;
     unsigned s1_setup__global_choice_enb_id;
+    int s1_setup__packet_state;
     long long __CARD__pcode_bits;
     long long __CARD__supported_ta__idx;
+    long long __CARD__cid;
     long long __CARD__tac_octet;
     long long __CARD__plmn_octet;
     virtual supported_ta supported_ta__arr__value(const supported_ta__arr& a, unsigned long long i);
     virtual unsigned long long supported_ta__arr__end(const supported_ta__arr& a);
     s1_setup_test2();
+    virtual int ext__s1_setup__state();
     virtual void ext__s1_setup__send(unsigned x, message_enum y, unsigned a, unsigned b, drx_enum c);
     virtual supported_ta__arr ext__supported_ta__arr__empty();
     virtual bool ext__ask_and_check_pcode();

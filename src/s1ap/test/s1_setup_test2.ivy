@@ -3,6 +3,7 @@
 include collections
 include order
 
+type cid
 type pcode_bits
 interpret pcode_bits -> bv[8]
 type tac_octet
@@ -28,6 +29,7 @@ object drx_enum = {
 }
 
 object s1_setup = {
+    individual packet_state : cid
     individual pcode : pcode_bits
     individual msg : message_enum
     individual plmn_identity : plmn_octet
@@ -35,6 +37,7 @@ object s1_setup = {
     individual default_paging_drx : drx_enum
     individual supported_tas : supported_ta.arr
     after init {
+        packet_state := 0;
         pcode := 0;
         msg := message_enum.unsuccessful_outcome;
         plmn_identity := 0;
@@ -44,6 +47,7 @@ object s1_setup = {
     }
 
     action send(x:pcode_bits, y:message_enum, a:plmn_octet, b:plmn_octet, c:drx_enum) = {
+        packet_state := packet_state + 1;
         pcode := x;
         msg := y;
         plmn_identity := a;
@@ -56,6 +60,10 @@ object s1_setup = {
                pcode = 17 & plmn_identity > 0 & global_choice_enb_id > 0 & 
                default_paging_drx ~= drx_enum.0 else message_enum.unsuccessful_outcome
     }
+
+    action state returns(s:cid) = {
+        s := packet_state
+    }
 }
 
 import action ask returns (x:pcode_bits)
@@ -65,3 +73,4 @@ export action ask_and_check_pcode returns(ok:bool) = {
 
 export s1_setup.send
 export s1_setup.recv
+export s1_setup.state
