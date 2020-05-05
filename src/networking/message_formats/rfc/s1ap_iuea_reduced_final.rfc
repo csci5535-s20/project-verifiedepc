@@ -1,0 +1,769 @@
+/*
+This specification contains all components until the definition of S1AP-IE structure.
+The derived structures : Elementary Procedures, NAS-PDU, etc cannot be defined in RFC and compiled by 
+Everparse project. Hence, the higher order message-structures need to be defined in C/F*, as per the developer response to the issue raise[1].
+
+Reference:
+[1]: https://github.com/project-everest/everparse/issues/11
+
+*/
+
+/*
+// **************************************************************
+// S1AP-Common-DataTypes
+// **************************************************************
+*/
+
+enum {
+  REJECT(1),
+  IGNORE(2),
+  NOTIFY(3),
+  (255)
+ } Criticality;
+
+ enum {
+  OPTIONAL(1),
+  CONDITIONAL(2),
+  MANDATORY(3),
+  (255)
+ } Presence;
+
+ struct{						
+ 	uint16 local;
+ 	opaque global<0..2^16-1>;
+ }PrivateIEID;
+
+
+ enum {
+  INITIATING_MESSAGE(1),
+  SUCCESSFUL_OUTCOME(2),
+  UNSUCCESSFULOUTCOME(3),
+  (255)
+ }TriggeringMessage;
+
+				
+
+/*
+// **************************************************************
+// S1AP-Constants
+// **************************************************************
+*/
+
+
+/* Extension Constants */
+
+uint16 maxPrivateIEs 					= 65535;
+uint16 maxProtocolExtensions 			= 65535;
+uint16 maxProtocolIEs					= 65535;
+
+/* List Lengths */
+
+uint16 maxNrOfCSGs							= 256;
+uint16 maxNrOfERABs						= 256;
+uint16 maxnoofTAIs							= 256;
+uint16 maxnoofTACs							= 256;
+uint16 maxNrOfErrors						= 256;
+uint16 maxnoofBPLMNs						= 6;
+uint16 maxnoofPLMNsPerMME					= 32;
+uint16 maxnoofEPLMNs						= 15;
+uint16 maxnoofEPLMNsPlusOne				= 16;
+uint16 maxnoofForbLACs						= 4096;
+uint16 maxnoofForbTACs						= 4096;
+uint16 maxNrOfIndividualS1ConnectionsToReset = 256;
+uint16 maxnoofCells						= 16;
+uint16 maxnoofTAIforWarning				= 65535 ;
+uint16 maxnoofCellID						= 65535 ;
+uint16 maxnoofEmergencyAreaID				= 65535 ;
+uint16 maxnoofCellinTAI					= 65535 ;
+uint16 maxnoofCellinEAI					= 65535 ;
+uint16 maxnoofeNBX2TLAs					= 2;
+uint16 maxnoofRATs							= 8;
+uint16 maxnoofGroupIDs						= 65535;
+uint16 maxnoofMMECs						= 256;
+
+/* Elementary Procedures */
+
+enum{
+	ID_HandoverPreparation_PC(0),
+	ID_HandoverResourceAllocation_PC( 1),
+	ID_HandoverNotification_PC( 2),
+	ID_PathSwitchRequest_PC( 3),
+	ID_HandoverCancel_PC( 4),
+	ID_E_RABSetup_PC( 5),
+	ID_E_RABModify_PC( 6),
+	ID_E_RABRelease_PC( 7),
+	ID_E_RABReleaseIndication_PC( 8),
+	ID_InitialContextSetup_PC( 9),
+	ID_Paging_PC( 10),
+	ID_downlinkNASTransport_PC( 11),
+	ID_initialUEMessage_PC( 12),
+	ID_uplinkNASTransport_PC( 13),
+	ID_Reset_PC( 14),
+	ID_ErrorIndication_PC( 15),
+	ID_NASNonDeliveryIndication_PC( 16),
+	ID_S1Setup_PC( 17),
+	ID_UEContextReleaseRequest_PC( 18),
+	ID_DownlinkS1cdma2000tunneling_PC( 19),
+	ID_UplinkS1cdma2000tunneling_PC( 20),
+	ID_UEContextModification_PC( 21),
+	ID_UECapabilityInfoIndication_PC( 22),
+	ID_UEContextRelease_PC( 23),
+	ID_eNBStatusTransfer_PC( 24),
+	ID_MMEStatusTransfer_PC( 25),
+	ID_DeactivateTrace_PC( 26),
+	ID_TraceStart_PC( 27),
+	ID_TraceFailureIndication_PC( 28),
+	ID_ENBConfigurationUpdate_PC( 29),
+	ID_MMEConfigurationUpdate_PC( 30),
+	ID_LocationReportingControl_PC( 31),
+	ID_LocationReportingFailureIndication_PC( 32),
+	ID_LocationReport_PC( 33),
+	ID_OverloadStart_PC( 34),
+	ID_OverloadStop_PC( 35),
+	ID_WriteReplaceWarning_PC( 36),
+	ID_eNBDirectInformationTransfer_PC( 37),
+	ID_MMEDirectInformationTransfer_PC( 38),
+	ID_PrivateMessage_PC( 39),
+	ID_eNBConfigurationTransfer_PC( 40),
+	ID_MMEConfigurationTransfer_PC( 41),
+	ID_CellTrafficTrace_PC( 42),
+	(255)
+}ProcedureCode;
+
+
+
+
+
+/* IE-s */
+
+enum {
+	ID_MME_UE_S1AP_ID_PIEID( 0),
+	ID_HandoverType_PIEID( 1),
+	ID_Cause_PIEID( 2),
+	ID_SourceID_PIEID( 3),
+	ID_TargetID_PIEID( 4),
+	ID_eNB_UE_S1AP_ID_PIEID( 8),
+	ID_E_RABSubjecttoDataForwardingList_PIEID( 12),
+	ID_E_RABtoReleaseListHOCmd_PIEID( 13),
+	ID_E_RABDataForwardingItem_PIEID( 14),
+	ID_E_RABReleaseItemBearerRelComp_PIEID( 15),
+	ID_E_RABToBeSetupListBearerSUReq_PIEID( 16),
+	ID_E_RABToBeSetupItemBearerSUReq_PIEID( 17),
+	ID_E_RABAdmittedList_PIEID( 18),
+	ID_E_RABFailedToSetupListHOReqAck_PIEID( 19),
+	ID_E_RABAdmittedItem_PIEID( 20),
+	ID_E_RABFailedtoSetupItemHOReqAck_PIEID( 21),
+	ID_E_RABToBeSwitchedDLList_PIEID( 22),
+	ID_E_RABToBeSwitchedDLItem_PIEID( 23),
+	ID_E_RABToBeSetupListCtxtSUReq_PIEID( 24),
+	ID_TraceActivation_PIEID( 25),
+	ID_NAS_PDU_PIEID( 26),
+	ID_E_RABToBeSetupItemHOReq_PIEID( 27),
+	ID_E_RABSetupListBearerSURes_PIEID( 28),
+	ID_E_RABFailedToSetupListBearerSURes_PIEID( 29),
+	ID_E_RABToBeModifiedListBearerModReq_PIEID( 30),
+	ID_E_RABModifyListBearerModRes_PIEID( 31),
+	ID_E_RABFailedToModifyList_PIEID( 32),
+	ID_E_RABToBeReleasedList_PIEID( 33),
+	ID_E_RABFailedToReleaseList_PIEID( 34),
+	ID_E_RABItem_PIEID( 35),
+	ID_E_RABToBeModifiedItemBearerModReq_PIEID( 36),
+	ID_E_RABModifyItemBearerModRes_PIEID( 37),
+	ID_E_RABReleaseItem_PIEID( 38),
+	ID_E_RABSetupItemBearerSURes_PIEID( 39),
+	ID_SecurityContext_PIEID( 40),
+	ID_HandoverRestrictionList_PIEID( 41),
+	ID_UEPagingID_PIEID( 43),
+	ID_pagingDRX_PIEID( 44),
+	ID_TAIList_PIEID( 46),
+	ID_TAIItem_PIEID( 47),
+	ID_E_RABFailedToSetupListCtxtSURes_PIEID( 48),
+	ID_E_RABReleaseItemHOCmd_PIEID( 49),
+	ID_E_RABSetupItemCtxtSURes_PIEID( 50),
+	ID_E_RABSetupListCtxtSURes_PIEID( 51),
+	ID_E_RABToBeSetupItemCtxtSUReq_PIEID( 52),
+	ID_E_RABToBeSetupListHOReq_PIEID( 53),
+	ID_GERANtoLTEHOInformationRes_PIEID( 55),
+	ID_UTRANtoLTEHOInformationRes_PIEID( 57),
+	ID_CriticalityDiagnostics_PIEID( 58),
+	ID_Global_ENB_ID_PIEID( 59),
+	ID_eNBname_PIEID( 60),
+	ID_MMEname_PIEID( 61),
+	ID_ServedPLMNs_PIEID( 63),
+	ID_SupportedTAs_PIEID( 64),
+	ID_TimeToWait_PIEID( 65),
+	ID_uEaggregateMaximumBitrate_PIEID( 66),
+	ID_TAI_PIEID( 67),
+	ID_E_RABReleaseListBearerRelComp_PIEID( 69),
+	ID_cdma2000PDU_PIEID( 70),
+	ID_cdma2000RATType_PIEID( 71),
+	ID_cdma2000SectorID_PIEID( 72),
+	ID_SecurityKey_PIEID( 73),
+	ID_UERadioCapability_PIEID( 74),
+	ID_GUMMEI_ID_PIEID( 75),
+	ID_E_RABInformationListItem_PIEID( 78),
+	ID_Direct_Forwarding_Path_Availability_PIEID( 79),
+	ID_UEIdentityIndexValue_PIEID( 80),
+	ID_cdma2000HOStatus_PIEID( 83),
+	ID_cdma2000HORequiredIndication_PIEID( 84),
+	ID_E_UTRAN_Trace_ID_PIEID( 86),
+	ID_RelativeMMECapacity_PIEID( 87),
+	ID_SourceMME_UE_S1AP_ID_PIEID( 88),
+	ID_Bearers_SubjectToStatusTransfer_Item_PIEID( 89),
+	ID_eNB_StatusTransfer_TransparentContainer_PIEID( 90),
+	ID_UE_associatedLogicalS1_ConnectionItem_PIEID( 91),
+	ID_ResetType_PIEID( 92),
+	ID_UE_associatedLogicalS1_ConnectionListResAck_PIEID( 93),
+	ID_E_RABToBeSwitchedULItem_PIEID( 94),
+	ID_E_RABToBeSwitchedULList_PIEID( 95),
+	ID_S_TMSI_PIEID( 96),
+	ID_cdma2000OneXRAND_PIEID( 97),
+	ID_RequestType_PIEID( 98),
+	ID_UE_S1AP_IDs_PIEID( 99),
+	ID_EUTRAN_CGI_PIEID( 100),
+	ID_OverloadResponse_PIEID( 101),
+	ID_cdma2000OneXSRVCCInfo_PIEID( 102),
+	ID_E_RABFailedToBeReleasedList_PIEID( 103),
+	ID_Source_ToTarget_TransparentContainer_PIEID( 104),
+	ID_ServedGUMMEIs_PIEID( 105),
+	ID_SubscriberProfileIDforRFP_PIEID( 106),
+	ID_UESecurityCapabilities_PIEID( 107),
+	ID_CSFallbackIndicator_PIEID( 108),
+	ID_CNDomain_PIEID( 109),
+	ID_E_RABReleasedList_PIEID( 110),
+	ID_MessageIdentifier_PIEID( 111),
+	ID_SerialNumber_PIEID( 112),
+	ID_WarningAreaList_PIEID( 113),
+	ID_RepetitionPeriod_PIEID( 114),
+	ID_NumberofBroadcastRequest_PIEID( 115),
+	ID_WarningType_PIEID( 116),
+	ID_WarningSecurityInfo_PIEID( 117),
+	ID_DataCodingScheme_PIEID( 118),
+	ID_WarningMessageContents_PIEID( 119),
+	ID_BroadcastCompletedAreaList_PIEID( 120),
+	ID_Inter_SystemInformationTransferTypeEDT_PIEID( 121),
+	ID_Inter_SystemInformationTransferTypeMDT_PIEID( 122),
+	ID_Target_ToSource_TransparentContainer_PIEID( 123),
+	ID_SRVCCOperationPossible_PIEID( 124),
+	ID_SRVCCHOIndication_PIEID( 125),
+	ID_NAS_DownlinkCount_PIEID( 126),
+	ID_CSG_Id_PIEID( 127),
+	ID_CSG_IdList_PIEID( 128),
+	ID_SONConfigurationTransferECT_PIEID( 129),
+	ID_SONConfigurationTransferMCT_PIEID( 130),
+	ID_TraceCollectionEntityIPAddress_PIEID( 131),
+	ID_MSClassmark2_PIEID( 132),
+	ID_MSClassmark3_PIEID( 133),
+	ID_RRC_Establishment_Cause_PIEID( 134),
+	ID_NASSecurityParametersfromE_UTRAN_PIEID( 135),
+	ID_NASSecurityParameterstoE_UTRAN_PIEID( 136),
+	ID_DefaultPagingDRX_PIEID( 137),
+	ID_Source_ToTarget_TransparentContainer_Secondary_PIEID( 138),
+	ID_Target_ToSource_TransparentContainer_Secondary_PIEID( 139),
+	(65535)
+}ProtocolIEID;
+
+
+
+/*
+// **************************************************************
+// S1AP-IE DEFINITIONS
+// **************************************************************
+*/
+
+
+
+/*
+// **************************************************************
+// S1AP-IE Part-I
+// **************************************************************
+*/
+
+
+enum {
+	BearersSubjectToStatusTransferItemIEsLabel(1),
+	ERABInformationListIEsLabel(2),
+	ERABItemIEsLabel(3),
+	(255)
+}S1apProtocolIELabels;
+
+
+struct {
+	ProtocolIEID 	id; /* = ProtocolIEID.ID_Bearers_SubjectToStatusTransfer_Item_PIEID */
+	Criticality  	criticality; /* = Criticality.IGNORE; */
+	Presence 		presence; /* = Presence.MANDATORY; */
+	opaque  		item; /* BearersSubjectToStatusTransferItem; */
+}BearersSubjectToStatusTransferItemIEs;
+
+struct {
+	ProtocolIEID 							id; /* ID_E_RABInformationListItem_PIEID; //UNIQUE. */
+	Criticality 							criticality; /* Criticality.IGNORE; */
+	Presence 								presence;  /* Presence.MANDATORY; */
+	opaque 									item; /*ERABInformationListItem; */
+ }ERABInformationListIEs;
+
+
+struct {
+	ProtocolIEID 							id; /* ID_E_RABItem_PIEID; //UNIQUE. */
+	Criticality 							criticality;  /* Criticality.IGNORE;  */
+	Presence 								presence;   /* Presence.MANDATORY;  */
+	opaque									item; /* ERABItem; */
+}ERABItemIEs;
+
+
+struct{
+	S1apProtocolIELabels 		ie_label; 
+	select(ie_label){
+		case BearersSubjectToStatusTransferItemIEsLabel: 	BearersSubjectToStatusTransferItemIEs;
+		case ERABInformationListIEsLabel:					ERABInformationListIEs;
+		case ERABItemIEsLabel: 								ERABItemIEs;
+	}protocol_ies;
+}S1apProtocolIES;
+
+
+/*
+// **************************************************************
+// S1AP-IE Part-II
+// **************************************************************
+*/
+
+
+
+
+
+uint8 RelativeMMECapacity; 							
+uint8 SubscriberProfileIDforRFP;
+uint32 ENB_UE_S1AP_ID;					
+uint32 MME_UE_S1AP_ID;					
+uint32 BitRate;
+
+
+
+opaque MMEName<1..150>;									
+opaque ENBName<1..150>;				
+opaque TBCDString[3];					
+TBCDString  PLMNIdentity;
+PLMNIdentity BPLMNs;
+
+opaque CellIdentity;
+opaque MMECode[1];				
+opaque MTMSI[4];						
+opaque CSGId[27];
+opaque MMEGroupID[2];
+opaque TAC[2];				
+opaque LAC[2];
+opaque SecurityKey[256];
+opaque TransportLayerAddress[160];
+opaque InterfacesToTrace[8];	
+opaque EUTRANTraceID[8];		
+
+
+opaque NAS_PDU<1..2^16-1>;
+opaque UERadioCapability<1..2^16-1>;
+opaque EncryptionAlgorithms<16..2^16-1>;
+opaque IntegrityProtectionAlgorithms<16..2^16-1>;
+
+
+
+
+
+
+enum{ 
+	CS_FALLBACK_REQUIRED,
+	CS_FALLBACK_HIGH_PRIORITY,
+	(255)
+} CSFallbackIndicator;
+
+enum {
+	V32,
+	V64,
+	V128,
+	V256,
+	(255)
+	}PagingDRX;
+
+enum {
+	EMERGENCY,
+	HIGH_PRIORITY_ACCESS,
+	MT_ACCESS,
+	MO_SIGNALLING,
+	MO_DATA,
+	(255)
+}RRCEstablishmentCause;
+
+
+enum {
+	V1S, 
+	V2S,
+	V5S, 
+	V10S,
+	V20S,
+	V60S,
+	(255)
+}TimeToWait;
+
+enum  {
+	NOT_UNDERSTOOD,
+	MISSING,
+	(255)
+}TypeOfError;
+
+
+enum {
+	POSSIBLE,
+	(255)
+}SRVCCOperationPossible;
+
+
+struct {
+	opaque macro_enb_id<0..20>; 	
+	opaque home_enb_id<0..28>; 		
+}ENBID;
+
+
+
+struct {
+	PLMNIdentity plmn_identity; 
+	CellIdentity cell_identity; 
+	opaque ie_extensions<0..2^16-1>;
+}EUTRAN_CGI;
+
+
+struct {
+	PLMNIdentity 		plmn_identity;
+	TAC 					tac;
+	opaque ie_extensions<0..2^16-1>; 
+}TAI;
+
+struct {
+	MMECode 		mmec;
+	MTMSI 			m_tmsi;
+	opaque 	ie_extensions<0..2^16-1>;
+}S_TMSI;
+
+
+struct {
+	PLMNIdentity 	plmn_identity; 
+	MMEGroupID   	mme_group_id;
+	MMECode 			mme_code; 
+	opaque ie_extensions<0..2^16-1>;
+}GUMMEI;
+
+struct {
+	PLMNIdentity 	plmn_identity; 
+	ENBID 			enb_id; 
+	opaque ie_extensions<0..2^16-1>;
+}GlobalENBID;
+
+
+
+
+
+enum {	
+	CONTROL_PROCESSING_OVERLOAD(1),
+	NOT_ENOUGH_USER_PLANE_PROCESSING_RESOURCES(2),
+	HARDWARE_FAILURE(3),
+	OM_INTERVENTION(4),
+	UNSPECIFIED(5),
+	UNKNOWN_PLMN(6),
+	(255)
+}CauseMisc;
+
+enum{
+	TRANSFER_SYNTAX_ERROR(1),
+	ABSTRACT_SYNTAX_ERROR_REJECT(2),
+	ABSTRACT_SYNTAX_ERROR_IGNORE_AND_NOTIFY(3),
+	MESSAGE_NOT_COMPATIBLE_WITH_RECEIVER_STATE(4),
+	SEMANTIC_ERROR(5),
+	ABSTRACT_SYNTAX_ERROR_FALSELY_CONSTRUCTED_MESSAGE(6),
+	UNSPECIFIED(7),
+	(255)
+}CauseProtocol;
+
+enum {  						/* TODO: Complete list. */
+	UNSPECIFIED(1),
+	SUCCESSFUL_HANDOVER(2),
+	(255)
+	}CauseRadioNetwork;
+
+enum {
+	TRANSPORT_RESOURCE_UNAVAILABLE(1),
+	UNSPECIFIED(2),
+	(255)
+}CauseTransport;
+
+enum {
+	NORMAL_RELEASE,
+	AUTHENTICATION_FAILURE,
+	DETACH,
+	UNSPECIFIED,
+	(255)
+}CauseNas;
+
+struct {
+	CauseRadioNetwork radioNetwork<0..2>;
+	CauseTransport	transport;
+	CauseNas 		nas;
+	CauseProtocol 	protocol;
+	CauseMisc 	misc<0..2>;
+}Cause;
+
+struct {
+	CSGId 				csg_id;
+	opaque ie_extensions<0..2^16-1>;
+}CSGIdListItem;
+
+
+CSGIdListItem CSGIdList<0..2^16-1>;   /* Todo: Size(CSGIdListItem)*maxNOfCSGs. */
+
+
+struct {
+	Criticality 			ie_criticality;
+	ProtocolIEID 			ie_id;
+	TypeOfError 			type_of_error;
+	opaque ie_extensions<0..2^16-1>;
+}CriticalityDiagnosticsIEItem; 
+
+
+CriticalityDiagnosticsIEItem CriticalityDiagnosticsIEList<0..2^16-1>;   /* TODO: size(CriticalityDiagnosticsIEItem)*maxNrOfErrors. */
+
+struct {
+	ProcedureCode 			procedure_code<0..4>;
+	TriggeringMessage 		triggering_message<0..4>;
+	Criticality 			triggering_criticiality<0..4>;
+	CriticalityDiagnosticsIEList 	ies_criticality_diagnostics<0..4>;
+	opaque ie_extensions<0..2^16-1>;
+}CriticalityDiagnostics;
+
+
+
+
+
+
+
+/* -- E.  */
+
+
+PLMNIdentity EPLMNs<3..2^4-1>;      /* TODO: size(PLMNIdentity)*maxnoofEPLMNs). */
+
+ERABItemIEs ERABList<3..2^16-1>;
+
+struct  {	 	
+	uint8 	id_1<0..1>;
+	uint32 	id_2<0..8>;
+}E_RAB_ID;
+
+struct {
+	E_RAB_ID 			e_rab_id;
+	Cause 				cause;
+	opaque ie_extensions<0..2^16-1>;
+}ERABItem;
+
+
+/* -- F. */
+
+enum {
+	ALL, 
+	GERAN,
+	UTRAN,
+	CDMA2000,
+	(255)
+}ForbiddenInterRATs;
+
+TAC ForbiddenTACs<2..2^16-1>;    /* TODO: size(TAC)*maxnoofForbTACs). */
+
+struct {
+	PLMNIdentity 		plmn_identity;
+	ForbiddenTACs 		forbidden_tacs;
+	opaque ie_extensions<0..2^16-1>;
+}ForbiddenTAsItem;
+
+ForbiddenTAsItem ForbiddenTAs<3..2^16-1>;   /* TODO: size(ForbiddenTAsItem)*maxnoofEPLMNsPlusOne.  */
+
+
+
+
+
+LAC ForbiddenLACs<2..2^16-1>;   /*  TODO: size(LAC)*maxnoofForbLACs). */
+
+struct {
+	PLMNIdentity 	plmn_identity;
+	ForbiddenLACs 	forbidden_identity;
+	opaque ie_extensions<0..2^16-1>;
+}ForbiddenLAsItem;
+
+ForbiddenLAsItem ForbiddenLAs<2..2^16-1>;   /* TODO: size(ForbiddenLAsItem)*maxnoofEPLMNsPlusOne) */
+
+
+
+/* -- H. */
+
+
+struct {
+	PLMNIdentity 		serving_plmn;
+	EPLMNs 		equivalent_plmns<0..2^6-1>; 			/* TODO: What's the size of each item?  */
+	ForbiddenTAs forbidden_tas<0..2^6-1>;
+	ForbiddenLAs forbidden_las<0..2^6-1>;
+	ForbiddenInterRATs forbidden_inter_rats<0..2^6-1>;
+	opaque ie_extensions<0..2^16-1>; 
+}HandoverRestrictionList;
+
+
+/* +++++++++++++++++++++++++++++++++++++++++++++++ */
+
+/* -- S. */
+
+
+struct {
+	TAC 					tac;
+	BPLMNs 					broadcastPLMNs;
+	opaque 	ie_extensions<0..2^16-1>;
+}SupportedTAsItem;
+
+SupportedTAsItem SupportedTAs<4..2^16-1>;  /* TODO: size(SupportedTAsItem)* maxnoofTACs). */
+
+
+MMEGroupID ServedGroupIDs<2..2^6-2>;   /* TODO: size(maxnoofGroupIDs) */
+MMECode ServedMMECs<1..2^6-1>; /* TODO : size(maxnoofMMECs) ServedMMECs */
+PLMNIdentity ServedPLMNs<3..2^6-1>; /* TODO: size(maxnoofPLMNsPerMME) */
+
+struct {
+	ServedPLMNs 			served_plmns;
+	ServedGroupIDs 			served_group_ids;
+	ServedMMECs 			served_mmecs;
+	opaque ie_extensions<0..2^16-1>;
+}ServedGUMMEIsItem;
+
+ServedGUMMEIsItem ServedGUMMEIs<8..2^16-1>; 		/* TODO: size(ServedGUMMEIsItem)*(maxnoofRATs). */
+
+/* -- T */
+
+enum { 
+	MINIMUM,
+	MEDIUM,
+	MAXIMUM,
+	MINIMUM_WITHOUT_VENDOR_SPECIFIC_EXTENSION,
+	MEDIUM_WITHOUT_VENDOR_SPECIFIC_EXTENSION,
+	MAXIMUM_WITHOUT_VENDOR_SPECIFIC_EXTENSION,
+	(255)
+}TraceDepth;
+
+struct {
+	EUTRANTraceID 			eutran_trace_id;
+	InterfacesToTrace 		interfaces_to_trace;
+	TraceDepth 				trace_depth;
+	TransportLayerAddress 	trace_collection_entity_ip_address;
+	opaque 	ie_extensions<0..2^16-1>; 
+}TraceActivation;
+
+/* -- U */ 
+
+struct {
+	BitRate 					ue_aggregate_maximum_bitrate_dl;
+	BitRate 	 				ue_aggregate_maximum_bitrate_ul;
+	opaque ie_extensions<0..2^16-1>;
+}UEAggregateMaximumBitrate;
+
+
+
+
+struct {
+	EncryptionAlgorithms 			encryption_algorithms;
+	IntegrityProtectionAlgorithms 	integrity_protection_algorithms;
+	opaque 	ie_extensions<0..2^16-1>;
+}UESecurityCapabilities;
+
+/*
+// **************************************************************
+// S1AP-PDU-CONTENTS
+// **************************************************************
+*/
+
+
+enum {
+	MME_UE_S1AP_ID_IE(1), 				/* MME_UE_S1AP_ID, */
+	MME_NAME_IE(2), 					/* MMEName, */
+	ENB_UE_S1AP_ID_IE(3), 				/* ENB_UE_S1AP_ID, */
+	ENB_NAME_IE(4), 					/* ENBName, */
+	NAS_PDU_IE(5), 					/* NAS_PDU */
+	TIME_TO_WAIT_IE(6), 				/* TimeToWait, */
+	CAUSE_IE(7), 						/* Cause, */
+	TAI_IE(8), 						/* TAI */
+	EUTRAN_CGI_IE(9), 					/* EUTRAN_CGI, */
+	S_TMSI_IE(10), 						/* S_TMSI, */
+	CSGID_IE(11), 						/* CSGId, */
+	GUMMEI_IE(12),  					/* GUMMEI, */
+	GLOBAL_ENB_ID_IE(13), 				/* GlobalENBID, */
+	SUPPORTED_TAS_IE(14), 				/* SupportedTAs, */
+	PAGING_DRX_IE(15), 					/* PagingDRX, */
+	CSGID_LIST_IE(16), 					/* CSGIdList , */
+	SERVED_GUMMEIS_IE(17), 				/* ServedGUMMEIs, */
+	RELATIVE_MME_CAPACITY_IE(18), 		/* RelativeMMECapacity, */
+	CRITICALITY_DIAGNOSTICS_IE(19), 	/* CriticalityDiagnostics, */
+	UE_RADIO_CAPABILITY_IE(20), 			/* UERadioCapability, */
+	UE_AGGREGATE_MAX_BITRATE_IE(21), 	/* UEAggregateMaximumBitrate, */
+	UE_SECURITY_CAPABILITIES_IE(22), 		/* UESecurityCapabilities, */
+	SECURITY_KEY_IE(23), 					/* SecurityKey, */
+	TRACE_ACTIVATION_IE(24), 				/* TraceActivation, */
+	HANDOVER_RESTRICTION_LIST_IE(25), 	/* HandoverRestrictionList, */
+	RRC_ESTABLISHMENT_CAUSE_IE(26), 	/* RRCEstablishmentCause, */
+	SUBSCRIBER_PROFILE_ID_RFP_IE(27), 	/* SubscriberProfileIDforRFP, */
+	CS_FALLBACK_INDICATOR_IE(28), 		/*CSFallbackIndicator, */
+	SRVCC_OPERATION_POSSIBLE_IE(29), 	/* SRVCCOperationPossible, */
+	ERAB_LIST_IE(30), 					/* ERABList, */
+	/*
+	ERAB_SETUP_LIST_CTXT_SURES_IE(31),  /* ERABSetupListCtxtSURes, */
+	ERAB_TOBSETUP_LIST_CTXT_SUREQ_IE(32), /* ERABToBeSetupListCtxtSUReq, */
+	ERAB_TOBSETUP_ITEM_CTXT_SUREQ_IE(33), /* ERABToBeSetupItemCtxtSUReq, */
+	ERAB_SETUP_ITEM_CTXT_SURES_IE(34),  /* ERABSetupItemCtxtSURes, */
+	*/
+(255)
+}S1apIETypes;
+
+
+
+struct {
+	ProtocolIEID 		protocol_id;
+	Criticality 		criticality; 
+	Presence 			presence; 
+	S1apIETypes 		ie_type;
+	select(ie_type){
+		case MME_UE_S1AP_ID_IE :			 		MME_UE_S1AP_ID;
+		case MME_NAME_IE :			 				MMEName;
+		case ENB_UE_S1AP_ID_IE :					ENB_UE_S1AP_ID;
+		case ENB_NAME_IE :			 				ENBName;
+		case NAS_PDU_IE :			 				NAS_PDU;
+		case TIME_TO_WAIT_IE :			 			TimeToWait;
+		case CAUSE_IE :			 					Cause;
+		case TAI_IE :			 					TAI;
+		case EUTRAN_CGI_IE :			 			EUTRAN_CGI;
+		case S_TMSI_IE :			 				S_TMSI;
+		case CSGID_IE :			 					CSGId;
+		case GUMMEI_IE :			 				GUMMEI;
+		case GLOBAL_ENB_ID_IE :			 			GlobalENBID;
+		case SUPPORTED_TAS_IE :			 			SupportedTAs;
+		case PAGING_DRX_IE :			 			PagingDRX;
+		case CSGID_LIST_IE :			 			CSGIdList;
+		case SERVED_GUMMEIS_IE :			 		ServedGUMMEIs;
+		case RELATIVE_MME_CAPACITY_IE :			 	RelativeMMECapacity;
+		case CRITICALITY_DIAGNOSTICS_IE :			CriticalityDiagnostics;
+		case UE_RADIO_CAPABILITY_IE :			 	UERadioCapability;
+		case UE_AGGREGATE_MAX_BITRATE_IE :			UEAggregateMaximumBitrate;
+		case UE_SECURITY_CAPABILITIES_IE :			UESecurityCapabilities;
+		case SECURITY_KEY_IE :			 			SecurityKey;
+		case TRACE_ACTIVATION_IE :			 		TraceActivation;
+		case HANDOVER_RESTRICTION_LIST_IE :			HandoverRestrictionList;
+		case RRC_ESTABLISHMENT_CAUSE_IE :			RRCEstablishmentCause;
+		case SUBSCRIBER_PROFILE_ID_RFP_IE :		    SubscriberProfileIDforRFP;
+		case CS_FALLBACK_INDICATOR_IE :				CSFallbackIndicator;
+		case SRVCC_OPERATION_POSSIBLE_IE :			SRVCCOperationPossible;
+		case ERAB_LIST_IE :			 				ERABList;
+		/*
+		case ERAB_SETUP_LIST_CTXT_SURES_IE :		ERABSetupListCtxtSURes;
+		case ERAB_TOBSETUP_LIST_CTXT_SUREQ_IE :		ERABToBeSetupListCtxtSUReq;
+		case ERAB_TOBSETUP_ITEM_CTXT_SUREQ_IE :		ERABToBeSetupItemCtxtSUReq;
+		case ERAB_SETUP_ITEM_CTXT_SURES_IE :        ERABSetupItemCtxtSURes;
+		*/
+	} ie_body;
+}S1apIE;
+

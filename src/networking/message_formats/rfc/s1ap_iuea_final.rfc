@@ -613,9 +613,9 @@ struct {
 SupportedTAsItem SupportedTAs<4..2^16-1>;  /* TODO: size(SupportedTAsItem)* maxnoofTACs). */
 
 
-MMEGroupID ServedGroupIDs<8..2^16-1>;   /* TODO: size(maxnoofGroupIDs) */
-MMECode ServedMMECs<8..2^16-1>; /* TODO : size(maxnoofMMECs) ServedMMECs */
-PLMNIdentity ServedPLMNs<8..2^16-1>; /* TODO: size(maxnoofPLMNsPerMME) */
+MMEGroupID ServedGroupIDs<2..2^6-2>;   /* TODO: size(maxnoofGroupIDs) */
+MMECode ServedMMECs<1..2^6-1>; /* TODO : size(maxnoofMMECs) ServedMMECs */
+PLMNIdentity ServedPLMNs<3..2^6-1>; /* TODO: size(maxnoofPLMNsPerMME) */
 
 struct {
 	ServedPLMNs 			served_plmns;
@@ -744,9 +744,9 @@ struct {
 		case TRACE_ACTIVATION_IE :			 		TraceActivation;
 		case HANDOVER_RESTRICTION_LIST_IE :			HandoverRestrictionList;
 		case RRC_ESTABLISHMENT_CAUSE_IE :			RRCEstablishmentCause;
-		case SUBSCRIBERR_PROFILE_ID_RFP_IE :		SubscriberProfileIDforRFP;
+		case SUBSCRIBER_PROFILE_ID_RFP_IE :		    SubscriberProfileIDforRFP;
 		case CS_FALLBACK_INDICATOR_IE :				CSFallbackIndicator;
-		case SRVCC_OPERRATION_POSSIBLE_IE :			SRVCCOperationPossible;
+		case SRVCC_OPERATION_POSSIBLE_IE :			SRVCCOperationPossible;
 		case ERAB_LIST_IE :			 				ERABList;
 		/*
 		case ERAB_SETUP_LIST_CTXT_SURES_IE :		ERABSetupListCtxtSURes;
@@ -1081,9 +1081,6 @@ struct {
 	
 }UnsuccessfulOutcome;
 
-
-
-
 /*
 // ************************************************************************
 // Defining the Elementary-Procedures
@@ -1121,6 +1118,15 @@ struct {
 
 
 }S1APElementaryProcedure;
+
+
+
+/*
+// ************************************************************************
+// Defining the Elementary-Procedures
+*/
+
+
 
 
 

@@ -1,0 +1,10 @@
+The files in the following folders are derived from the QUIC library/Ivy toolbox: 
+/serdes/
+/udp/
+/tcp/
+
+
+The files in the following folders are original work of the developer:
+/message-formats/rfc
+/message-formats/thrift
+/sctp/
