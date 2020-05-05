@@ -709,8 +709,15 @@ unsigned long long s1_setup_test2::supported_ta__arr__end(const supported_ta__ar
     val =  a.size() ;
     return val;
 }
+int s1_setup_test2::ext__s1_setup__state(){
+    int s;
+    s = (int)___ivy_choose(0,"fml:s",0);
+    s = s1_setup__packet_state;
+    return s;
+}
 void s1_setup_test2::ext__s1_setup__send(unsigned x, message_enum y, unsigned a, unsigned b, drx_enum c){
     {
+        s1_setup__packet_state = (s1_setup__packet_state + 1);
         s1_setup__pcode = x;
         s1_setup__msg = y;
         s1_setup__plmn_identity = a;
@@ -747,6 +754,7 @@ s1_setup_test2::message_enum s1_setup_test2::ext__s1_setup__recv(){
 void s1_setup_test2::__init(){
     {
         {
+            s1_setup__packet_state = 0;
             s1_setup__pcode = (0 & 255);
             s1_setup__msg = message_enum__unsuccessful_outcome;
             s1_setup__plmn_identity = (0 & 16777215);
@@ -780,6 +788,7 @@ pthread_mutex_init(&mutex,NULL);
 __lock();
     __CARD__pcode_bits = 256;
     __CARD__supported_ta__idx = 0;
+    __CARD__cid = 0;
     __CARD__tac_octet = 65536;
     __CARD__plmn_octet = 16777216;
     s1_setup__plmn_identity = (unsigned)___ivy_choose(0,"init",0);
@@ -788,6 +797,7 @@ __lock();
     s1_setup__default_paging_drx = (drx_enum)___ivy_choose(0,"init",0);
     _generating = (bool)___ivy_choose(0,"init",0);
     s1_setup__global_choice_enb_id = (unsigned)___ivy_choose(0,"init",0);
+    s1_setup__packet_state = (int)___ivy_choose(0,"init",0);
 }
 s1_setup_test2::~s1_setup_test2(){
     __lock(); // otherwise, thread may die holding lock!
@@ -1171,6 +1181,12 @@ public:
                 if (action == "s1_setup.send") {
                     check_arity(args,5,action);
                     ivy.ext__s1_setup__send(_arg<unsigned>(args,0,256),_arg<s1_setup_test2::message_enum>(args,1,3),_arg<unsigned>(args,2,16777216),_arg<unsigned>(args,3,16777216),_arg<s1_setup_test2::drx_enum>(args,4,5));
+                }
+                else
+    
+                if (action == "s1_setup.state") {
+                    check_arity(args,0,action);
+                    __ivy_out  << "= " << ivy.ext__s1_setup__state() << std::endl;
                 }
                 else
     
